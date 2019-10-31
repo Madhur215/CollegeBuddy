@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">CollegeBuddy</string>
+    <string name="enter_phone_number">Phone Number</string>
+    <string name="not_have_account">Not Registered?</string>
+    <string name="login">Login</string>
+    <string name="register_here">Register Here</string>
+    <string name="password">Password</string>
+    <string name="upload_image">Upload Image</string>
+    <string name="full_name">Full Name</string>
+    <string name="choose_branch">Select Branch</string>
+    <string name="already_registered">Already Registered?</string>
+    <string name="select_college">Select College</string>
+    <string name="select_branch">Select Branch</string>
+    <string name="select_year">Select Year</string>
+    <string name="enter_otp">Enter OTP</string>
+    <string name="verify_phone">Verify Phone</string>
+    <string name="home">Home</string>
+    <string name="downloads">Downloads</string>
+    <string name="profile">Profile</string>
+    <string name="explore">Explore</string>
+    <string name="chat">Chat</string>
+    <string name="write_answer">Write Answer</string>
+    <string name="ask_question">Ask Your Question</string>
+    <string name="ask">ASK</string>
+
+    <string-array name="branch_drop_down">
+        <item>CSE</item>
+        <item>IT</item>
+        <item>ECE</item>
+        <item>EN</item>
+        <item>ME</item>
+        <item>CE</item>
+        <item>EI</item>
+    </string-array>
+    <string name="sign_up">REGISTER</string>
+    <string name="choose_year">Select Year</string>
+    <string-array name="select_year_drop_down">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+    <string name="choose_college">Select College</string>
+    <string-array name="select_college_drop_down">
+        <item>Ajay Kumar Garg Engineering College , Ghaziabad</item>
+        <item>ABES Engineering College , Ghaziabad</item>
+        <item>Delhi Technological University , Delhi</item>
+        <item>Indian Institute Of Technology , Delhi</item>
+        <item>Netaji Subhash University Of Technology , New Delhi</item>
+    </string-array>
+</resources>

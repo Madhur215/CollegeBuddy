@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#BA324F</color>
+    <color name="colorPrimaryDark">#CE4855</color>
+    <color name="colorAccent">#E8FDE4E4</color>
+    <color name="newLoginBackground">#BA324F</color>
+    <color name="newEditText">#A8A5A5</color>
+    <color name="button">#F1BF98</color>
+    <color name="dropDown">#61FFFFFF</color>
+
+</resources>

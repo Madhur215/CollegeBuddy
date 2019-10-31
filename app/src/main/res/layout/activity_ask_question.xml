@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.askQuestionActivity">
+
+    <ImageView
+        android:id="@+id/user_image_ask_question"
+        android:layout_width="88dp"
+        android:layout_height="81dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_profile" />
+
+    <TextView
+        android:id="@+id/user_name_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="TextView"
+        app:layout_constraintStart_toEndOf="@+id/user_image_ask_question"
+        app:layout_constraintTop_toTopOf="@+id/user_image_ask_question" />
+
+    <EditText
+        android:id="@+id/enter_question_edit_text"
+        android:layout_width="254dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toStartOf="@+id/user_name_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/user_name_text_view" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/ask"
+        android:background="@drawable/ask_button"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/enter_question_edit_text"
+        app:layout_constraintTop_toBottomOf="@+id/enter_question_edit_text" />
+</androidx.constraintlayout.widget.ConstraintLayout>
