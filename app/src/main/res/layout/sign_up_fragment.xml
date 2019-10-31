@@ -24,7 +24,8 @@
             android:hint="@string/full_name"
             android:backgroundTint="#FFFFFF"
             android:paddingLeft="6dp"
-            android:imeOptions="actionDone"/>
+            android:imeOptions="actionDone"
+            android:inputType="text"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -69,7 +70,8 @@
             android:hint="@string/password"
             android:paddingLeft="6dp"
             android:backgroundTint="#FFFFFF"
-            android:imeOptions="actionDone"/>
+            android:imeOptions="actionDone"
+            android:inputType="text"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 

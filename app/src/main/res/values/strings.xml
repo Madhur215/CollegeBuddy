@@ -22,6 +22,8 @@
     <string name="write_answer">Write Answer</string>
     <string name="ask_question">Ask Your Question</string>
     <string name="ask">ASK</string>
+    <string name="write_question">Write Your Question Here!</string>
+    <string name="otp_description">An OTP has been sent to your phone. Please verify to continue.</string>
 
     <string-array name="branch_drop_down">
         <item>CSE</item>

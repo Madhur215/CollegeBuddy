@@ -22,11 +22,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_main , new homeFragment())
-//                .commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_main , new signUpFragment())
+                .commit();
 
-        Intent i = new Intent(MainActivity.this , askQuestionActivity.class);
-        startActivity(i);
+//        Intent i = new Intent(MainActivity.this , askQuestionActivity.class);
+//        startActivity(i);
 
 
     }

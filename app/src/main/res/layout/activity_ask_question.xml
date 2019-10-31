@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".Activities.askQuestionActivity">
 
     <ImageView
@@ -29,7 +30,9 @@
         android:id="@+id/enter_question_edit_text"
         android:layout_width="254dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="24dp"
+        android:background="#FFFFFF"
+        android:hint="@string/write_question"
         app:layout_constraintStart_toStartOf="@+id/user_name_text_view"
         app:layout_constraintTop_toBottomOf="@+id/user_name_text_view" />
 
@@ -37,9 +40,9 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/ask"
+        android:layout_marginTop="14dp"
         android:background="@drawable/ask_button"
+        android:text="@string/ask"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/enter_question_edit_text"
         app:layout_constraintTop_toBottomOf="@+id/enter_question_edit_text" />
