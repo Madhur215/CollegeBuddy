@@ -27,7 +27,7 @@ public class homeFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        ask_question = getView().findViewById(R.id.ask_question_button);
+        ask_question = getView().findViewById(R.id.ask_question_floating_action_button);
         ask_question.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

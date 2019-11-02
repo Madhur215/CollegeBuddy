@@ -3,9 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    tools:context=".Activities.askQuestionActivity">
+    android:layout_height="wrap_content"
+    tools:context=".Activities.askQuestionActivity"
+    android:background="@color/button"
+    android:layout_margin="12dp"
+    android:padding="8dp">
 
     <ImageView
         android:id="@+id/user_image_ask_question"
@@ -31,13 +33,13 @@
         android:layout_width="254dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:background="#FFFFFF"
+        android:background="@color/button"
         android:hint="@string/write_question"
         app:layout_constraintStart_toStartOf="@+id/user_name_text_view"
         app:layout_constraintTop_toBottomOf="@+id/user_name_text_view" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/ask_question_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="14dp"

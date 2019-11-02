@@ -23,7 +23,8 @@
             android:layout_height="match_parent"
             android:hint="@string/enter_phone_number"
             android:paddingLeft="6dp"
-            android:backgroundTint="#FFFFFF"/>
+            android:backgroundTint="#FFFFFF"
+            android:inputType="phone"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -100,4 +101,5 @@
         app:layout_constraintTop_toTopOf="@+id/textView"
         android:paddingStart="6dp"
         tools:ignore="RtlSymmetry" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

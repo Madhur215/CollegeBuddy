@@ -1,5 +1,8 @@
 package com.example.collegebuddy.Inteface;
 
+import com.example.collegebuddy.models.loginData;
+
+import com.example.collegebuddy.models.loginResponse;
 import com.example.collegebuddy.models.signUpData;
 import com.example.collegebuddy.models.signUpResponse;
 
@@ -8,6 +11,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface JsonApiHolder {
 
@@ -17,10 +21,11 @@ public interface JsonApiHolder {
     @POST("Member/Verify/{ID}")
     Call<ResponseBody> verifyPhone(@Path ("ID") String id , @Body String otp);
 
-//    @POST("Member/Login")
-//    Call<>
+    @POST("Member/Login")
+    Call<loginResponse> login(@Body loginData data);
 
-
+    @POST("Dashboard/AskQuestion")
+    Call<ResponseBody> askQuestion(@Query("token") String token , @Body String question) ;
 
 
 }

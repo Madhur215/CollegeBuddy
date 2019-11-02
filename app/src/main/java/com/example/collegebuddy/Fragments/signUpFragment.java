@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -40,7 +41,6 @@ public class signUpFragment extends Fragment {
     private EditText password_edit_text;
     private EditText mobile_number_edit_text;
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -56,7 +56,16 @@ public class signUpFragment extends Fragment {
         full_name_edit_text = getView().findViewById(R.id.full_name_register_edit_text);
         password_edit_text = getView().findViewById(R.id.password_register_edit_text);
         mobile_number_edit_text = getView().findViewById(R.id.phone_number_Register_edit_text);
+        TextView login_text_view = getView().findViewById(R.id.login_text_view);
         Button register_button = getView().findViewById(R.id.sign_up_button);
+
+        login_text_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container_login ,
+                        new loginFragment()).commit();
+            }
+        });
 
         register_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,12 +76,9 @@ public class signUpFragment extends Fragment {
                 full_name =full_name_edit_text.getText().toString().trim();
                 password = password_edit_text.getText().toString().trim();
                 mobile_number = mobile_number_edit_text.getText().toString().trim();
-
                 signUp();
             }
         });
-
-
     }
 
     private void signUp() {
@@ -87,18 +93,15 @@ public class signUpFragment extends Fragment {
                 signUpResponse signUpResponse = response.body();
                 id = signUpResponse.getID();
 
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container_login , 
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container_login ,
                         new otpFragment()).commit();
 
             }
-
             @Override
             public void onFailure(Call<signUpResponse> call, Throwable t) {
                 Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
-
     }
-
 }

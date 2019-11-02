@@ -15,15 +15,16 @@
             android:parentActivityName=".Activities.MainActivity"></activity>
         <activity
             android:name=".Activities.LoginSignUpActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activities.splashActivity" />
-        <activity android:name=".Activities.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".Activities.splashActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
         </activity>
+        <activity android:name=".Activities.MainActivity"/>
     </application>
 
 </manifest>
