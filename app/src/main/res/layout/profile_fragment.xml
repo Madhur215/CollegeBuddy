@@ -1,6 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/user_image_profile"
+        android:layout_width="136dp"
+        android:layout_height="130dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="44dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:color/black" />
+
+    <TextView
+        android:id="@+id/user_name_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:text="TextView"
+        android:textSize="24sp"
+        android:textColor="#000"
+        app:layout_constraintStart_toEndOf="@+id/user_image_profile"
+        tools:layout_editor_absoluteY="54dp" />
+
+    <TextView
+        android:id="@+id/year_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="2nd"
+        app:layout_constraintStart_toStartOf="@+id/user_name_profile"
+        app:layout_constraintTop_toBottomOf="@+id/user_name_profile" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/year"
+        android:paddingLeft="6dp"
+        app:layout_constraintStart_toEndOf="@+id/year_profile"
+        app:layout_constraintTop_toTopOf="@+id/year_profile" />
+
+    <TextView
+        android:id="@+id/branch_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="IT"
+        android:paddingLeft="6dp"
+        app:layout_constraintStart_toEndOf="@+id/textView9"
+        app:layout_constraintTop_toTopOf="@+id/textView9" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toStartOf="@+id/user_image_profile"
+        app:layout_constraintTop_toBottomOf="@+id/user_image_profile"
+        app:srcCompat="@drawable/ic_photo_camera" />
+
+    <TextView
+        android:id="@+id/upload_image_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/edit_image"
+        android:textSize="16sp"
+        android:paddingLeft="6dp"
+        app:layout_constraintStart_toEndOf="@+id/imageView3"
+        app:layout_constraintTop_toTopOf="@+id/imageView3" />
 </androidx.constraintlayout.widget.ConstraintLayout>

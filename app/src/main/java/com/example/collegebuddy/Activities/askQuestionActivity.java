@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -52,21 +53,20 @@ public class askQuestionActivity extends AppCompatActivity {
 
         HashMap<String , String> sendToken =  pr.getUserDetails();
         String token = sendToken.get(prefUtils.KEY_TOKEN);
+        Log.d(token, "ASK_QUESTION: TOKEN");
+        Log.d(question, "askQuestion: question");
         Call<ResponseBody> call = jsonApiHolder.askQuestion(token , question);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.code() == 200) {
-                    Toast.makeText(askQuestionActivity.this, "Question Added!", Toast.LENGTH_SHORT)
-                            .show();
-                    Intent i = new Intent(askQuestionActivity.this, MainActivity.class);
-                    startActivity(i);
-                }
-                else{
-                    ResponseBody body = response.body();
-                    Toast.makeText(askQuestionActivity.this, String.valueOf(body), Toast.LENGTH_SHORT).show();
-                }
+
+//                ResponseBody body = response.body();
+//                Toast.makeText(askQuestionActivity.this, String.valueOf(body), Toast.LENGTH_SHORT).show();
+                Toast.makeText(askQuestionActivity.this, "Question Added!", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(askQuestionActivity.this, MainActivity.class);
+                startActivity(i);
+
             }
 
             @Override

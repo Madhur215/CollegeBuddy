@@ -25,6 +25,9 @@
     <string name="write_question">Write Your Question Here!</string>
     <string name="otp_description">An OTP has been sent to your phone. Please verify to continue.</string>
     <string name="college_buddy">CollegeBuddy</string>
+    <string name="description">Description</string>
+    <string name="year">Year B.Tech</string>
+    <string name="edit_image">Edit Image</string>
 
     <string-array name="branch_drop_down">
         <item>CSE</item>

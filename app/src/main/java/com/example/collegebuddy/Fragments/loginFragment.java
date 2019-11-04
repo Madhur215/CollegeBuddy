@@ -79,6 +79,7 @@ public class loginFragment extends Fragment {
             public void onResponse(Call<loginResponse> call, Response<loginResponse> response) {
                 loginResponse loginToken = response.body();
                 token = loginToken.getAuth_token();
+                Log.d(token, "onResponse: token");
                 sp.createLogin(token);
                 Log.d(String.valueOf(token), "onResponse: token");
                 Intent i = new Intent(getContext() , MainActivity.class);

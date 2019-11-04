@@ -10,13 +10,13 @@ import java.util.HashMap;
 
 public class prefUtils {
 
-    public static SharedPreferences sp;
-    SharedPreferences.Editor editor;
-    Context ctx;
+    private static SharedPreferences sp;
+    private SharedPreferences.Editor editor;
+    private Context ctx;
 
-    public static final String PREF_NAME = "login";
+    private static final String PREF_NAME = "login";
 
-    public static final String IS_LOGIN = "isLoggedIn";
+    private static final String IS_LOGIN = "isLoggedIn";
 
     public static final String KEY_TOKEN = "token";
 
