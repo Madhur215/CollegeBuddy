@@ -8,14 +8,16 @@
     android:background="@color/newLoginBackground">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout"
+        android:id="@+id/mobile_number_login_edit_text"
         android:layout_width="325dp"
         android:layout_height="60dp"
         android:layout_marginTop="48dp"
         android:textColorHint="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView">
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:errorEnabled="true"
+        app:errorTextAppearance="@style/error_appearance">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/phone_number_login_edit_text"
@@ -30,14 +32,17 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout3"
+        android:id="@+id/password_text_input_login"
         android:layout_width="325dp"
         android:layout_height="60dp"
         android:layout_marginTop="40dp"
         android:textColorHint="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
-        app:layout_constraintStart_toStartOf="@+id/textInputLayout"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
+        app:layout_constraintEnd_toEndOf="@+id/mobile_number_login_edit_text"
+        app:layout_constraintStart_toStartOf="@+id/mobile_number_login_edit_text"
+        app:layout_constraintTop_toBottomOf="@+id/mobile_number_login_edit_text"
+        app:passwordToggleEnabled="true"
+        app:errorEnabled="true"
+        app:errorTextAppearance="@style/error_appearance">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password_login_edit_text"
@@ -45,7 +50,8 @@
             android:backgroundTint="#FFFFFF"
             android:layout_height="match_parent"
             android:hint="@string/password"
-            android:paddingLeft="6dp" />
+            android:paddingLeft="6dp"
+            android:inputType="textPassword" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -73,7 +79,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
+        app:layout_constraintTop_toBottomOf="@+id/password_text_input_login"
+        />
 
         <TextView
         android:paddingTop="6dp"

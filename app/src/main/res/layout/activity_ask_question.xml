@@ -25,10 +25,19 @@
         android:id="@+id/ask_question_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:background="@drawable/ask_button"
         android:text="@string/ask"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/enter_question_edit_text"
+        app:layout_constraintTop_toTopOf="@+id/question_anonymous_checkbox" />
+
+    <CheckBox
+        android:id="@+id/question_anonymous_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/question_anonymously"
+        android:onClick="askAnonymously"
+        app:layout_constraintStart_toStartOf="@+id/enter_question_edit_text"
         app:layout_constraintTop_toBottomOf="@+id/enter_question_edit_text" />
 </androidx.constraintlayout.widget.ConstraintLayout>

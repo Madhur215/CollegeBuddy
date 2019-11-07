@@ -45,7 +45,7 @@
             android:layout_height="match_parent"
             android:hint="@string/enter_phone_number"
             android:paddingLeft="6dp"
-            android:inputType="number"
+            android:inputType="phone"
             android:backgroundTint="#FFFFFF"
             android:imeOptions="actionDone"/>
 
@@ -71,7 +71,7 @@
             android:paddingLeft="6dp"
             android:backgroundTint="#FFFFFF"
             android:imeOptions="actionDone"
-            android:inputType="text"/>
+            android:inputType="textPassword"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 

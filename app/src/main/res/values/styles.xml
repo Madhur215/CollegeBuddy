@@ -15,4 +15,9 @@
 
     </style>
 
+    <style name="error_appearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
 </resources>

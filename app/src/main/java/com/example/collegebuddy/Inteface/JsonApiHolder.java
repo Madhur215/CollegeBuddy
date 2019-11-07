@@ -1,12 +1,14 @@
 package com.example.collegebuddy.Inteface;
 
-import com.example.collegebuddy.models.getProfileResponse;
-import com.example.collegebuddy.models.getQuestionsResponse;
+import com.example.collegebuddy.models.profileResponse;
+import com.example.collegebuddy.models.questionsResponse;
 import com.example.collegebuddy.models.loginData;
 
 import com.example.collegebuddy.models.loginResponse;
 import com.example.collegebuddy.models.signUpData;
 import com.example.collegebuddy.models.signUpResponse;
+
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -31,8 +33,14 @@ public interface JsonApiHolder {
     Call<ResponseBody> askQuestion(@Query("token") String token , @Body String question) ;
 
     @GET("Member/Profile")
-    Call<getProfileResponse> getProfileResponse(@Query("token") String token);
+    Call<profileResponse> getProfile(@Query("token") String token);
 
     @GET("Dashboard/Home")
-    Call<getQuestionsResponse> getQuestions(@Query("token") String token);
+    Call<List<questionsResponse>> getQuestions(@Query("token") String token);
+
+    @POST("Dashboard/AddAnswer/{QID}")
+    Call<ResponseBody> addAnswer(@Path("QID") String id , @Query("token")  String token ,
+                                 @Body String answer);
+
+
 }

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.AnswerActivity">
+
+    <TextView
+        android:id="@+id/question_text_view_write_answer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="TextView"
+        android:textColor="#000"
+        android:textSize="28sp"
+        app:layout_constraintStart_toStartOf="@+id/asked_by_user_image_write_answer"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+    <TextView
+        android:id="@+id/asked_by_name_write_answer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="TextView"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/asked_by_user_image_write_answer"
+        app:layout_constraintTop_toTopOf="@+id/asked_by_user_image_write_answer" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/asked_on"
+        app:layout_constraintStart_toStartOf="@+id/asked_by_name_write_answer"
+        app:layout_constraintTop_toBottomOf="@+id/asked_by_name_write_answer" />
+
+    <TextView
+        android:id="@+id/date_write_answer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:paddingLeft="6dp"
+        app:layout_constraintStart_toEndOf="@+id/textView10"
+        app:layout_constraintTop_toBottomOf="@+id/asked_by_name_write_answer" />
+
+    <EditText
+        android:id="@+id/write_answer_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="12dp"
+        android:background="@color/button"
+        android:hint="@string/write_answer"
+        android:paddingLeft="6dp"
+        app:layout_constraintStart_toStartOf="@+id/question_text_view_write_answer"
+        app:layout_constraintTop_toBottomOf="@+id/question_text_view_write_answer" />
+
+    <Button
+        android:id="@+id/post_answer_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ask_button"
+        android:text="@string/post"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/write_answer_edit_text"
+        app:layout_constraintTop_toTopOf="@+id/answer_anonymous_checkbox" />
+
+    <CheckBox
+        android:id="@+id/answer_anonymous_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/answer_anonymously"
+        android:onClick="answerAnonymously"
+        app:layout_constraintStart_toStartOf="@+id/write_answer_edit_text"
+        app:layout_constraintTop_toBottomOf="@+id/write_answer_edit_text" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/answers_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/post_answer_button" />
+
+    <ImageView
+        android:id="@+id/asked_by_user_image_write_answer"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/no_image" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

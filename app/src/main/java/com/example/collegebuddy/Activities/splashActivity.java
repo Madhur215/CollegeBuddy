@@ -22,16 +22,17 @@ public class splashActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable(){
             public void run(){
 
-                if(pref.isLoggedIn()){
+//                if(pref.isLoggedIn()){
                     Intent intent = new Intent(splashActivity.this , MainActivity.class);
                     startActivity(intent);
                     finish();
-                }
-                else {
-                    Intent intent = new Intent(splashActivity.this , LoginSignUpActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
+//                }
+//                else {
+//                    Intent intent = new Intent(splashActivity.this , LoginSignUpActivity.class);
+//                    startActivity(intent);
+//                    finish();
+//                }
+
             }
         },1500);
     }

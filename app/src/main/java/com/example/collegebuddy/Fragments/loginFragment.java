@@ -22,12 +22,16 @@ import com.example.collegebuddy.models.loginData;
 import com.example.collegebuddy.models.loginResponse;
 import com.example.collegebuddy.utils.prefUtils;
 import com.example.collegebuddy.utils.retrofitInstance;
+import com.google.android.material.textfield.TextInputLayout;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class loginFragment extends Fragment {
 
+    private TextInputLayout phone_edit_text;
+    private TextInputLayout password_edit_text_layout;
     private EditText mobile_number_edit_text;
     private EditText password_edit_text;
     private String mobile_number;
@@ -50,6 +54,8 @@ public class loginFragment extends Fragment {
         password_edit_text = getView().findViewById(R.id.password_login_edit_text);
         jsonApiHolder = retrofitInstance.getRetrofitInstance().create(JsonApiHolder.class);
         Button login_button = getView().findViewById(R.id.login_button);
+        phone_edit_text = getView().findViewById(R.id.mobile_number_login_edit_text);
+        password_edit_text_layout = getView().findViewById(R.id.password_text_input_login);
         TextView register_text_view = getView().findViewById(R.id.register_here_text_view);
         sp = new prefUtils(getContext());
         register_text_view.setOnClickListener(new View.OnClickListener() {
@@ -63,11 +69,20 @@ public class loginFragment extends Fragment {
         login_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if(!validatePhone() | !validatePassword()){
+                    return;
+                }
                 mobile_number = mobile_number_edit_text.getText().toString().trim();
                 password = password_edit_text.getText().toString().trim();
                 login();
             }
         });
+
+    }
+
+    public void confirmInput(View v){
+
     }
 
     private void login() {
@@ -92,6 +107,34 @@ public class loginFragment extends Fragment {
             }
         });
 
+    }
+
+    private boolean validatePhone(){
+
+        String phone_number = phone_edit_text.getEditText().getText().toString().trim();
+
+        if(phone_number.isEmpty()){
+            phone_edit_text.setError("Field can't be empty!");
+            return false;
+        }
+        else{
+            phone_edit_text.setError(null);
+            return true;
+        }
+    }
+
+    private boolean validatePassword(){
+
+        String password = password_edit_text_layout.getEditText().getText().toString().trim();
+
+        if(password.isEmpty()){
+            password_edit_text_layout.setError("Field can't be empty!");
+            return false;
+        }
+        else{
+            password_edit_text_layout.setError(null);
+            return true;
+        }
     }
 
 

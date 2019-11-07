@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ public class askQuestionActivity extends AppCompatActivity {
     private String question;
     private JsonApiHolder jsonApiHolder;
     prefUtils pr;
+    private String ask_anonymous = "false";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +77,15 @@ public class askQuestionActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void askAnonymously(View view) {
+
+        boolean checked = ((CheckBox) view).isChecked();
+
+        if(checked){
+            ask_anonymous = "true";
+        }
     }
 
 

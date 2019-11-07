@@ -7,5 +7,6 @@
     <color name="newEditText">#A8A5A5</color>
     <color name="button">#F1BF98</color>
     <color name="dropDown">#61FFFFFF</color>
+    <color name="cardColor">#FFDFC8</color>
 
 </resources>

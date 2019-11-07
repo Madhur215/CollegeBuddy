@@ -10,11 +10,11 @@
             android:icon="@drawable/ic_home" />
 
         <item
-            android:id="@+id/cart"
+            android:id="@+id/downloads"
             android:title="@string/downloads"
             android:icon="@drawable/ic_downloads"/>
         <item
-            android:id="@+id/search"
+            android:id="@+id/explore"
             android:title="@string/explore"
             android:icon="@drawable/ic_explore_black_24dp"/>
 
