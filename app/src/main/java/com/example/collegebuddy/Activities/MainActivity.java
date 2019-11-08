@@ -4,26 +4,24 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.example.collegebuddy.Fragments.downloadsFragment;
 import com.example.collegebuddy.Fragments.exploreFragment;
 import com.example.collegebuddy.Fragments.homeFragment;
-import com.example.collegebuddy.Fragments.otpFragment;
 import com.example.collegebuddy.Fragments.profileFragment;
-import com.example.collegebuddy.Fragments.signUpFragment;
+import com.example.collegebuddy.Fragments.questionFragment;
 import com.example.collegebuddy.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 
 public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigation;
     private Fragment selectedFragment;
+
 
 
     @Override
@@ -36,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_main,
-                    new profileFragment()).commit();
+                    new homeFragment()).commit();
         }
     }
 
@@ -55,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
                     switch (item.getItemId()) {
                         case R.id.home:
                             selectedFragment = new homeFragment();
+                            break;
+                        case R.id.question:
+                            selectedFragment = new questionFragment();
                             break;
                         case R.id.downloads:
                             selectedFragment = new downloadsFragment();

@@ -1,8 +1,9 @@
 package com.example.collegebuddy.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,15 +12,18 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.collegebuddy.Fragments.homeFragment;
+import com.example.collegebuddy.Fragments.questionFragment;
 import com.example.collegebuddy.Inteface.JsonApiHolder;
 import com.example.collegebuddy.R;
+import com.example.collegebuddy.models.answers;
+import com.example.collegebuddy.models.questionsResponse;
 import com.example.collegebuddy.utils.prefUtils;
+import com.example.collegebuddy.utils.previousAnswersAdapter;
 import com.example.collegebuddy.utils.retrofitInstance;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.ResourceBundle;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -39,6 +43,7 @@ public class AnswerActivity extends AppCompatActivity {
     private String answer_anonymously;
     EditText answer_edit_text;
     prefUtils pr;
+    private ArrayList<answers> answersArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +51,9 @@ public class AnswerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_answer);
         pr = new prefUtils(this);
         Intent i = getIntent();
-        question_id = i.getStringExtra(homeFragment.QUESTION_ID);
-        question = i.getStringExtra(homeFragment.QUESTION);
-        asked_by_name = i.getStringExtra(homeFragment.ASKED_BY_NAME);
+        question_id = i.getStringExtra(questionFragment.QUESTION_ID);
+        question = i.getStringExtra(questionFragment.QUESTION);
+        asked_by_name = i.getStringExtra(questionFragment.ASKED_BY_NAME);
         jsonApiHolder = retrofitInstance.getRetrofitInstance().create(JsonApiHolder.class);
         post_answer_button = findViewById(R.id.post_answer_button);
         question_text_view = findViewById(R.id.question_text_view_write_answer);
@@ -56,6 +61,8 @@ public class AnswerActivity extends AppCompatActivity {
         question_text_view.setText(question);
         asked_by_name_text_view.setText(asked_by_name);
         answer_edit_text = findViewById(R.id.write_answer_edit_text);
+
+        getAnswers();
 
         post_answer_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +72,43 @@ public class AnswerActivity extends AppCompatActivity {
             }
         });
 
+
+    }
+
+    private void getAnswers() {
+
+        HashMap<String , String> sendToken =  pr.getUserDetails();
+        String token = sendToken.get(prefUtils.KEY_TOKEN);
+
+        Call<List<answers>> call = jsonApiHolder.getAnswers(question_id , token);
+
+        call.enqueue(new Callback<List<answers>>() {
+            @Override
+            public void onResponse(Call<List<answers>> call, Response<List<answers>> response) {
+                if(response.isSuccessful()){
+                        setAdapter();
+                        List<answers> answersList  = response.body();
+
+                        for(answers ans : answersList){
+
+                            String name = ans.getAnswered_by_name();
+                            String answer = ans.getAnswer();
+                            String upvotes = ans.getUpvotes();
+
+                            answers show_answers = new answers(name , answer , upvotes);
+                            answersArrayList.add(show_answers);
+                        }
+                }
+                else{
+                    Toast.makeText(AnswerActivity.this, "An Error Occurred", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<answers>> call, Throwable t) {
+                Toast.makeText(AnswerActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
@@ -99,5 +143,15 @@ public class AnswerActivity extends AppCompatActivity {
         if(checked){
             answer_anonymously = "true";
         }
+    }
+
+    private void setAdapter(){
+
+        RecyclerView answerRecyclerView = findViewById(R.id.answers_recycler_view);
+        answerRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        answerRecyclerView.setHasFixedSize(true);
+        answersArrayList = new ArrayList<>();
+        previousAnswersAdapter mAdapter = new previousAnswersAdapter(answersArrayList);
+        answerRecyclerView.setAdapter(mAdapter);
     }
 }

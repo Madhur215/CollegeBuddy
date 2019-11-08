@@ -2,6 +2,8 @@ package com.example.collegebuddy.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class questionsResponse {
 
     @SerializedName("Question")
@@ -11,10 +13,11 @@ public class questionsResponse {
     @SerializedName("ID")
     private String asked_by_name;
 
-    public questionsResponse(String question, String question_id , String asked_by_name) {
+    public questionsResponse(String question, String question_id , String asked_by_name ) {
         this.question = question;
         this.question_id = question_id;
         this.asked_by_name = asked_by_name;
+
     }
 
     public String getQuestion() {
@@ -28,4 +31,5 @@ public class questionsResponse {
     public String getAsked_by_name(){
         return asked_by_name;
     }
+
 }

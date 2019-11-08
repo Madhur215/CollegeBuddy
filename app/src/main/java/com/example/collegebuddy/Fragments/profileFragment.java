@@ -17,6 +17,7 @@ import com.example.collegebuddy.Inteface.JsonApiHolder;
 import com.example.collegebuddy.R;
 import com.example.collegebuddy.utils.prefUtils;
 import com.example.collegebuddy.utils.retrofitInstance;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.HashMap;
 
@@ -29,6 +30,7 @@ public class profileFragment extends Fragment {
     TextView upload_image_text_view;
     JsonApiHolder jsonApiHolder;
     private prefUtils pr;
+    TabLayout profile_tab_layout;
 
     @Nullable
     @Override
@@ -45,11 +47,20 @@ public class profileFragment extends Fragment {
         branch_text_view = getView().findViewById(R.id.branch_profile);
         upload_image_text_view = getView().findViewById(R.id.upload_image_text_view);
         user_image_view = getView().findViewById(R.id.user_image_profile);
+
+        // CHECK HERE
+        profile_tab_layout = getView().findViewById(R.id.profile_tab_layout);
+
         jsonApiHolder = retrofitInstance.getRetrofitInstance().create(JsonApiHolder.class);
         pr = new prefUtils(getContext());
         getProfile();
 
     }
+
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//    }
 
     public class sectionPagerAdaper extends FragmentPagerAdapter{
 

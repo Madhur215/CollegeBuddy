@@ -26,7 +26,7 @@
     <string name="otp_description">An OTP has been sent to your phone. Please verify to continue.</string>
     <string name="college_buddy">CollegeBuddy</string>
     <string name="description">Description</string>
-    <string name="year">Year B.Tech</string>
+    <string name="year">B.Tech</string>
     <string name="edit_image">Edit Image</string>
     <string name="asked_on">asked on </string>
     <string name="post">Post</string>
@@ -36,6 +36,8 @@
     <string name="question_anonymously">Ask anonymously</string>
     <string name="answers">Answers</string>
     <string name="uploads">Uploads</string>
+    <string name="your_subjects">Your Subjects</string>
+    <string name="your_library">Your Library</string>
 
     <string-array name="branch_drop_down">
         <item>CSE</item>
