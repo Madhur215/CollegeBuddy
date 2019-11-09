@@ -1,4 +1,4 @@
-package com.example.collegebuddy.utils;
+package com.example.collegebuddy.Adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +15,10 @@ import java.util.ArrayList;
 
 public class notesAdapter extends RecyclerView.Adapter<notesAdapter.notesHolder> {
 
-    private ArrayList<notesList> notesLists;
+    private ArrayList<notesList> notesArrayList;
 
     public notesAdapter(ArrayList<notesList> notesLists){
-        this.notesLists = notesLists;
+        this.notesArrayList = notesLists;
     }
 
 
@@ -32,12 +32,16 @@ public class notesAdapter extends RecyclerView.Adapter<notesAdapter.notesHolder>
 
     @Override
     public void onBindViewHolder(@NonNull notesAdapter.notesHolder holder, int position) {
+            notesList notes = notesArrayList.get(position);
 
+            holder.setNote_name_text_view(notes.getNotes_name());
+            holder.setNote_user_name_text_view(notes.getSent_by_name());
+            holder.setNumber_of_pages_text_view(notes.getNumber_of_pages());
     }
 
     @Override
     public int getItemCount() {
-        return notesLists.size();
+        return notesArrayList.size();
     }
 
     public class notesHolder extends RecyclerView.ViewHolder{
@@ -56,5 +60,18 @@ public class notesAdapter extends RecyclerView.Adapter<notesAdapter.notesHolder>
 
 
         }
+
+        public void setNote_name_text_view(String notes_name) {
+            note_name_text_view.setText(notes_name);
+        }
+
+        public void setNote_user_name_text_view(String note_user_name) {
+            note_user_name_text_view.setText(note_user_name);
+        }
+
+        public void setNumber_of_pages_text_view(String number) {
+            number_of_pages_text_view.setText(number);
+        }
+
     }
 }

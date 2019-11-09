@@ -1,6 +1,7 @@
 package com.example.collegebuddy.Inteface;
 
 import com.example.collegebuddy.models.answers;
+import com.example.collegebuddy.models.members;
 import com.example.collegebuddy.models.profileResponse;
 import com.example.collegebuddy.models.questionsResponse;
 import com.example.collegebuddy.models.loginData;
@@ -34,7 +35,7 @@ public interface JsonApiHolder {
     Call<ResponseBody> askQuestion(@Query("token") String token , @Body String question) ;
 
     @GET("Member/Profile")
-    Call<profileResponse> getProfile(@Query("token") String token);
+    Call<List<profileResponse>> getProfile(@Query("token") String token);
 
     @GET("Dashboard/Home")
     Call<List<questionsResponse>> getQuestions(@Query("token") String token);
@@ -46,7 +47,8 @@ public interface JsonApiHolder {
     @GET("Dashboard/QuestionDetails/{QID}")
     Call<List<answers>> getAnswers(@Path("QID") String id , @Query("token") String token);
 
-
+    @GET("Contact/List")
+    Call<List<members>> getMembers(@Query("token") String token);
 
 
 }

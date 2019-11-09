@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +40,7 @@ public class loginFragment extends Fragment {
     private JsonApiHolder jsonApiHolder;
     public static String token;
     prefUtils sp;
+    ProgressBar pg;
 
 
     @Nullable
@@ -57,6 +59,7 @@ public class loginFragment extends Fragment {
         phone_edit_text = getView().findViewById(R.id.mobile_number_login_edit_text);
         password_edit_text_layout = getView().findViewById(R.id.password_text_input_login);
         TextView register_text_view = getView().findViewById(R.id.register_here_text_view);
+        pg = getView().findViewById(R.id.progressBar);
         sp = new prefUtils(getContext());
         register_text_view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,19 +89,27 @@ public class loginFragment extends Fragment {
     }
 
     private void login() {
+//        pg.setVisibility(View.VISIBLE);
         loginData login_data = new loginData(mobile_number , password);
         Call<loginResponse> call = jsonApiHolder.login(login_data);
 
         call.enqueue(new Callback<loginResponse>() {
             @Override
             public void onResponse(Call<loginResponse> call, Response<loginResponse> response) {
-                loginResponse loginToken = response.body();
-                token = loginToken.getAuth_token();
-                Log.d(token, "onResponse: token");
-                sp.createLogin(token);
-                Log.d(String.valueOf(token), "onResponse: token");
-                Intent i = new Intent(getContext() , MainActivity.class);
-                startActivity(i);
+
+                if(response.isSuccessful()) {
+                    pg.setVisibility(View.GONE);
+                    loginResponse loginToken = response.body();
+                    token = loginToken.getAuth_token();
+                    Log.d(token, "onResponse: token");
+                    sp.createLogin(token);
+                    Log.d(String.valueOf(token), "onResponse: token");
+                    Intent i = new Intent(getContext(), MainActivity.class);
+                    startActivity(i);
+                }
+                else{
+                    Toast.makeText(getContext(), "An Error Occurred!", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override

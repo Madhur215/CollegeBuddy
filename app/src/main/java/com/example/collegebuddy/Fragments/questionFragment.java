@@ -20,7 +20,7 @@ import com.example.collegebuddy.R;
 import com.example.collegebuddy.models.questions;
 import com.example.collegebuddy.models.questionsResponse;
 import com.example.collegebuddy.utils.prefUtils;
-import com.example.collegebuddy.utils.questionAdapter;
+import com.example.collegebuddy.Adapters.questionAdapter;
 import com.example.collegebuddy.utils.retrofitInstance;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -46,7 +46,8 @@ public class questionFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.question_fragment, container, false);
     }
 
@@ -102,7 +103,7 @@ public class questionFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<questionsResponse>> call, Throwable t) {
-
+                Toast.makeText(getContext(), "An Error Occurred!", Toast.LENGTH_SHORT).show();
             }
         });
     }

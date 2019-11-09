@@ -1,4 +1,4 @@
-package com.example.collegebuddy.utils;
+package com.example.collegebuddy.Adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;

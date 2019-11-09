@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.example.collegebuddy.R;
-import com.example.collegebuddy.utils.subjectsAdapter;
+import com.example.collegebuddy.Adapters.subjectsAdapter;
 
 import java.util.ArrayList;
 

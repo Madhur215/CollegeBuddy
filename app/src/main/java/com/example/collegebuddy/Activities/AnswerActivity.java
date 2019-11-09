@@ -16,9 +16,8 @@ import com.example.collegebuddy.Fragments.questionFragment;
 import com.example.collegebuddy.Inteface.JsonApiHolder;
 import com.example.collegebuddy.R;
 import com.example.collegebuddy.models.answers;
-import com.example.collegebuddy.models.questionsResponse;
 import com.example.collegebuddy.utils.prefUtils;
-import com.example.collegebuddy.utils.previousAnswersAdapter;
+import com.example.collegebuddy.Adapters.previousAnswersAdapter;
 import com.example.collegebuddy.utils.retrofitInstance;
 
 import java.util.ArrayList;

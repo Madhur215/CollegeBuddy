@@ -1,4 +1,4 @@
-package com.example.collegebuddy.utils;
+package com.example.collegebuddy.Adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +38,7 @@ public class previousAnswersAdapter extends RecyclerView.Adapter<previousAnswers
             holder.setUpvotes_text_view(ans.getUpvotes());
 
 
+
     }
 
     @Override
@@ -61,8 +62,15 @@ public class previousAnswersAdapter extends RecyclerView.Adapter<previousAnswers
             answer_text_view = itemView.findViewById(R.id.answer_text_view_answers_layout);
             upvotes_text_view = itemView.findViewById(R.id.number_of_likes_answers_layout);
 
+            upvotes_text_view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
 
         }
+
         void setAnsweredByName(String username){
             answered_by_name_text_view.setText(username);
         }
@@ -76,6 +84,9 @@ public class previousAnswersAdapter extends RecyclerView.Adapter<previousAnswers
             answer_text_view.setText(ans);
         }
 
+        public void setDate_text_view(TextView date_text_view) {
+            this.date_text_view = date_text_view;
+        }
     }
 
 }

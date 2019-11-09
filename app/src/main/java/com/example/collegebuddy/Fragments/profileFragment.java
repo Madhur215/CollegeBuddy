@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,11 +16,17 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.collegebuddy.Inteface.JsonApiHolder;
 import com.example.collegebuddy.R;
+import com.example.collegebuddy.models.profileResponse;
 import com.example.collegebuddy.utils.prefUtils;
 import com.example.collegebuddy.utils.retrofitInstance;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.HashMap;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class profileFragment extends Fragment {
 
@@ -30,7 +37,7 @@ public class profileFragment extends Fragment {
     TextView upload_image_text_view;
     JsonApiHolder jsonApiHolder;
     private prefUtils pr;
-    TabLayout profile_tab_layout;
+    private TabLayout profile_tab_layout;
 
     @Nullable
     @Override
@@ -97,5 +104,33 @@ public class profileFragment extends Fragment {
 
         HashMap<String , String> sendToken =  pr.getUserDetails();
         String token = sendToken.get(prefUtils.KEY_TOKEN);
+
+        Call<List<profileResponse>> call = jsonApiHolder.getProfile(token);
+
+        call.enqueue(new Callback<List<profileResponse>>() {
+            @Override
+            public void onResponse(Call<List<profileResponse>> call, Response<List<profileResponse>> response) {
+                if (response.isSuccessful()) {
+
+                    List<profileResponse> profile = response.body();
+
+                    for (profileResponse pr : profile) {
+
+                        user_name_text_view.setText(pr.getUser_name());
+                        branch_text_view.setText(pr.getBranch());
+                        year_text_view.setText(pr.getYear());
+
+                    }
+                }
+                else{
+                    Toast.makeText(getContext(), "An Error Occurred!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<profileResponse>> call, Throwable t) {
+                    Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

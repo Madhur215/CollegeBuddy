@@ -38,6 +38,7 @@
     <string name="uploads">Uploads</string>
     <string name="your_subjects">Your Subjects</string>
     <string name="your_library">Your Library</string>
+    <string name="members">Members</string>
 
     <string-array name="branch_drop_down">
         <item>CSE</item>
