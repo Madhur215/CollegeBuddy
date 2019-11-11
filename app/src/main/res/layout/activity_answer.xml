@@ -10,12 +10,13 @@
         android:id="@+id/question_text_view_write_answer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="150dp"
         android:text="TextView"
         android:textColor="#000"
         android:textSize="28sp"
-        app:layout_constraintStart_toStartOf="@+id/asked_by_user_image_write_answer"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/asked_by_name_write_answer"
@@ -47,22 +48,23 @@
     <EditText
         android:id="@+id/write_answer_edit_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="14dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginRight="12dp"
-        android:background="@color/button"
+        android:layout_height="40dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/edit_text"
         android:hint="@string/write_answer"
         android:paddingLeft="6dp"
-        app:layout_constraintStart_toStartOf="@+id/question_text_view_write_answer"
-        app:layout_constraintTop_toBottomOf="@+id/question_text_view_write_answer" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <Button
         android:id="@+id/post_answer_button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:background="@drawable/ask_button"
         android:text="@string/post"
+        android:textColor="#FFF"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/write_answer_edit_text"
         app:layout_constraintTop_toTopOf="@+id/answer_anonymous_checkbox" />
@@ -90,11 +92,22 @@
         android:id="@+id/asked_by_user_image_write_answer"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@+id/question_text_view_write_answer"
+        app:layout_constraintTop_toBottomOf="@+id/question_text_view_write_answer"
         app:srcCompat="@drawable/no_image" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/Discover"
+        android:textColor="#FFF"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

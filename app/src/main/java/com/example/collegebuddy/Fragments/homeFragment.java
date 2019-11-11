@@ -2,13 +2,19 @@ package com.example.collegebuddy.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+
+import com.example.collegebuddy.Activities.MainActivity;
 import com.example.collegebuddy.R;
 import com.example.collegebuddy.Adapters.subjectsAdapter;
 
@@ -25,8 +31,9 @@ public class homeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        return inflater.inflate(R.layout.home_fragment, container, false);
+        View v = inflater.inflate(R.layout.home_fragment, container, false);
+//        setHasOptionsMenu(true);
+        return v;
     }
 
 
@@ -38,5 +45,10 @@ public class homeFragment extends Fragment {
 
     }
 
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        inflater.inflate(R.menu.chat, menu);
+//        super.onCreateOptionsMenu(menu, inflater);
+//    }
 
 }

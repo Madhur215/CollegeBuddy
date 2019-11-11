@@ -69,6 +69,16 @@ public class questionFragment extends Fragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
     private void getData() {
 
         HashMap<String , String> sendToken =  pr.getUserDetails();

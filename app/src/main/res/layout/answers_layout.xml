@@ -26,6 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/answered_on"
+            android:textSize="12sp"
             app:layout_constraintStart_toStartOf="@+id/answered_by_user_name_answer_layout"
             app:layout_constraintTop_toBottomOf="@+id/answered_by_user_name_answer_layout" />
 
@@ -35,6 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="TextView"
+            android:textColor="#000"
             android:textSize="18sp"
             app:layout_constraintStart_toEndOf="@+id/imageView2"
             app:layout_constraintTop_toTopOf="@+id/imageView2" />
@@ -45,6 +47,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="6dp"
             android:text="TextView"
+            android:textSize="12sp"
             app:layout_constraintStart_toEndOf="@+id/textView7"
             app:layout_constraintTop_toTopOf="@+id/textView7" />
 

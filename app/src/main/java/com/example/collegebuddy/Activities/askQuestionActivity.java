@@ -1,8 +1,10 @@
 package com.example.collegebuddy.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -40,7 +42,12 @@ public class askQuestionActivity extends AppCompatActivity {
         Button ask_button = findViewById(R.id.ask_question_button);
         jsonApiHolder = retrofitInstance.getRetrofitInstance().create(JsonApiHolder.class);
         pr = new prefUtils(this);
-
+        Toolbar toolbar = findViewById(R.id.toolbar_ask_question_activity);
+        toolbar.setTitleTextColor(Color.WHITE);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         ask_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -13,12 +13,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.collegebuddy.Inteface.JsonApiHolder;
 import com.example.collegebuddy.R;
 import com.example.collegebuddy.models.profileResponse;
+import com.example.collegebuddy.utils.pageAdapter;
 import com.example.collegebuddy.utils.prefUtils;
 import com.example.collegebuddy.utils.retrofitInstance;
+import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.HashMap;
@@ -38,6 +41,11 @@ public class profileFragment extends Fragment {
     JsonApiHolder jsonApiHolder;
     private prefUtils pr;
     private TabLayout profile_tab_layout;
+    TabItem question_tab;
+    TabItem answers_tab;
+    TabItem uploads_tab;
+    pageAdapter pg;
+    ViewPager viewPager;
 
     @Nullable
     @Override
@@ -57,48 +65,28 @@ public class profileFragment extends Fragment {
 
         // CHECK HERE
         profile_tab_layout = getView().findViewById(R.id.profile_tab_layout);
-
+        question_tab = getView().findViewById(R.id.question_tab);
+        answers_tab = getView().findViewById(R.id.answers_tab);
+        uploads_tab = getView().findViewById(R.id.uploads_tab);
+        viewPager = getView().findViewById(R.id.tab_layout_view_pager);
+        pg = new pageAdapter(getFragmentManager(), profile_tab_layout.getTabCount());
+        viewPager.setAdapter(pg);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(profile_tab_layout));
         jsonApiHolder = retrofitInstance.getRetrofitInstance().create(JsonApiHolder.class);
         pr = new prefUtils(getContext());
-        getProfile();
+      //  getProfile();
 
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//    }
-
-    public class sectionPagerAdaper extends FragmentPagerAdapter{
-
-        public sectionPagerAdaper(@NonNull FragmentManager fm, int behavior) {
-            super(fm, behavior);
-        }
-
-        @NonNull
-        @Override
-        public Fragment getItem(int position) {
-            Fragment selectedFragment = null;
-            switch (position){
-                case 0:
-                    selectedFragment = new profile_questions_fragment();
-                    break;
-                case 1:
-                    selectedFragment = new profile_answers_fragment();
-                    break;
-                case 2:
-                    selectedFragment = new profile_uploads_fragment();
-                    break;
-            }
-            return selectedFragment;
-        }
-
-        @Override
-        public int getCount() {
-            return 3;
-        }
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 
     private void getProfile() {
 

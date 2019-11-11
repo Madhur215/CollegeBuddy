@@ -45,6 +45,16 @@ public class exploreFragment extends Fragment {
         getMembers();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
     private void getMembers() {
 
         HashMap<String , String> sendToken =  pr.getUserDetails();

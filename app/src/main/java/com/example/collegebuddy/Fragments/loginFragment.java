@@ -40,14 +40,14 @@ public class loginFragment extends Fragment {
     private JsonApiHolder jsonApiHolder;
     public static String token;
     prefUtils sp;
-    ProgressBar pg;
+
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                                                         @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.login_fragment, container, false);
+        return inflater.inflate(R.layout.login_fragment_layout, container, false);
     }
 
     @Override
@@ -59,7 +59,6 @@ public class loginFragment extends Fragment {
         phone_edit_text = getView().findViewById(R.id.mobile_number_login_edit_text);
         password_edit_text_layout = getView().findViewById(R.id.password_text_input_login);
         TextView register_text_view = getView().findViewById(R.id.register_here_text_view);
-        pg = getView().findViewById(R.id.progressBar);
         sp = new prefUtils(getContext());
         register_text_view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,7 +97,7 @@ public class loginFragment extends Fragment {
             public void onResponse(Call<loginResponse> call, Response<loginResponse> response) {
 
                 if(response.isSuccessful()) {
-                    pg.setVisibility(View.GONE);
+
                     loginResponse loginToken = response.body();
                     token = loginToken.getAuth_token();
                     Log.d(token, "onResponse: token");

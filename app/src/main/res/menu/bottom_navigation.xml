@@ -7,26 +7,28 @@
         <item
             android:id="@+id/home"
             android:title="@string/home"
-            android:icon="@drawable/home_icon" />
+            android:icon="@drawable/new_home_icon"
+            />
 
         <item
             android:id="@+id/question"
             android:title="@string/question"
-            android:icon="@drawable/ask_question"/>
+            android:icon="@drawable/new_ask_icon"
+            />
 
         <item
             android:id="@+id/downloads"
             android:title="@string/downloads"
-            android:icon="@drawable/downloads_icon"/>
+            android:icon="@drawable/new_add_icon"/>
         <item
             android:id="@+id/explore"
             android:title="@string/explore"
-            android:icon="@drawable/compass_icon"/>
+            android:icon="@drawable/new_search_icon"/>
 
         <item
             android:id="@+id/profile"
             android:title="Profile"
-            android:icon="@drawable/circled_icons"/>
+            android:icon="@drawable/new_profile_icon"/>
 
     </group>
 </menu>
