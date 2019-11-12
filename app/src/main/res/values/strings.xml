@@ -38,7 +38,7 @@
     <string name="uploads">Uploads</string>
     <string name="your_subjects">Your Subjects</string>
     <string name="your_library">Your Library</string>
-    <string name="members"><u>Members</u></string>
+    <string name="members">Members</string>
     <string name="you_joined">You joined</string>
     <string name="Discover">Discover</string>
     <string name="forgot_password">Forgot Password?</string>
@@ -46,6 +46,9 @@
     <string name="sign_in_with">or sign in using</string>
     <string name="fill_up_details">Fill up a few more details to get started</string>
     <string name="topic_of_interest">Topic of interest</string>
+    <string name="update">Update</string>
+    <string name="answer">Answer</string>
+
 
     <string-array name="branch_drop_down">
         <item>CSE</item>
@@ -53,8 +56,7 @@
         <item>ECE</item>
         <item>EN</item>
         <item>ME</item>
-        <item>CE</item>
-        <item>EI</item>
+        <item>CIVIL</item>
     </string-array>
     <string name="sign_up">Sign up</string>
     <string name="choose_year">Select Year</string>

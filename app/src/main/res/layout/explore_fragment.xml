@@ -21,12 +21,12 @@
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="80dp"
         android:text="@string/members"
         android:textColor="#000"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="@+id/user_image_explore_fragment"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/user_image_explore_fragment" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/members_list_recycler_view"

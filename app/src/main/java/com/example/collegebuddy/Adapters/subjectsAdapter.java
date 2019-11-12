@@ -16,16 +16,14 @@ public class subjectsAdapter extends BaseAdapter {
 
     private Context ctx;
 
-    //CHANGE ARRAY TYPE
-
     private ArrayList<String> subjectsArrayList;
     private LayoutInflater inflater;
     String[] names;
 
-    public subjectsAdapter(Context ctx , String[] names) {
+    public subjectsAdapter(Context ctx , ArrayList<String> subjectsArrayList) {
         this.ctx = ctx;
-//        this.subjectsArrayList = subjectsArrayList;
-        this.names =names;
+        this.subjectsArrayList = subjectsArrayList;
+//        this.names =names;
         inflater = LayoutInflater.from(ctx);
     }
 
@@ -33,7 +31,13 @@ public class subjectsAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return names.length;
+        try{
+            return subjectsArrayList.size();
+        }
+        catch(NullPointerException e){
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     @Override
@@ -49,10 +53,10 @@ public class subjectsAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         TextView names_tv;
-
+        String subjects = subjectsArrayList.get(position);
         convertView = inflater.inflate(R.layout.subjects_layout , null);
         names_tv = convertView.findViewById(R.id.names_text_view);
-        names_tv.setText(names[position]);
+        names_tv.setText(subjects);
 
         // SET SUBJECT IMAGE !
 

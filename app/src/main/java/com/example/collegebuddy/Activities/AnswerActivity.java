@@ -1,6 +1,7 @@
 package com.example.collegebuddy.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,6 +13,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.collegebuddy.Fragments.questionFragment;
 import com.example.collegebuddy.Inteface.JsonApiHolder;
 import com.example.collegebuddy.R;
@@ -60,14 +62,21 @@ public class AnswerActivity extends AppCompatActivity {
         question_text_view.setText(question);
         asked_by_name_text_view.setText(asked_by_name);
         answer_edit_text = findViewById(R.id.write_answer_edit_text);
-
+        Toolbar answer_toolbar = findViewById(R.id.toolbar_answer_activity);
+        setSupportActionBar(answer_toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         getAnswers();
 
         post_answer_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String answer = answer_edit_text.getText().toString().trim();
-                postAnswer(answer);
+
+                if(checkAnswer()) {
+                    String answer = answer_edit_text.getText().toString().trim();
+                    postAnswer(answer);
+                }
             }
         });
 
@@ -152,5 +161,14 @@ public class AnswerActivity extends AppCompatActivity {
         answersArrayList = new ArrayList<>();
         previousAnswersAdapter mAdapter = new previousAnswersAdapter(answersArrayList);
         answerRecyclerView.setAdapter(mAdapter);
+    }
+
+    private boolean checkAnswer(){
+        String ans = answer_edit_text.getText().toString().trim();
+        if(ans.isEmpty()){
+            Toast.makeText(this, "Invalid Answer!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 }

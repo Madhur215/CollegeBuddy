@@ -18,7 +18,7 @@
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:color/darker_gray" />
+            app:srcCompat="@drawable/pdf_image" />
 
         <TextView
             android:id="@+id/note_name_text_view"

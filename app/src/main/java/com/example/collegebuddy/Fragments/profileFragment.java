@@ -21,6 +21,7 @@ import com.example.collegebuddy.models.profileResponse;
 import com.example.collegebuddy.utils.pageAdapter;
 import com.example.collegebuddy.utils.prefUtils;
 import com.example.collegebuddy.utils.retrofitInstance;
+import com.example.collegebuddy.utils.userData;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
@@ -33,19 +34,7 @@ import retrofit2.Response;
 
 public class profileFragment extends Fragment {
 
-    private TextView user_name_text_view;
-    TextView year_text_view;
-    TextView branch_text_view;
-    ImageView user_image_view;
-    TextView upload_image_text_view;
-    JsonApiHolder jsonApiHolder;
-    private prefUtils pr;
-    private TabLayout profile_tab_layout;
-    TabItem question_tab;
-    TabItem answers_tab;
-    TabItem uploads_tab;
-    pageAdapter pg;
-    ViewPager viewPager;
+    userData user_data;
 
     @Nullable
     @Override
@@ -57,23 +46,30 @@ public class profileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        user_name_text_view = getView().findViewById(R.id.user_name_profile);
-        year_text_view = getView().findViewById(R.id.year_profile);
-        branch_text_view = getView().findViewById(R.id.branch_profile);
-        upload_image_text_view = getView().findViewById(R.id.upload_image_text_view);
-        user_image_view = getView().findViewById(R.id.user_image_profile);
-
+        TextView user_name_text_view = getView().findViewById(R.id.user_name_profile);
+        TextView year_text_view = getView().findViewById(R.id.year_profile);
+        TextView branch_text_view = getView().findViewById(R.id.branch_profile);
+        TextView college_text_view = getView().findViewById(R.id.college_name_text_view_profile);
+        ImageView user_image_view = getView().findViewById(R.id.user_image_profile);
+        user_data = new userData(getContext());
         // CHECK HERE
-        profile_tab_layout = getView().findViewById(R.id.profile_tab_layout);
-        question_tab = getView().findViewById(R.id.question_tab);
-        answers_tab = getView().findViewById(R.id.answers_tab);
-        uploads_tab = getView().findViewById(R.id.uploads_tab);
-        viewPager = getView().findViewById(R.id.tab_layout_view_pager);
-        pg = new pageAdapter(getFragmentManager(), profile_tab_layout.getTabCount());
+        TabLayout profile_tab_layout = getView().findViewById(R.id.profile_tab_layout);
+        TabItem question_tab = getView().findViewById(R.id.question_tab);
+        TabItem answers_tab = getView().findViewById(R.id.answers_tab);
+        TabItem uploads_tab = getView().findViewById(R.id.uploads_tab);
+        TabItem update_tab = getView().findViewById(R.id.update_tab);
+        ViewPager viewPager = getView().findViewById(R.id.tab_layout_view_pager);
+        pageAdapter pg = new pageAdapter(getFragmentManager(), profile_tab_layout.getTabCount());
         viewPager.setAdapter(pg);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(profile_tab_layout));
-        jsonApiHolder = retrofitInstance.getRetrofitInstance().create(JsonApiHolder.class);
-        pr = new prefUtils(getContext());
+
+
+        HashMap<String , String> sendToken =  user_data.getUserData();
+        String branch = sendToken.get(userData.BRANCH);
+        String year = sendToken.get(userData.YEAR);
+        year_text_view.setText(year);
+        branch_text_view.setText(branch);
+
       //  getProfile();
 
     }
@@ -88,37 +84,5 @@ public class profileFragment extends Fragment {
         super.onResume();
     }
 
-    private void getProfile() {
 
-        HashMap<String , String> sendToken =  pr.getUserDetails();
-        String token = sendToken.get(prefUtils.KEY_TOKEN);
-
-        Call<List<profileResponse>> call = jsonApiHolder.getProfile(token);
-
-        call.enqueue(new Callback<List<profileResponse>>() {
-            @Override
-            public void onResponse(Call<List<profileResponse>> call, Response<List<profileResponse>> response) {
-                if (response.isSuccessful()) {
-
-                    List<profileResponse> profile = response.body();
-
-                    for (profileResponse pr : profile) {
-
-                        user_name_text_view.setText(pr.getUser_name());
-                        branch_text_view.setText(pr.getBranch());
-                        year_text_view.setText(pr.getYear());
-
-                    }
-                }
-                else{
-                    Toast.makeText(getContext(), "An Error Occurred!", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<profileResponse>> call, Throwable t) {
-                    Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
-    }
 }

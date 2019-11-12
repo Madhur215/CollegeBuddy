@@ -8,31 +8,51 @@ import androidx.fragment.app.Fragment;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.collegebuddy.Fragments.downloadsFragment;
 import com.example.collegebuddy.Fragments.exploreFragment;
 import com.example.collegebuddy.Fragments.homeFragment;
 import com.example.collegebuddy.Fragments.profileFragment;
 import com.example.collegebuddy.Fragments.questionFragment;
+import com.example.collegebuddy.Inteface.JsonApiHolder;
 import com.example.collegebuddy.R;
+import com.example.collegebuddy.models.profileResponse;
+import com.example.collegebuddy.utils.prefUtils;
+import com.example.collegebuddy.utils.retrofitInstance;
+import com.example.collegebuddy.utils.userData;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigation;
     private Fragment selectedFragment;
-
+    JsonApiHolder jsonApiHolder;
+    private prefUtils pr;
+    userData user_data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         bottomNavigation = findViewById(R.id.bottom_navigation);
-        Toolbar toolbar = findViewById(R.id.toolbar_ask_question_activity);
+        Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        user_data = new userData(this);
+        (getSupportActionBar()).setDisplayShowTitleEnabled(false);
         bottomNavigation.setOnNavigationItemSelectedListener(navListener);
+        jsonApiHolder = retrofitInstance.getRetrofitInstance().create(JsonApiHolder.class);
+        pr = new prefUtils(this);
+        getProfile();
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_main,
@@ -101,4 +121,49 @@ public class MainActivity extends AppCompatActivity {
             bottomNavigation.setSelectedItemId(homeItem.getItemId());
         }
     }
+
+    private void getProfile() {
+
+        HashMap<String , String> sendToken =  pr.getUserDetails();
+        String token = sendToken.get(prefUtils.KEY_TOKEN);
+
+        Call<List<profileResponse>> call = jsonApiHolder.getProfile(token);
+
+        call.enqueue(new Callback<List<profileResponse>>() {
+            @Override
+            public void onResponse(Call<List<profileResponse>> call, Response<List<profileResponse>> response) {
+                if (response.isSuccessful()) {
+
+                    List<profileResponse> profile = response.body();
+
+                    for (profileResponse pr : profile) {
+                        String username = pr.getUser_name();
+                        String branch = pr.getBranch();
+                        String college = pr.getCollege();
+                        String year = pr.getYear();
+
+                        user_data.setUserData(username , year , branch , college);
+
+                        profileResponse pres = new profileResponse();
+
+                        pres.setUser_name(username);
+                        pres.setCollege(college);
+                        pres.setYear(year);
+                        pres.setBranch(branch);
+
+
+                    }
+                }
+                else{
+                    Toast.makeText(MainActivity.this, "An Error Occurred!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<profileResponse>> call, Throwable t) {
+                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
 }

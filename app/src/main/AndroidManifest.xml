@@ -18,7 +18,6 @@
             />
         <activity
             android:name=".Activities.askQuestionActivity"
-            android:label="@string/ask_question"
             android:parentActivityName=".Activities.MainActivity"
             />
         <activity

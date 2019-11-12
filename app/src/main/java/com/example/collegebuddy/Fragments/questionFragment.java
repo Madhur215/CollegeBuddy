@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -42,6 +43,7 @@ public class questionFragment extends Fragment {
     private ArrayList<questions> questionsArrayList;
     private JsonApiHolder jsonApiHolder;
     private prefUtils pr;
+    private ImageView progress_image;
 
 
     @Nullable
@@ -57,6 +59,9 @@ public class questionFragment extends Fragment {
         FloatingActionButton ask_question = getView().findViewById(R.id.ask_question_floating_button);
         jsonApiHolder = retrofitInstance.getRetrofitInstance().create(JsonApiHolder.class);
         pr = new prefUtils(getContext());
+        progress_image = getView().findViewById(R.id.progressBar);
+        progress_image.setImageResource(R.drawable.loader);
+        progress_image.setVisibility(View.VISIBLE);
         getData();
 
         ask_question.setOnClickListener(new View.OnClickListener() {
@@ -90,7 +95,7 @@ public class questionFragment extends Fragment {
             @Override
             public void onResponse(Call<List<questionsResponse>> call,
                                    Response<List<questionsResponse>> response) {
-
+                progress_image.setVisibility(View.GONE);
                 if(response.isSuccessful()){
                     setAdapter();
                     List<questionsResponse> questions = response.body();

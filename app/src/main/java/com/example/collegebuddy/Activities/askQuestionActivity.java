@@ -33,26 +33,30 @@ public class askQuestionActivity extends AppCompatActivity {
     private JsonApiHolder jsonApiHolder;
     prefUtils pr;
     private String ask_anonymous = "false";
+    EditText ask_question_edit_text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ask_question);
-        final EditText ask_question_edit_text = findViewById(R.id.enter_question_edit_text);
+        ask_question_edit_text = findViewById(R.id.enter_question_edit_text);
         Button ask_button = findViewById(R.id.ask_question_button);
         jsonApiHolder = retrofitInstance.getRetrofitInstance().create(JsonApiHolder.class);
         pr = new prefUtils(this);
         Toolbar toolbar = findViewById(R.id.toolbar_ask_question_activity);
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         ask_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                question = ask_question_edit_text.getText().toString().trim();
-                askQuestion(question);
+                if(checkQuestion()) {
+                    question = ask_question_edit_text.getText().toString().trim();
+                    askQuestion(question);
+                }
             }
         });
 
@@ -93,6 +97,17 @@ public class askQuestionActivity extends AppCompatActivity {
         if(checked){
             ask_anonymous = "true";
         }
+    }
+
+    private boolean checkQuestion(){
+
+        String question = ask_question_edit_text.getText().toString().trim();
+        if(question.isEmpty()){
+            Toast.makeText(this, "Invalid Question!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+
     }
 
 

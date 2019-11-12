@@ -50,5 +50,8 @@ public interface JsonApiHolder {
     @GET("Contact/List")
     Call<List<members>> getMembers(@Query("token") String token);
 
+    @GET("Contact/SubjectList")
+    Call<List<String>> getSubjects(@Query("token") String token);
+
 
 }
