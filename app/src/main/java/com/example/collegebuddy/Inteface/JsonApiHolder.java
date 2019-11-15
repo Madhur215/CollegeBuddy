@@ -58,8 +58,8 @@ public interface JsonApiHolder {
     @GET("PDFcontroller/SubjectPDF")
     Call<List<subjectPdfListResponse>> getPdfs(@Query("token") String token , @Query("key") String key);
 
-    @GET("PDFController/ViewPDF/{PKEY}")
-    Call<ResponseBody> viewPdfs(@Path("PKEY") int PKEY , @Query("token") String token );
+    @GET("PDFController/GetPDF/{PKEY}")
+    Call<ResponseBody> downloadPdf(@Path("PKEY") int PKEY , @Query("token") String token );
 
 
 }

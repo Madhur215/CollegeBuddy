@@ -7,10 +7,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,10 +66,15 @@ public class AnswerActivity extends AppCompatActivity {
         answer_edit_text = findViewById(R.id.write_answer_edit_text);
         Toolbar answer_toolbar = findViewById(R.id.toolbar_answer_activity);
         setSupportActionBar(answer_toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getAnswers();
+        ImageView back_image_view = findViewById(R.id.answer_activity_back_image);
+        back_image_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         post_answer_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,20 +100,26 @@ public class AnswerActivity extends AppCompatActivity {
         call.enqueue(new Callback<List<answers>>() {
             @Override
             public void onResponse(Call<List<answers>> call, Response<List<answers>> response) {
-                if(response.isSuccessful()){
+                if(response.isSuccessful()) {
+                    try {
                         setAdapter();
-                        List<answers> answersList  = response.body();
+                        List<answers> answersList = response.body();
 
-                        for(answers ans : answersList){
+                        for (answers ans : answersList) {
 
                             String name = ans.getAnswered_by_name();
                             String answer = ans.getAnswer();
                             String upvotes = ans.getUpvotes();
 
-                            answers show_answers = new answers(name , answer , upvotes);
+                            answers show_answers = new answers(name, answer, upvotes);
                             answersArrayList.add(show_answers);
                         }
+                    }
+                    catch (NullPointerException e){
+                        Log.d(String.valueOf(e), "onResponse: EMPTY ARRAY");
+                    }
                 }
+
                 else{
                     Toast.makeText(AnswerActivity.this, "An Error Occurred", Toast.LENGTH_SHORT).show();
                 }
@@ -153,14 +166,18 @@ public class AnswerActivity extends AppCompatActivity {
         }
     }
 
-    private void setAdapter(){
-
-        RecyclerView answerRecyclerView = findViewById(R.id.answers_recycler_view);
-        answerRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        answerRecyclerView.setHasFixedSize(true);
-        answersArrayList = new ArrayList<>();
-        previousAnswersAdapter mAdapter = new previousAnswersAdapter(answersArrayList);
-        answerRecyclerView.setAdapter(mAdapter);
+    private void setAdapter() {
+        try {
+            RecyclerView answerRecyclerView = findViewById(R.id.answers_recycler_view);
+            answerRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+            answerRecyclerView.setHasFixedSize(true);
+            answersArrayList = new ArrayList<>();
+            previousAnswersAdapter mAdapter = new previousAnswersAdapter(answersArrayList);
+            answerRecyclerView.setAdapter(mAdapter);
+        }
+        catch (NullPointerException e){
+            Log.d(String.valueOf(e), "setAdapter: ADAPTER");
+        }
     }
 
     private boolean checkAnswer(){

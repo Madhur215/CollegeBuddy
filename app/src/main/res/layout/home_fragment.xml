@@ -8,42 +8,28 @@
     android:paddingBottom="55dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-<!--    <androidx.appcompat.widget.Toolbar-->
-<!--        android:id="@+id/toolbar2"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:background="@drawable/toolbar_img"-->
-<!--        android:minHeight="?attr/actionBarSize"-->
-<!--        android:theme="?attr/actionBarTheme"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" >-->
 
-<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="200dp">-->
-
-
-    <ImageView
-        android:id="@+id/college_image_home"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/user_image_home"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:src="@drawable/no_image"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/no_image" />
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <TextView
         android:id="@+id/year_text_view_home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="16dp"
         android:text="TextView"
         android:textColor="#FFF"
         android:textSize="21sp"
-        app:layout_constraintStart_toStartOf="@+id/college_image_home"
-        app:layout_constraintTop_toBottomOf="@+id/college_image_home" />
+        app:layout_constraintStart_toStartOf="@+id/user_image_home"
+        app:layout_constraintTop_toBottomOf="@+id/user_image_home" />
 
     <TextView
         android:id="@+id/textView13"
@@ -67,9 +53,6 @@
         app:layout_constraintStart_toEndOf="@+id/textView13"
         app:layout_constraintTop_toTopOf="@+id/textView13" />
 
-
-    <!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
-<!--    </androidx.appcompat.widget.Toolbar>-->
 
     <TextView
         android:id="@+id/textView15"
@@ -96,6 +79,16 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView15" />
+
+    <ProgressBar
+        android:background="@drawable/progress_bar"
+        android:id="@+id/subjects_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/library_recycler_view"

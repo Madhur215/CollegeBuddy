@@ -1,6 +1,7 @@
 package com.example.collegebuddy.Fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,19 +68,24 @@ public class exploreFragment extends Fragment {
             public void onResponse(Call<List<members>> call, Response<List<members>> response) {
 
                 if(response.isSuccessful()){
+                    try{
                         setAdapter();
                         List<members> studentsList = response.body();
 
-                        for(members student : studentsList){
+                        for(members student : studentsList) {
 
                             String name = student.getMember_name();
                             String branch = student.getMember_branch();
                             String year = student.getMember_year();
 
-                            members addMember = new members(name , branch , year);
+                            members addMember = new members(name, branch, year);
                             membersList.add(addMember);
 
                         }
+                    }
+                    catch (NullPointerException e){
+                        Log.d(String.valueOf(e), "onResponse: EMPTY ARRAY");
+                    }
                 }
                 else{
                     Toast.makeText(getContext(), "An Error Occurred!", Toast.LENGTH_SHORT).show();
@@ -95,14 +101,17 @@ public class exploreFragment extends Fragment {
 
     }
 
-
-    private void setAdapter(){
-
-        RecyclerView memberRecyclerView = getView().findViewById(R.id.members_list_recycler_view);
-        memberRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        memberRecyclerView.setHasFixedSize(true);
-        membersList = new ArrayList<>();
-        membersListAdapter mAdapter = new membersListAdapter(membersList);
-        memberRecyclerView.setAdapter(mAdapter);
+    private void setAdapter() {
+        try {
+            RecyclerView memberRecyclerView = getView().findViewById(R.id.members_list_recycler_view);
+            memberRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            memberRecyclerView.setHasFixedSize(true);
+            membersList = new ArrayList<>();
+            membersListAdapter mAdapter = new membersListAdapter(membersList);
+            memberRecyclerView.setAdapter(mAdapter);
+        }
+        catch (NullPointerException e){
+            Log.d(String.valueOf(e), "setAdapter: ADAPTER");
+        }
     }
 }

@@ -1,18 +1,24 @@
 package com.example.collegebuddy.models;
 
-import java.util.ArrayList;
+
 
 public class questions {
 
     private String question;
     private String qid;
     private String name;
+    private String date;
 
 
-    public questions(String question, String qid, String name) {
+    public questions(String question, String qid, String name , String date) {
         this.question = question;
         this.qid = qid;
         this.name = name;
+        this.date = date;
+    }
+
+    public String getDate() {
+        return date;
     }
 
     public String getQuestion() {

@@ -106,26 +106,35 @@
         app:layout_constraintTop_toBottomOf="@+id/post_answer_button"
         app:layout_constraintVertical_bias="0.034" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/asked_by_user_image_write_answer"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginTop="14dp"
+        android:src="@drawable/no_image"
         app:layout_constraintStart_toStartOf="@+id/question_text_view_write_answer"
-        app:layout_constraintTop_toBottomOf="@+id/question_text_view_write_answer"
-        app:srcCompat="@drawable/no_image" />
+        app:layout_constraintTop_toBottomOf="@+id/question_text_view_write_answer" />
 
     <TextView
         android:id="@+id/textView16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="18dp"
         android:text="@string/answer"
         android:textColor="#FFF"
-        android:textSize="30sp"
+        android:textSize="22sp"
+        app:layout_constraintStart_toEndOf="@+id/answer_activity_back_image"
+        app:layout_constraintTop_toTopOf="@+id/answer_activity_back_image" />
+
+    <ImageView
+        android:id="@+id/answer_activity_back_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_arrow_back" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

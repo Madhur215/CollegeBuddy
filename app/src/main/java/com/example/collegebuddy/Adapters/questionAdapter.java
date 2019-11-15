@@ -44,6 +44,7 @@ public class questionAdapter extends RecyclerView.Adapter<questionAdapter.questi
 
         holder.setQuestion(ques.getQuestion());
         holder.setAsked_by_name(ques.getName());
+        holder.setDate_text_view(ques.getDate());
 
     }
 
@@ -56,12 +57,14 @@ public class questionAdapter extends RecyclerView.Adapter<questionAdapter.questi
 
         TextView question_text_view;
         TextView asked_by_name;
+        TextView date_text_view;
 
         public questionHolder(@NonNull View itemView , final OnQuestionClickListener listener) {
             super(itemView);
 
             question_text_view = itemView.findViewById(R.id.asked_question_task_view);
             asked_by_name = itemView.findViewById(R.id.asked_by_name_text_view);
+            date_text_view = itemView.findViewById(R.id.asked_on_date_question_layout);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -85,6 +88,10 @@ public class questionAdapter extends RecyclerView.Adapter<questionAdapter.questi
 
         void setAsked_by_name(String name){
             asked_by_name.setText(name);
+        }
+
+        void setDate_text_view(String date){
+            date_text_view.setText(date);
         }
     }
 }

@@ -2,11 +2,13 @@ package com.example.collegebuddy.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +42,7 @@ public class homeFragment extends Fragment {
     private JsonApiHolder jsonApiHolder;
     private GridView gridView;
     public final static String SUBJECT_KEY ="skey";
+    ProgressBar subjects_progress_bar;
 
 
     @Nullable
@@ -56,6 +59,8 @@ public class homeFragment extends Fragment {
 
         // THIS
         pr = new prefUtils(getContext());
+        subjects_progress_bar = getView().findViewById(R.id.subjects_progress_bar);
+        subjects_progress_bar.setVisibility(View.VISIBLE);
         jsonApiHolder = retrofitInstance.getRetrofitInstance().create(JsonApiHolder.class);
         getSubjects();
         TextView year_text_view = getView().findViewById(R.id.year_text_view_home);
@@ -88,29 +93,42 @@ public class homeFragment extends Fragment {
         call.enqueue(new Callback<List<subjects>>() {
             @Override
             public void onResponse(Call<List<subjects>> call, Response<List<subjects>> response) {
-                if(response.isSuccessful()){
-                    subjectsList = new ArrayList<>();
-                    subjectsAdapter adapter = new subjectsAdapter(getContext() , subjectsList);
-                    gridView.setAdapter(adapter);
-                    List<subjects> subjects =  response.body();
 
-                    for(com.example.collegebuddy.models.subjects sub : subjects){
+                subjects_progress_bar.setVisibility(View.GONE);
+                if(response.isSuccessful()) {
+                    try {
+                        subjectsList = new ArrayList<>();
+                        subjectsAdapter adapter = new subjectsAdapter(getContext(), subjectsList);
+                        gridView.setAdapter(adapter);
+                        List<subjects> subjects = response.body();
 
-                        String SUBJECT = sub.getSubject();
-                        String SUBJECT_KEY = sub.getSubject_key();
-                        com.example.collegebuddy.models.subjects s = new subjects(SUBJECT , SUBJECT_KEY);
-                        subjectsList.add(s);
+                        for (com.example.collegebuddy.models.subjects sub : subjects) {
 
+                            String SUBJECT = sub.getSubject();
+                            String SUBJECT_KEY = sub.getSubject_key();
+                            com.example.collegebuddy.models.subjects s = new subjects(SUBJECT, SUBJECT_KEY);
+                            subjectsList.add(s);
+
+                        }
+                    }
+                    catch (NullPointerException e){
+                        Log.d(String.valueOf(e), "onResponse: ARRAY EMPTY");
                     }
                 }
+
                 else{
-                    Toast.makeText(getContext(), "An Error Occurred!", Toast.LENGTH_SHORT).show();
-                }
+                    try {
+                        Toast.makeText(getContext(), "An Error Occurred!", Toast.LENGTH_SHORT).show();
+
+                    }
+                    catch (NullPointerException e){
+                        Log.d(String.valueOf(e) , "onResponse: TOAST");
+                    }
+                    }
             }
 
             @Override
             public void onFailure(Call<List<subjects>> call, Throwable t) {
-//                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
                 Toast.makeText(getContext(), "No response from the server!", Toast.LENGTH_SHORT).show();
             }
         });

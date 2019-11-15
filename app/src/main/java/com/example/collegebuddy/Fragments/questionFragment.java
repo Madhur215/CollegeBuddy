@@ -2,6 +2,7 @@ package com.example.collegebuddy.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,22 +98,37 @@ public class questionFragment extends Fragment {
                                    Response<List<questionsResponse>> response) {
                 progress_image.setVisibility(View.GONE);
                 if(response.isSuccessful()){
-                    setAdapter();
-                    List<questionsResponse> questions = response.body();
+                    try {
+                        setAdapter();
+                        List<questionsResponse> questions = response.body();
 
-                    for(questionsResponse question : questions){
+                        for (questionsResponse question : questions) {
 
-                        String q = question.getQuestion();
-                        String qId = question.getQuestion_id();
-                        String name = question.getAsked_by_name();
-                        com.example.collegebuddy.models.questions ques = new questions(q , qId , name);
+                            String q = question.getQuestion();
+                            String qId = question.getQuestion_id();
+                            String name = question.getAsked_by_name();
+                            String date = question.getAsked_on_date();
+                            com.example.collegebuddy.models.questions ques = new questions(q, qId,
+                                    name, date);
 
-                        questionsArrayList.add(ques);
+                            questionsArrayList.add(ques);
+                        }
+                    }
+                    catch (NullPointerException e){
+                        Log.d(String.valueOf(e), "onResponse: EMPTY ARRAY");
                     }
 
                 }
+
+
                 else{
-                    Toast.makeText(getContext(), response.code(), Toast.LENGTH_SHORT).show();
+                    try {
+                        Toast.makeText(getContext(), "An Error Occurred!", Toast.LENGTH_SHORT).show();
+
+                    }
+                    catch (NullPointerException e){
+                        Log.d(String.valueOf(e) , "onResponse: TOAST");
+                    }
                 }
             }
 
@@ -125,23 +141,29 @@ public class questionFragment extends Fragment {
 
     private void setAdapter() {
 
-        RecyclerView questionRecyclerView = getView().findViewById(R.id.questions_recycler_view);
-        questionRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        questionRecyclerView.setHasFixedSize(true);
-        questionsArrayList = new ArrayList<>();
-        questionAdapter mAdapter = new questionAdapter(questionsArrayList);
-        questionRecyclerView.setAdapter(mAdapter);
-        mAdapter.setOnQuestionClickListener(new questionAdapter.OnQuestionClickListener() {
-            @Override
-            public void onQuestionClick(int position) {
-                questions clickedQuestion = questionsArrayList.get(position);
-                Intent i = new Intent(getContext() , AnswerActivity.class);
-                i.putExtra(QUESTION_ID , clickedQuestion.getQid());
-                i.putExtra(QUESTION , clickedQuestion.getQuestion());
-                i.putExtra(ASKED_BY_NAME , clickedQuestion.getName());
-                startActivity(i);
-            }
-        });
+        try {
+            RecyclerView questionRecyclerView = getView().findViewById(R.id.questions_recycler_view);
+            questionRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            questionRecyclerView.setHasFixedSize(true);
+            questionsArrayList = new ArrayList<>();
+            questionAdapter mAdapter = new questionAdapter(questionsArrayList);
+            questionRecyclerView.setAdapter(mAdapter);
+
+            mAdapter.setOnQuestionClickListener(new questionAdapter.OnQuestionClickListener() {
+                @Override
+                public void onQuestionClick(int position) {
+                    questions clickedQuestion = questionsArrayList.get(position);
+                    Intent i = new Intent(getContext(), AnswerActivity.class);
+                    i.putExtra(QUESTION_ID, clickedQuestion.getQid());
+                    i.putExtra(QUESTION, clickedQuestion.getQuestion());
+                    i.putExtra(ASKED_BY_NAME, clickedQuestion.getName());
+                    startActivity(i);
+                }
+            });
+        }
+        catch (NullPointerException e){
+            Log.d(String.valueOf(e), "setAdapter: ADAPTER GONE");
+        }
 
     }
 }

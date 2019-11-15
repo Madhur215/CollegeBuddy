@@ -1,15 +1,23 @@
 package com.example.collegebuddy.Fragments;
 
-import android.content.Intent;
+import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,7 +46,9 @@ public class pdfListFragment extends Fragment {
     private JsonApiHolder jsonApiHolder;
     private String token;
     private int p;
+    private int mrequestCode = 10;
     private WebView pdf_webview;
+
 
 
     @Nullable
@@ -54,8 +64,71 @@ public class pdfListFragment extends Fragment {
         pdf_webview = getView().findViewById(R.id.pdf_web_view);
         HashMap<String , String> sendToken =  pr.getUserDetails();
         token = sendToken.get(prefUtils.KEY_TOKEN);
+//        Button download_button = getView().findViewById(R.id.download_pdf_button);
         RecyclerView pdf_recycler_view = getView().findViewById(R.id.subject_pdf_recycler_view);
         getPdfs();
+
+//        download_button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                downloadPdf();
+//            }
+//        });
+
+    }
+
+    private void downloadPdf() {
+
+        if(ContextCompat.checkSelfPermission(getContext() , Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+                PackageManager.PERMISSION_GRANTED){
+            Toast.makeText(getContext() , "granted" , Toast.LENGTH_SHORT).show();
+
+
+            Call<ResponseBody> call = jsonApiHolder.downloadPdf(1 , token);
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                }
+            });
+
+
+        }
+        else{
+            if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity() ,
+                    Manifest.permission.ACCESS_COARSE_LOCATION)){
+
+                new AlertDialog.Builder(getContext())
+                        .setTitle("Permission needed")
+                        .setMessage("Allow to download pdf!")
+                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ActivityCompat.requestPermissions(getActivity(),
+                                        new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, mrequestCode);
+                            }
+                        })
+                        .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .create().show();
+            }else{
+                ActivityCompat.requestPermissions(getActivity() ,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE} , mrequestCode);
+
+
+            }
+        }
+
+
     }
 
     private void getPdfs() {
@@ -67,19 +140,23 @@ public class pdfListFragment extends Fragment {
             @Override
             public void onResponse(Call<List<subjectPdfListResponse>> call, Response<List<subjectPdfListResponse>> response) {
                 if(response.isSuccessful()){
-                    setAdapter();
-                    List<subjectPdfListResponse> pdf = response.body();
+                    try {
+                        setAdapter();
+                        List<subjectPdfListResponse> pdf = response.body();
 
-                    for(subjectPdfListResponse p : pdf){
+                        for (subjectPdfListResponse p : pdf) {
 
-                        String pdf_name = p.getPdf_name();
-                        String pdf_key = p.getPdf_key();
+                            String pdf_name = p.getPdf_name();
+                            String pdf_key = p.getPdf_key();
 
-                        subjectPdfListResponse showPdf = new subjectPdfListResponse(pdf_name , pdf_key);
-                        pdfArrayList.add(showPdf);
+                            subjectPdfListResponse showPdf = new subjectPdfListResponse(pdf_name, pdf_key);
+                            pdfArrayList.add(showPdf);
 
+                        }
                     }
-
+                    catch (NullPointerException e){
+                        Log.d(String.valueOf(e), "onResponse: EMPTY ARRAY");
+                    }
                 }
                 else{
                     Toast.makeText(getContext(), "An Error Occurred!", Toast.LENGTH_SHORT).show();
@@ -96,51 +173,37 @@ public class pdfListFragment extends Fragment {
     }
 
     private void setAdapter() {
-        RecyclerView pdfRecyclerView = getView().findViewById(R.id.subject_pdf_recycler_view);
-        pdfRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        pdfRecyclerView.setHasFixedSize(true);
-        pdfArrayList = new ArrayList<>();
-        subjectPdfAdapter mAdapter = new subjectPdfAdapter(pdfArrayList);
-        pdfRecyclerView.setAdapter(mAdapter);
-        mAdapter.setOnPdfClickListener(new subjectPdfAdapter.OnPdfClickListener() {
-            @Override
-            public void onPdfClick(int position) {
-                subjectPdfListResponse clickedPdf = pdfArrayList.get(position);
-                String p_key = clickedPdf.getPdf_key();
-                p = Integer.parseInt(p_key);
+        try {
+            RecyclerView pdfRecyclerView = getView().findViewById(R.id.subject_pdf_recycler_view);
+            pdfRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            pdfRecyclerView.setHasFixedSize(true);
+            pdfArrayList = new ArrayList<>();
+            subjectPdfAdapter mAdapter = new subjectPdfAdapter(pdfArrayList);
+            pdfRecyclerView.setAdapter(mAdapter);
+            mAdapter.setOnPdfClickListener(new subjectPdfAdapter.OnPdfClickListener() {
+                @Override
+                public void onPdfClick(int position) {
+                    subjectPdfListResponse clickedPdf = pdfArrayList.get(position);
+                    String p_key = clickedPdf.getPdf_key();
+                    p = Integer.parseInt(p_key);
 
-
-                String url = "https://869592ac.ngrok.io/api/PDFController/ViewPDF/" + p + "?token=" + token;
-                String finalUrl = "http://drive.google.com/viewerng/viewer?embedded=true&url=" + url;
-                pdf_webview.setVisibility(View.VISIBLE);
-                pdf_webview.getSettings().setBuiltInZoomControls(true);
+                    String url = "https://869592ac.ngrok.io/api/PDFController/ViewPDF/" + p + "?token=" + token;
+                    String finalUrl = "http://drive.google.com/viewerng/viewer?embedded=true&url=" + url;
+                    pdf_webview.setVisibility(View.VISIBLE);
+                    pdf_webview.getSettings().setBuiltInZoomControls(true);
 //                pdf_webview.getSettings().setJavaScriptEnabled(true);
 
-                pdf_webview.loadUrl(finalUrl);
-//                getFragmentManager().beginTransaction().replace(R.id.fragment_container_pdf ,
-//                        new viewPdfFragment()).commit();
-            }
-        });
-    }
-
-    private void showPdf(int p) {
-
-        Call<ResponseBody> call = jsonApiHolder.viewPdfs(p , token);
-
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if(response.isSuccessful()){
-
+                    pdf_webview.loadUrl(finalUrl);
+                    pdf_webview.setVisibility(View.INVISIBLE);
                 }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-            }
-        });
-
-
+            });
+        }
+        catch (NullPointerException e){
+            Log.d(String.valueOf(e) , "setAdapter: ADAPTER");
+        }
     }
+
+
+
+
 }

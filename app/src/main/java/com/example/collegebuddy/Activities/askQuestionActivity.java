@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.collegebuddy.Fragments.loginFragment;
@@ -50,6 +51,15 @@ public class askQuestionActivity extends AppCompatActivity {
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        ImageView back_button = findViewById(R.id.ask_question_activity_back_image);
+        back_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         ask_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,8 +84,6 @@ public class askQuestionActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
-//                ResponseBody body = response.body();
-//                Toast.makeText(askQuestionActivity.this, String.valueOf(body), Toast.LENGTH_SHORT).show();
                 Toast.makeText(askQuestionActivity.this, "Question Added!", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(askQuestionActivity.this, MainActivity.class);
                 startActivity(i);
@@ -84,10 +92,9 @@ public class askQuestionActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(askQuestionActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(askQuestionActivity.this, "No response from the server!", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     public void askAnonymously(View view) {
