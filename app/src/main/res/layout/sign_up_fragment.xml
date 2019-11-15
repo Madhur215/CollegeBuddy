@@ -8,7 +8,7 @@
     android:background="@color/newLoginBackground">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout4"
+        android:id="@+id/input_layout_full_name"
         android:layout_width="325dp"
         android:layout_height="60dp"
         android:layout_marginTop="120dp"
@@ -34,9 +34,9 @@
         android:layout_width="325dp"
         android:layout_height="60dp"
         android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="@+id/textInputLayout4"
-        app:layout_constraintStart_toStartOf="@+id/textInputLayout4"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout4"
+        app:layout_constraintEnd_toEndOf="@+id/input_layout_full_name"
+        app:layout_constraintStart_toStartOf="@+id/input_layout_full_name"
+        app:layout_constraintTop_toBottomOf="@+id/input_layout_full_name"
         android:textColorHint="#FFFFFF">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -98,7 +98,7 @@
         android:background="@color/dropDown"/>
 
     <Button
-        android:id="@+id/sign_up_button"
+        android:id="@+id/sign_up_button_details_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -119,8 +119,8 @@
         android:layout_marginLeft="48dp"
         android:paddingTop="8dp"
         android:text="@string/already_registered"
-        app:layout_constraintStart_toStartOf="@+id/sign_up_button"
-        app:layout_constraintTop_toBottomOf="@+id/sign_up_button" />
+        app:layout_constraintStart_toStartOf="@+id/sign_up_button_details_layout"
+        app:layout_constraintTop_toBottomOf="@+id/sign_up_button_details_layout" />
 
     <TextView
         android:textColor="#FFF"

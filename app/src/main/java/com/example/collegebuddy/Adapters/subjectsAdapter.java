@@ -15,18 +15,14 @@ import java.util.ArrayList;
 public class subjectsAdapter extends BaseAdapter {
 
     private Context ctx;
-
-    private ArrayList<String> subjectsArrayList;
+    private ArrayList<subjects> subjectsArrayList;
     private LayoutInflater inflater;
-    String[] names;
 
-    public subjectsAdapter(Context ctx , ArrayList<String> subjectsArrayList) {
+    public subjectsAdapter(Context ctx , ArrayList<subjects> subjectsArrayList) {
         this.ctx = ctx;
         this.subjectsArrayList = subjectsArrayList;
-//        this.names =names;
         inflater = LayoutInflater.from(ctx);
     }
-
 
 
     @Override
@@ -53,10 +49,10 @@ public class subjectsAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         TextView names_tv;
-        String subjects = subjectsArrayList.get(position);
+        subjects sub = subjectsArrayList.get(position);
         convertView = inflater.inflate(R.layout.subjects_layout , null);
         names_tv = convertView.findViewById(R.id.names_text_view);
-        names_tv.setText(subjects);
+        names_tv.setText(sub.getSubject());
 
         // SET SUBJECT IMAGE !
 

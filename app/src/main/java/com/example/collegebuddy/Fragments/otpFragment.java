@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,7 +17,6 @@ import com.example.collegebuddy.Inteface.JsonApiHolder;
 import com.example.collegebuddy.R;
 import com.example.collegebuddy.utils.retrofitInstance;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -25,6 +25,7 @@ public class otpFragment extends Fragment {
 
     private JsonApiHolder jsonApiHolder;
     private EditText otp_edit_text;
+
 
     @Nullable
     @Override
@@ -37,7 +38,8 @@ public class otpFragment extends Fragment {
         jsonApiHolder = retrofitInstance.getRetrofitInstance().create(JsonApiHolder.class);
         Button verify_phone_button = getView().findViewById(R.id.verify_otp_button);
         otp_edit_text = getView().findViewById(R.id.enter_otp_edit_text);
-
+        TextView  user_name_text_view = getView().findViewById(R.id.user_name_otp);
+        user_name_text_view.setText(signUpFragment.full_name);
         verify_phone_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,17 +51,29 @@ public class otpFragment extends Fragment {
     }
 
     private void verifyPhone(String otp) {
-        Call<ResponseBody> call = jsonApiHolder.verifyPhone(signUpFragment.id , otp);
-        call.enqueue(new Callback<ResponseBody>() {
+        Call<String> call = jsonApiHolder.verifyPhone(signUpDetailsFragment.id , otp);
+        call.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container_login,
-                        new loginFragment()).commit();
+            public void onResponse(Call<String> call, Response<String> response) {
 
+                if (response.isSuccessful()) {
+                    String message = response.body();
+                    if(message.equals("Verified")) {
+                        getFragmentManager().beginTransaction().replace(R.id.fragment_container_login,
+                                new loginFragment()).commit();
+                    }
+                    else{
+                        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                else {
+                    Toast.makeText(getContext(), "An Error Occurred!", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<String> call, Throwable t) {
                 Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

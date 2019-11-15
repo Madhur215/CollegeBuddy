@@ -114,7 +114,7 @@ public class AnswerActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<answers>> call, Throwable t) {
-                Toast.makeText(AnswerActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AnswerActivity.this, "No response from the server!", Toast.LENGTH_SHORT).show();
             }
         });
 

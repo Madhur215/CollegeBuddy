@@ -9,6 +9,8 @@ import com.example.collegebuddy.models.loginData;
 import com.example.collegebuddy.models.loginResponse;
 import com.example.collegebuddy.models.signUpData;
 import com.example.collegebuddy.models.signUpResponse;
+import com.example.collegebuddy.models.subjectPdfListResponse;
+import com.example.collegebuddy.models.subjects;
 
 import java.util.List;
 
@@ -26,7 +28,7 @@ public interface JsonApiHolder {
     Call<signUpResponse> signUp(@Body signUpData data);
 
     @POST("Member/Verify/{ID}")
-    Call<ResponseBody> verifyPhone(@Path ("ID") String id , @Body String otp);
+    Call<String> verifyPhone(@Path ("ID") String id , @Body String otp);
 
     @POST("Member/Login")
     Call<loginResponse> login(@Body loginData data);
@@ -51,7 +53,13 @@ public interface JsonApiHolder {
     Call<List<members>> getMembers(@Query("token") String token);
 
     @GET("Contact/SubjectList")
-    Call<List<String>> getSubjects(@Query("token") String token);
+    Call<List<subjects>> getSubjects(@Query("token") String token);
+
+    @GET("PDFcontroller/SubjectPDF")
+    Call<List<subjectPdfListResponse>> getPdfs(@Query("token") String token , @Query("key") String key);
+
+    @GET("PDFController/ViewPDF/{PKEY}")
+    Call<ResponseBody> viewPdfs(@Path("PKEY") int PKEY , @Query("token") String token );
 
 
 }

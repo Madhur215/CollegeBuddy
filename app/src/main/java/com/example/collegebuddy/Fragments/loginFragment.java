@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -125,6 +124,10 @@ public class loginFragment extends Fragment {
 
         if(phone_number.isEmpty()){
             phone_edit_text.setError("Field can't be empty!");
+            return false;
+        }
+        else if(phone_number.length() < 10){
+            phone_edit_text.setError("Invalid Phone Number");
             return false;
         }
         else{

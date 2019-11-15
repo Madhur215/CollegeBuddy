@@ -19,11 +19,11 @@
     <string name="profile">Profile</string>
     <string name="explore">Explore</string>
     <string name="chat">Chat</string>
-    <string name="write_answer">Write Answer</string>
+    <string name="write_answer">Click to view answers</string>
     <string name="ask_question">Ask Your Question</string>
     <string name="ask">ASK</string>
     <string name="write_question">Write Your Question Here!</string>
-    <string name="otp_description">An OTP has been sent to your phone. Please verify to continue.</string>
+    <string name="otp_description">Please verify your phone!</string>
     <string name="college_buddy">CollegeBuddy</string>
     <string name="description">Description</string>
     <string name="year">B.Tech</string>
@@ -48,6 +48,8 @@
     <string name="topic_of_interest">Topic of interest</string>
     <string name="update">Update</string>
     <string name="answer">Answer</string>
+    <string name="welcome">Welcome,</string>
+    <string name="view_subject">View Subject</string>
 
 
     <string-array name="branch_drop_down">
@@ -79,11 +81,11 @@
 
     <string name="choose_college">Select College</string>
     <string-array name="select_college_drop_down">
-        <item>Ajay Kumar Garg Engineering College , Ghaziabad</item>
-        <item>ABES Engineering College , Ghaziabad</item>
-        <item>Delhi Technological University , Delhi</item>
-        <item>Indian Institute Of Technology , Delhi</item>
-        <item>Netaji Subhash University Of Technology , New Delhi</item>
+        <item>AKGEC , Ghaziabad</item>
+        <item>ABESEC, Ghaziabad</item>
+        <item>DTU, Delhi</item>
+        <item>IIT, Delhi</item>
+        <item>NSUT, New Delhi</item>
     </string-array>
     <string name="title_activity_tab">TabActivity</string>
     <string name="tab_text_1">Tab 1</string>

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.Toolbar android:id="@+id/toolbar_main"
+    <androidx.appcompat.widget.Toolbar android:id="@+id/toolbar_sign_up"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/toolbar_img"
@@ -15,7 +15,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         />
 
     <Spinner
@@ -40,7 +39,7 @@
         android:layout_marginTop="32dp"
         android:text="@string/select_college"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_main" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_sign_up" />
 
     <TextView
         android:id="@+id/textView23"
@@ -104,11 +103,11 @@
         android:textColor="#FFF"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar_main"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar_sign_up"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="@+id/toolbar_main"
-        app:layout_constraintTop_toTopOf="@+id/toolbar_main"
+        app:layout_constraintStart_toStartOf="@+id/toolbar_sign_up"
+        app:layout_constraintTop_toTopOf="@+id/toolbar_sign_up"
         app:layout_constraintVertical_bias="0.403" />
 
     <TextView
@@ -121,7 +120,7 @@
         app:layout_constraintTop_toBottomOf="@+id/select_year_drop_down" />
 
     <Button
-        android:id="@+id/sign_up_button"
+        android:id="@+id/sign_up_button_details_layout"
         android:layout_width="120dp"
         android:layout_height="40dp"
         android:layout_marginTop="38dp"

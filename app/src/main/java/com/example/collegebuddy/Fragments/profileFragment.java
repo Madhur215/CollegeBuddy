@@ -11,30 +11,18 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.collegebuddy.Inteface.JsonApiHolder;
+import com.example.collegebuddy.Activities.MainActivity;
 import com.example.collegebuddy.R;
-import com.example.collegebuddy.models.profileResponse;
 import com.example.collegebuddy.utils.pageAdapter;
-import com.example.collegebuddy.utils.prefUtils;
-import com.example.collegebuddy.utils.retrofitInstance;
-import com.example.collegebuddy.utils.userData;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.HashMap;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class profileFragment extends Fragment {
 
-    userData user_data;
 
     @Nullable
     @Override
@@ -51,7 +39,6 @@ public class profileFragment extends Fragment {
         TextView branch_text_view = getView().findViewById(R.id.branch_profile);
         TextView college_text_view = getView().findViewById(R.id.college_name_text_view_profile);
         ImageView user_image_view = getView().findViewById(R.id.user_image_profile);
-        user_data = new userData(getContext());
         // CHECK HERE
         TabLayout profile_tab_layout = getView().findViewById(R.id.profile_tab_layout);
         TabItem question_tab = getView().findViewById(R.id.question_tab);
@@ -63,12 +50,10 @@ public class profileFragment extends Fragment {
         viewPager.setAdapter(pg);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(profile_tab_layout));
 
-
-        HashMap<String , String> sendToken =  user_data.getUserData();
-        String branch = sendToken.get(userData.BRANCH);
-        String year = sendToken.get(userData.YEAR);
-        year_text_view.setText(year);
-        branch_text_view.setText(branch);
+        year_text_view.setText(MainActivity.pres.getYear());
+        branch_text_view.setText(MainActivity.pres.getBranch());
+        user_name_text_view.setText(MainActivity.pres.getUser_name());
+        college_text_view.setText(MainActivity.pres.getCollege());
 
       //  getProfile();
 

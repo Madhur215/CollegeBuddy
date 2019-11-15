@@ -118,7 +118,7 @@ public class questionFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<questionsResponse>> call, Throwable t) {
-                Toast.makeText(getContext(), "An Error Occurred!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "No response from the server!", Toast.LENGTH_SHORT).show();
             }
         });
     }

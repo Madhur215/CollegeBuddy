@@ -16,22 +16,16 @@ import androidx.fragment.app.Fragment;
 
 import com.example.collegebuddy.Inteface.JsonApiHolder;
 import com.example.collegebuddy.R;
-import com.example.collegebuddy.models.signUpData;
-import com.example.collegebuddy.models.signUpResponse;
-import com.example.collegebuddy.utils.retrofitInstance;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class signUpFragment extends Fragment {
 
     private String branch;
     private String year;
     private String college;
-    private String full_name;
-    private String password;
-    private String mobile_number;
+    public static String full_name;
+    public static String password;
+    public static String mobile_number;
     private JsonApiHolder jsonApiHolder;
     public static String id;
     private Spinner sp_branch;
@@ -40,24 +34,27 @@ public class signUpFragment extends Fragment {
     private EditText full_name_edit_text;
     private EditText password_edit_text;
     private EditText mobile_number_edit_text;
+    TextInputLayout full_name_text_input;
+    String toastMessage;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.sign_up_fragment, container, false);
+        return inflater.inflate(R.layout.sign_up_fragment_layout, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        jsonApiHolder = retrofitInstance.getRetrofitInstance().create(JsonApiHolder.class);
-        sp_branch = getView().findViewById(R.id.select_branch_drop_down);
-        sp_year = getView().findViewById(R.id.select_year_drop_down);
-        sp_college = getView().findViewById(R.id.select_college_drop_down);
+//        jsonApiHolder = retrofitInstance.getRetrofitInstance().create(JsonApiHolder.class);
+//        sp_branch = getView().findViewById(R.id.select_branch_drop_down);
+//        sp_year = getView().findViewById(R.id.select_year_drop_down);
+//        sp_college = getView().findViewById(R.id.select_college_drop_down);
         full_name_edit_text = getView().findViewById(R.id.full_name_register_edit_text);
         password_edit_text = getView().findViewById(R.id.password_register_edit_text);
         mobile_number_edit_text = getView().findViewById(R.id.phone_number_Register_edit_text);
+        full_name_text_input = getView().findViewById(R.id.input_layout_full_name);
         TextView login_text_view = getView().findViewById(R.id.login_text_view);
-        Button register_button = getView().findViewById(R.id.sign_up_button);
+        Button next_button = getView().findViewById(R.id.sign_up_next_button);
 
         login_text_view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,41 +64,60 @@ public class signUpFragment extends Fragment {
             }
         });
 
-        register_button.setOnClickListener(new View.OnClickListener() {
+        next_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                branch = sp_branch.getSelectedItem().toString();
-                year = sp_year.getSelectedItem().toString();
-                college = sp_college.getSelectedItem().toString();
-                full_name =full_name_edit_text.getText().toString().trim();
-                password = password_edit_text.getText().toString().trim();
-                mobile_number = mobile_number_edit_text.getText().toString().trim();
-                signUp();
+//                branch = sp_branch.getSelectedItem().toString();
+//                year = sp_year.getSelectedItem().toString();
+//                college = sp_college.getSelectedItem().toString();
+
+                if(checkFullName() && checkMobileNumber() && checkPassword()) {
+                    full_name = full_name_edit_text.getText().toString().trim();
+                    password = password_edit_text.getText().toString().trim();
+                    mobile_number = mobile_number_edit_text.getText().toString().trim();
+                    signUpDetails();
+                }
+                else{
+                    Toast.makeText(getContext(), toastMessage, Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
 
-    private void signUp() {
-        signUpData sendData = new signUpData(full_name , college , branch , year , password ,
-                mobile_number);
+    private void signUpDetails() {
+        getFragmentManager().beginTransaction().replace(R.id.fragment_container_login ,
+                new signUpDetailsFragment()).commit();
+    }
 
-        Call<signUpResponse> call = jsonApiHolder.signUp(sendData);
+    private boolean checkFullName(){
+        String name = full_name_edit_text.getText().toString().trim();
+        if(name.length() == 0){
+            toastMessage = "Invalid Name";
+            return false;
+        }
+        else return true;
+    }
 
-        call.enqueue(new Callback<signUpResponse>() {
-            @Override
-            public void onResponse(Call<signUpResponse> call, Response<signUpResponse> response) {
-                signUpResponse signUpResponse = response.body();
-                id = signUpResponse.getID();
+    private boolean checkPassword(){
+        String p = password_edit_text.getText().toString().trim();
+        if(p.length() == 0){
+            toastMessage = "Invalid Password";
+            return false;
+        }
+        else if(p.length() < 6){
+            toastMessage = "Password Should Have At Least 6 Characters!";
+            return false;
+        }
+        else
+            return true;
+    }
 
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container_login ,
-                        new otpFragment()).commit();
-
-            }
-            @Override
-            public void onFailure(Call<signUpResponse> call, Throwable t) {
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
+    private boolean checkMobileNumber(){
+        String phone = mobile_number_edit_text.getText().toString().trim();
+        if(phone.length() == 0 || phone.length() < 10){
+            toastMessage = "Invalid Phone!";
+            return false;
+        }
+        else return true;
     }
 }

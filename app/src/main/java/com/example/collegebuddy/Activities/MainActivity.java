@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.collegebuddy.Fragments.downloadsFragment;
@@ -20,13 +21,10 @@ import com.example.collegebuddy.R;
 import com.example.collegebuddy.models.profileResponse;
 import com.example.collegebuddy.utils.prefUtils;
 import com.example.collegebuddy.utils.retrofitInstance;
-import com.example.collegebuddy.utils.userData;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private Fragment selectedFragment;
     JsonApiHolder jsonApiHolder;
     private prefUtils pr;
-    userData user_data;
+    public static profileResponse pres = new profileResponse();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation = findViewById(R.id.bottom_navigation);
         Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
-        user_data = new userData(this);
         (getSupportActionBar()).setDisplayShowTitleEnabled(false);
         bottomNavigation.setOnNavigationItemSelectedListener(navListener);
         jsonApiHolder = retrofitInstance.getRetrofitInstance().create(JsonApiHolder.class);
@@ -63,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+
     }
 
     @Override
@@ -137,14 +135,12 @@ public class MainActivity extends AppCompatActivity {
                     List<profileResponse> profile = response.body();
 
                     for (profileResponse pr : profile) {
+
                         String username = pr.getUser_name();
                         String branch = pr.getBranch();
                         String college = pr.getCollege();
                         String year = pr.getYear();
-
-                        user_data.setUserData(username , year , branch , college);
-
-                        profileResponse pres = new profileResponse();
+//                        pres = new profileResponse();
 
                         pres.setUser_name(username);
                         pres.setCollege(college);
