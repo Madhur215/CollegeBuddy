@@ -2,10 +2,14 @@ package com.example.collegebuddy.Fragments;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +34,11 @@ import com.example.collegebuddy.models.subjectPdfListResponse;
 import com.example.collegebuddy.utils.prefUtils;
 import com.example.collegebuddy.utils.retrofitInstance;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +47,8 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class pdfListFragment extends Fragment {
 
@@ -48,6 +59,7 @@ public class pdfListFragment extends Fragment {
     private int p;
     private int mrequestCode = 10;
     private WebView pdf_webview;
+    DownloadManager downloadManager;
 
 
 
@@ -64,72 +76,10 @@ public class pdfListFragment extends Fragment {
         pdf_webview = getView().findViewById(R.id.pdf_web_view);
         HashMap<String , String> sendToken =  pr.getUserDetails();
         token = sendToken.get(prefUtils.KEY_TOKEN);
-//        Button download_button = getView().findViewById(R.id.download_pdf_button);
         RecyclerView pdf_recycler_view = getView().findViewById(R.id.subject_pdf_recycler_view);
         getPdfs();
-
-//        download_button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                downloadPdf();
-//            }
-//        });
-
     }
 
-    private void downloadPdf() {
-
-        if(ContextCompat.checkSelfPermission(getContext() , Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
-                PackageManager.PERMISSION_GRANTED){
-            Toast.makeText(getContext() , "granted" , Toast.LENGTH_SHORT).show();
-
-
-            Call<ResponseBody> call = jsonApiHolder.downloadPdf(1 , token);
-            call.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-
-                }
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-                }
-            });
-
-
-        }
-        else{
-            if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity() ,
-                    Manifest.permission.ACCESS_COARSE_LOCATION)){
-
-                new AlertDialog.Builder(getContext())
-                        .setTitle("Permission needed")
-                        .setMessage("Allow to download pdf!")
-                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                ActivityCompat.requestPermissions(getActivity(),
-                                        new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, mrequestCode);
-                            }
-                        })
-                        .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .create().show();
-            }else{
-                ActivityCompat.requestPermissions(getActivity() ,
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE} , mrequestCode);
-
-
-            }
-        }
-
-
-    }
 
     private void getPdfs() {
 
@@ -187,14 +137,32 @@ public class pdfListFragment extends Fragment {
                     String p_key = clickedPdf.getPdf_key();
                     p = Integer.parseInt(p_key);
 
-                    String url = "https://869592ac.ngrok.io/api/PDFController/ViewPDF/" + p + "?token=" + token;
+                    String url = "https://ddb9a4cf.ngrok.io/api/PDFController/ViewPDF/" + p + "?token=" + token;
                     String finalUrl = "http://drive.google.com/viewerng/viewer?embedded=true&url=" + url;
                     pdf_webview.setVisibility(View.VISIBLE);
                     pdf_webview.getSettings().setBuiltInZoomControls(true);
-//                pdf_webview.getSettings().setJavaScriptEnabled(true);
 
                     pdf_webview.loadUrl(finalUrl);
                     pdf_webview.setVisibility(View.INVISIBLE);
+                }
+
+                @Override
+                public void downloadPdf(int position) {
+                    subjectPdfListResponse clickedPdf = pdfArrayList.get(position);
+                    String p_key = clickedPdf.getPdf_key();
+                    int p = Integer.parseInt(p_key);
+
+                    download(p);
+
+                }
+
+                @Override
+                public void addToLibrary(int position) {
+                    subjectPdfListResponse clickedPdf = pdfArrayList.get(position);
+                    String p_key = clickedPdf.getPdf_key();
+                    int p = Integer.parseInt(p_key);
+
+                    addPDF(p);
                 }
             });
         }
@@ -203,6 +171,143 @@ public class pdfListFragment extends Fragment {
         }
     }
 
+    private void addPDF(int p) {
+
+        Call<ResponseBody> call = jsonApiHolder.addToLibrary(p , token);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful()){
+                    Toast.makeText(getContext(), "Added to Library", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(getContext(), "An Error Occurred!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getContext(), "No response from the server!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void download(int p_key) {
+
+        if(ContextCompat.checkSelfPermission(getContext() , Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+                PackageManager.PERMISSION_GRANTED){
+            Toast.makeText(getContext() , "granted" , Toast.LENGTH_SHORT).show();
+
+//            downloadManager = (DownloadManager)getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
+            String url = "https://ddb9a4cf.ngrok.io/api/PDFController/GetPDF/" + p_key + "?token=" + token;
+//            Uri uri = Uri.parse(url);
+//            DownloadManager.Request request = new DownloadManager.Request(uri);
+//            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+//            Long reference = downloadManager.enqueue(request);
+
+            Call<ResponseBody> call = jsonApiHolder.downloadPdf(url);
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.isSuccessful()){
+
+                    }
+                    else{
+                        Toast.makeText(getContext(), "An Error Occurred!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Toast.makeText(getContext(), "No response from the server!", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
+        }
+        else{
+            if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity() ,
+                    Manifest.permission.ACCESS_COARSE_LOCATION)){
+
+                new AlertDialog.Builder(getContext())
+                        .setTitle("Permission needed")
+                        .setMessage("Allow to download pdf!")
+                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ActivityCompat.requestPermissions(getActivity(),
+                                        new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, mrequestCode);
+                            }
+                        })
+                        .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .create().show();
+            }else{
+                ActivityCompat.requestPermissions(getActivity() ,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE} , mrequestCode);
+
+
+            }
+        }
+
+
+    }
+
+    private boolean writeResponseBodyToDisk(ResponseBody body) {
+        try {
+
+            File futureStudioIconFile = new File(Environment.getDataDirectory()
+                    + File.separator + "Future Studio Icon.png");
+
+            InputStream inputStream = null;
+            OutputStream outputStream = null;
+
+            try {
+                byte[] fileReader = new byte[4096];
+
+                long fileSize = body.contentLength();
+                long fileSizeDownloaded = 0;
+
+                inputStream = body.byteStream();
+                outputStream = new FileOutputStream(futureStudioIconFile);
+
+                while (true) {
+                    int read = inputStream.read(fileReader);
+
+                    if (read == -1) {
+                        break;
+                    }
+
+                    outputStream.write(fileReader, 0, read);
+
+                    fileSizeDownloaded += read;
+
+                    Log.d(TAG, "file download: " + fileSizeDownloaded + " of " + fileSize);
+                }
+
+                outputStream.flush();
+
+                return true;
+            } catch (IOException e) {
+                return false;
+            } finally {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            }
+        } catch (IOException e) {
+            return false;
+        }
+    }
 
 
 

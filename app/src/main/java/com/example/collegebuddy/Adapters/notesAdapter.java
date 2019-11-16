@@ -3,6 +3,7 @@ package com.example.collegebuddy.Adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -48,6 +49,7 @@ public class notesAdapter extends RecyclerView.Adapter<notesAdapter.notesHolder>
         TextView note_name_text_view;
         TextView note_user_name_text_view;
         TextView number_of_pages_text_view;
+        ImageView download_pdf_image_view;
 
 
         public notesHolder(@NonNull View itemView) {
@@ -56,7 +58,7 @@ public class notesAdapter extends RecyclerView.Adapter<notesAdapter.notesHolder>
             note_name_text_view = itemView.findViewById(R.id.note_name_text_view);
             note_user_name_text_view = itemView.findViewById(R.id.notes_user_name_text_view);
             number_of_pages_text_view = itemView.findViewById(R.id.number_of_pages_text_view);
-
+            download_pdf_image_view = itemView.findViewById(R.id.download_pdf_image_view);
 
 
         }

@@ -134,7 +134,12 @@ public class questionFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<questionsResponse>> call, Throwable t) {
-                Toast.makeText(getContext(), "No response from the server!", Toast.LENGTH_SHORT).show();
+                try {
+                    Toast.makeText(getContext(), "No response from the server!", Toast.LENGTH_SHORT).show();
+                }
+                catch (Exception e){
+                    Log.d(String.valueOf(e), "onFailure: GET CONTEXT");
+                }
             }
         });
     }

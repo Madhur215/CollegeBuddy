@@ -43,9 +43,7 @@ public class profileFragment extends Fragment {
         TabLayout profile_tab_layout = getView().findViewById(R.id.profile_tab_layout);
         TabItem question_tab = getView().findViewById(R.id.question_tab);
         TabItem answers_tab = getView().findViewById(R.id.answers_tab);
-        TabItem uploads_tab = getView().findViewById(R.id.uploads_tab);
-        TabItem update_tab = getView().findViewById(R.id.update_tab);
-        ViewPager viewPager = getView().findViewById(R.id.tab_layout_view_pager);
+        final ViewPager viewPager = getView().findViewById(R.id.tab_layout_view_pager);
         pageAdapter pg = new pageAdapter(getFragmentManager(), profile_tab_layout.getTabCount());
         viewPager.setAdapter(pg);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(profile_tab_layout));
@@ -55,19 +53,29 @@ public class profileFragment extends Fragment {
         user_name_text_view.setText(MainActivity.pres.getUser_name());
         college_text_view.setText(MainActivity.pres.getCollege());
 
-      //  getProfile();
+
+        profile_tab_layout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(profile_tab_layout));
+
 
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
 
 
 }

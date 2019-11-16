@@ -3,11 +3,13 @@ package com.example.collegebuddy.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -64,12 +66,22 @@ public class askQuestionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(checkQuestion()) {
+                    closeKeyboard();
                     question = ask_question_edit_text.getText().toString().trim();
                     askQuestion(question);
                 }
             }
         });
 
+    }
+
+    private void closeKeyboard() {
+
+        View view = this.getCurrentFocus();
+        if(view != null){
+            InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken() , 0);
+        }
     }
 
     public void askQuestion(String question){

@@ -20,4 +20,9 @@ public class profile_questions_fragment extends Fragment {
 
         return inflater.inflate(R.layout.questions_fragment_profile, container, false);
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
+    }
 }

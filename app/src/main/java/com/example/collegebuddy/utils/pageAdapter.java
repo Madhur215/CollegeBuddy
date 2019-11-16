@@ -7,8 +7,6 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.collegebuddy.Fragments.profile_answers_fragment;
 import com.example.collegebuddy.Fragments.profile_questions_fragment;
-import com.example.collegebuddy.Fragments.profile_update_fragment;
-import com.example.collegebuddy.Fragments.profile_uploads_fragment;
 
 public class pageAdapter extends FragmentPagerAdapter {
 
@@ -27,10 +25,6 @@ public class pageAdapter extends FragmentPagerAdapter {
                 return new profile_questions_fragment();
             case 1:
                 return new profile_answers_fragment();
-            case 2:
-                return new profile_uploads_fragment();
-            case 3:
-                return new profile_update_fragment();
             default:
                 return null;
         }

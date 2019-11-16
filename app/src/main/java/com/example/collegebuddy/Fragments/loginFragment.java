@@ -82,9 +82,6 @@ public class loginFragment extends Fragment {
 
     }
 
-    public void confirmInput(View v){
-
-    }
 
     private void login() {
 //        pg.setVisibility(View.VISIBLE);
@@ -104,6 +101,12 @@ public class loginFragment extends Fragment {
                     Log.d(String.valueOf(token), "onResponse: token");
                     Intent i = new Intent(getContext(), MainActivity.class);
                     startActivity(i);
+                }
+                else if(response.code() == 400){
+                    Toast.makeText(getContext(), "Verify Account First!", Toast.LENGTH_SHORT).show();
+                }
+                else if(response.code() == 404){
+                    Toast.makeText(getContext(), "Wrong username or password!", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     Toast.makeText(getContext(), "An Error Occurred!", Toast.LENGTH_SHORT).show();

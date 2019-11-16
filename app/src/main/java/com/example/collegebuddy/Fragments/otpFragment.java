@@ -66,10 +66,13 @@ public class otpFragment extends Fragment {
                         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
                     }
                 }
-
-                else {
-                    Toast.makeText(getContext(), "An Error Occurred!", Toast.LENGTH_SHORT).show();
-                }
+//                else if(response.code() == 404){
+//                    Toast.makeText(getContext(), "Invalid OTP!", Toast.LENGTH_SHORT).show();
+//                }
+//
+//                else {
+//                    Toast.makeText(getContext(), "An Error Occurred!", Toast.LENGTH_SHORT).show();
+//                }
             }
 
             @Override

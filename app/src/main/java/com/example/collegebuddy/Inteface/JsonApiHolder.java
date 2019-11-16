@@ -21,6 +21,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Url;
 
 public interface JsonApiHolder {
 
@@ -58,8 +59,22 @@ public interface JsonApiHolder {
     @GET("PDFcontroller/SubjectPDF")
     Call<List<subjectPdfListResponse>> getPdfs(@Query("token") String token , @Query("key") String key);
 
-    @GET("PDFController/GetPDF/{PKEY}")
-    Call<ResponseBody> downloadPdf(@Path("PKEY") int PKEY , @Query("token") String token );
+    @GET
+    Call<ResponseBody> downloadPdf(@Url String url);
+
+    @POST("PDFController/AddToLibrary/{PKEY}")
+    Call<ResponseBody> addToLibrary(@Path("PKEY") int key , @Query("token") String token);
+
+    @GET("PDFController/Library")
+    Call<ResponseBody> getLibrary(@Query("token") String token);
+
+    @GET("Contact/AnswerTab")
+    Call<ResponseBody> getUserAnswers(@Query("token") String token);
+
+    @GET("Contact/QuestionTab")
+    Call<ResponseBody> getUserQuestions(@Query("token") String token);
+
+
 
 
 }
