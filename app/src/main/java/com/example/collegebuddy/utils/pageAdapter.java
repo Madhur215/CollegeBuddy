@@ -1,5 +1,7 @@
 package com.example.collegebuddy.utils;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -15,6 +17,7 @@ public class pageAdapter extends FragmentPagerAdapter {
     public pageAdapter(FragmentManager fm, int numOfTabs) {
         super(fm);
         this.numOfTabs = numOfTabs;
+
     }
 
     @NonNull

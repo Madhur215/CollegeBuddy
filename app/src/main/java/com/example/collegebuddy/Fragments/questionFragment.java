@@ -89,6 +89,7 @@ public class questionFragment extends Fragment {
 
         HashMap<String , String> sendToken =  pr.getUserDetails();
         String token = sendToken.get(prefUtils.KEY_TOKEN);
+        Log.d(token, "getData: TOKEN");
         Call<List<questionsResponse>> call = jsonApiHolder.getQuestions(token);
 
 

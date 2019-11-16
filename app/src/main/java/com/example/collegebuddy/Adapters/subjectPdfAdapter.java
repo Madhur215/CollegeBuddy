@@ -26,7 +26,7 @@ public class subjectPdfAdapter extends RecyclerView.Adapter<subjectPdfAdapter.pd
 
     public interface OnPdfClickListener{
         void onPdfClick(int position);
-        void downloadPdf(int position);
+   //     void downloadPdf(int position);
         void addToLibrary(int position);
     }
 

@@ -76,10 +76,16 @@ public class loginFragment extends Fragment {
                 }
                 mobile_number = mobile_number_edit_text.getText().toString().trim();
                 password = password_edit_text.getText().toString().trim();
-                login();
+                if(mobile_number.length() == 13){
+                    login();
+
+                }
+                else if(mobile_number.length() == 10){
+                    mobile_number = "+91" + mobile_number;
+                    login();
+                }
             }
         });
-
     }
 
 

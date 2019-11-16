@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ProgressBar;
@@ -15,14 +16,18 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collegebuddy.Activities.MainActivity;
 import com.example.collegebuddy.Activities.pdfActivity;
 import com.example.collegebuddy.Activities.splashActivity;
+import com.example.collegebuddy.Adapters.notesAdapter;
 import com.example.collegebuddy.Inteface.JsonApiHolder;
 import com.example.collegebuddy.R;
 import com.example.collegebuddy.Adapters.subjectsAdapter;
 import com.example.collegebuddy.models.profileResponse;
+import com.example.collegebuddy.models.subjectPdfListResponse;
 import com.example.collegebuddy.models.subjects;
 import com.example.collegebuddy.utils.prefUtils;
 import com.example.collegebuddy.utils.retrofitInstance;
@@ -45,8 +50,8 @@ public class homeFragment extends Fragment {
     public final static String SUBJECT_KEY ="skey";
     ProgressBar subjects_progress_bar;
     private String token;
-//    private ArrayList<> notesArrayList;
-
+    private ArrayList<subjectPdfListResponse> notesArrayList;
+    private WebView pdf_web_view_home;
 
 
     @Nullable
@@ -59,19 +64,20 @@ public class homeFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        gridView = getView().findViewById(R.id.subjects_grid_view);
 
+        gridView = getView().findViewById(R.id.subjects_grid_view);
         // THIS
         pr = new prefUtils(getContext());
         subjects_progress_bar = getView().findViewById(R.id.subjects_progress_bar);
         subjects_progress_bar.setVisibility(View.VISIBLE);
         jsonApiHolder = retrofitInstance.getRetrofitInstance().create(JsonApiHolder.class);
-        getSubjects();
-//        getLibrary();
-        TextView year_text_view = getView().findViewById(R.id.year_text_view_home);
-        TextView branch_text_view = getView().findViewById(R.id.branch_text_view_home);
+        pdf_web_view_home = getView().findViewById(R.id.pdf_web_view_home);
         HashMap<String , String> sendToken =  pr.getUserDetails();
         token = sendToken.get(prefUtils.KEY_TOKEN);
+        getSubjects();
+        getLibrary();
+        TextView year_text_view = getView().findViewById(R.id.year_text_view_home);
+        TextView branch_text_view = getView().findViewById(R.id.branch_text_view_home);
         year_text_view.setText(MainActivity.pres.getYear());
         branch_text_view.setText(MainActivity.pres.getBranch());
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -84,13 +90,30 @@ public class homeFragment extends Fragment {
 
     private void getLibrary() {
 
-        Call<ResponseBody> call = jsonApiHolder.getLibrary(token);
+        Call<List<subjectPdfListResponse>> call = jsonApiHolder.getLibrary(token);
 
-        call.enqueue(new Callback<ResponseBody>() {
+        call.enqueue(new Callback<List<subjectPdfListResponse>>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if(response.isSuccessful()){
+            public void onResponse(Call<List<subjectPdfListResponse>> call,
+                                   Response<List<subjectPdfListResponse>> response) {
+                if(response.isSuccessful()) {
+                    try {
+                        setAdapter();
+                        List<subjectPdfListResponse> notes = response.body();
 
+                        for(subjectPdfListResponse note : notes){
+
+                            String name = note.getPdf_name();
+                            String key = note.getPdf_key();
+
+                            subjectPdfListResponse addNotes = new subjectPdfListResponse(name , key);
+                            notesArrayList.add(addNotes);
+
+                        }
+                    }
+                    catch (NullPointerException e){
+                        e.printStackTrace();
+                    }
                 }
                 else {
                     try {
@@ -103,7 +126,7 @@ public class homeFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<List<subjectPdfListResponse>> call, Throwable t) {
                 try{
                 Toast.makeText(getContext(), "No response from the server!", Toast.LENGTH_SHORT).show();
             }
@@ -124,7 +147,7 @@ public class homeFragment extends Fragment {
     }
 
     private void getSubjects(){
-
+        Log.d(token, "getSubjects: TOKEN");
         Call<List<subjects>> call = jsonApiHolder.getSubjects(token);
 
         call.enqueue(new Callback<List<subjects>>() {
@@ -179,7 +202,33 @@ public class homeFragment extends Fragment {
     }
 
     private void setAdapter(){
+        try{
+            RecyclerView questionRecyclerView = getView().findViewById(R.id.library_recycler_view);
+            questionRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            questionRecyclerView.setHasFixedSize(true);
+            notesArrayList = new ArrayList<>();
+            notesAdapter mAdapter = new notesAdapter(notesArrayList);
+            questionRecyclerView.setAdapter(mAdapter);
+            mAdapter.setOnNotesClickListener(new notesAdapter.OnNotesClickListener() {
+                @Override
+                public void onNotesClick(int position) {
+                    subjectPdfListResponse clickedPdf = notesArrayList.get(position);
+                    String p_key = clickedPdf.getPdf_key();
+                    int p = Integer.parseInt(p_key);
 
+                    String url = "https://3831e0c4.ngrok.io/api/PDFController/ViewPDF/" + p + "?token=" + token;
+                    String finalUrl = "http://drive.google.com/viewerng/viewer?embedded=true&url=" + url;
+                    pdf_web_view_home.setVisibility(View.VISIBLE);
+                    pdf_web_view_home.getSettings().setBuiltInZoomControls(true);
+
+                    pdf_web_view_home.loadUrl(finalUrl);
+                    pdf_web_view_home.setVisibility(View.INVISIBLE);
+                }
+            });
+        }
+        catch (NullPointerException e){
+            Log.d(String.valueOf(e), "setAdapter: ADAPTER GONE");
+        }
     }
 
 

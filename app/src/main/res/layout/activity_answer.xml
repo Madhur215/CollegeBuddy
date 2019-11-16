@@ -136,5 +136,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_arrow_back" />
 
+    <ProgressBar
+        android:id="@+id/previous_answers_progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/answers_recycler_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/answers_recycler_view" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

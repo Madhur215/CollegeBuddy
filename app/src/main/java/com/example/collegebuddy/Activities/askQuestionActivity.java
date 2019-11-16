@@ -95,11 +95,16 @@ public class askQuestionActivity extends AppCompatActivity {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(askQuestionActivity.this, "Question Added!", Toast.LENGTH_SHORT).show();
+//                    Intent i = new Intent(askQuestionActivity.this, MainActivity.class);
+//                    startActivity(i);
+                    finish();
 
-                Toast.makeText(askQuestionActivity.this, "Question Added!", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(askQuestionActivity.this, MainActivity.class);
-                startActivity(i);
-
+                }
+                else {
+                    Toast.makeText(askQuestionActivity.this, "An Error Occurred!", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override

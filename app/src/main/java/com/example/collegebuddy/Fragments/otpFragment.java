@@ -43,11 +43,21 @@ public class otpFragment extends Fragment {
         verify_phone_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String otp = otp_edit_text.getText().toString().trim();
-                verifyPhone(otp);
+                if (checkOtp()) {
+                    String otp = otp_edit_text.getText().toString().trim();
+                    verifyPhone(otp);
+                }
+                else{
+                    Toast.makeText(getContext(), "Enter OTP First!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
+    }
+
+    private boolean checkOtp(){
+        String otp = otp_edit_text.getText().toString().trim();
+        return otp.length() != 0;
     }
 
     private void verifyPhone(String otp) {

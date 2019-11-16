@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -52,7 +53,6 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class pdfListFragment extends Fragment {
 
-    RecyclerView pdf_recycler_view;
     private ArrayList<subjectPdfListResponse> pdfArrayList;
     private JsonApiHolder jsonApiHolder;
     private String token;
@@ -60,6 +60,7 @@ public class pdfListFragment extends Fragment {
     private int mrequestCode = 10;
     private WebView pdf_webview;
     DownloadManager downloadManager;
+    ProgressBar pdf_progress_bar;
 
 
 
@@ -76,6 +77,8 @@ public class pdfListFragment extends Fragment {
         pdf_webview = getView().findViewById(R.id.pdf_web_view);
         HashMap<String , String> sendToken =  pr.getUserDetails();
         token = sendToken.get(prefUtils.KEY_TOKEN);
+        pdf_progress_bar = getView().findViewById(R.id.pdf_progress_bar);
+        pdf_progress_bar.setVisibility(View.VISIBLE);
         RecyclerView pdf_recycler_view = getView().findViewById(R.id.subject_pdf_recycler_view);
         getPdfs();
     }
@@ -89,6 +92,7 @@ public class pdfListFragment extends Fragment {
         call.enqueue(new Callback<List<subjectPdfListResponse>>() {
             @Override
             public void onResponse(Call<List<subjectPdfListResponse>> call, Response<List<subjectPdfListResponse>> response) {
+                pdf_progress_bar.setVisibility(View.GONE);
                 if(response.isSuccessful()){
                     try {
                         setAdapter();
@@ -137,7 +141,7 @@ public class pdfListFragment extends Fragment {
                     String p_key = clickedPdf.getPdf_key();
                     p = Integer.parseInt(p_key);
 
-                    String url = "https://ddb9a4cf.ngrok.io/api/PDFController/ViewPDF/" + p + "?token=" + token;
+                    String url = "https://3831e0c4.ngrok.io/api/PDFController/ViewPDF/" + p + "?token=" + token;
                     String finalUrl = "http://drive.google.com/viewerng/viewer?embedded=true&url=" + url;
                     pdf_webview.setVisibility(View.VISIBLE);
                     pdf_webview.getSettings().setBuiltInZoomControls(true);
@@ -146,15 +150,15 @@ public class pdfListFragment extends Fragment {
                     pdf_webview.setVisibility(View.INVISIBLE);
                 }
 
-                @Override
-                public void downloadPdf(int position) {
-                    subjectPdfListResponse clickedPdf = pdfArrayList.get(position);
-                    String p_key = clickedPdf.getPdf_key();
-                    int p = Integer.parseInt(p_key);
-
-                    download(p);
-
-                }
+//                @Override
+//                public void downloadPdf(int position) {
+//                    subjectPdfListResponse clickedPdf = pdfArrayList.get(position);
+//                    String p_key = clickedPdf.getPdf_key();
+//                    int p = Integer.parseInt(p_key);
+//
+//                    download(p);
+//
+//                }
 
                 @Override
                 public void addToLibrary(int position) {

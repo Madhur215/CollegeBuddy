@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -32,6 +33,7 @@ public class exploreFragment extends Fragment {
     private ArrayList<members> membersList;
     private JsonApiHolder jsonApiHolder;
     private prefUtils pr;
+    private ProgressBar members_progress_bar;
 
     @Nullable
     @Override
@@ -43,6 +45,8 @@ public class exploreFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         jsonApiHolder = retrofitInstance.getRetrofitInstance().create(JsonApiHolder.class);
         pr = new prefUtils(getContext());
+        members_progress_bar = getView().findViewById(R.id.members_progress_bar);
+        members_progress_bar.setVisibility(View.VISIBLE);
         getMembers();
     }
 
@@ -66,7 +70,7 @@ public class exploreFragment extends Fragment {
         call.enqueue(new Callback<List<members>>() {
             @Override
             public void onResponse(Call<List<members>> call, Response<List<members>> response) {
-
+                members_progress_bar.setVisibility(View.GONE);
                 if(response.isSuccessful()){
                     try{
                         setAdapter();

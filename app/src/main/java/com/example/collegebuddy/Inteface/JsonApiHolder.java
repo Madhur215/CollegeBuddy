@@ -66,7 +66,7 @@ public interface JsonApiHolder {
     Call<ResponseBody> addToLibrary(@Path("PKEY") int key , @Query("token") String token);
 
     @GET("PDFController/Library")
-    Call<ResponseBody> getLibrary(@Query("token") String token);
+    Call<List<subjectPdfListResponse>> getLibrary(@Query("token") String token);
 
     @GET("Contact/AnswerTab")
     Call<ResponseBody> getUserAnswers(@Query("token") String token);

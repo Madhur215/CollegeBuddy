@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +50,7 @@ public class AnswerActivity extends AppCompatActivity {
     EditText answer_edit_text;
     prefUtils pr;
     private ArrayList<answers> answersArrayList;
+    ProgressBar answers_progress_bar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +69,10 @@ public class AnswerActivity extends AppCompatActivity {
         asked_by_name_text_view.setText(asked_by_name);
         answer_edit_text = findViewById(R.id.write_answer_edit_text);
         Toolbar answer_toolbar = findViewById(R.id.toolbar_answer_activity);
+        answers_progress_bar = findViewById(R.id.previous_answers_progress_bar);
         setSupportActionBar(answer_toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        answers_progress_bar.setVisibility(View.VISIBLE);
         getAnswers();
         ImageView back_image_view = findViewById(R.id.answer_activity_back_image);
         back_image_view.setOnClickListener(new View.OnClickListener() {
@@ -110,6 +114,7 @@ public class AnswerActivity extends AppCompatActivity {
         call.enqueue(new Callback<List<answers>>() {
             @Override
             public void onResponse(Call<List<answers>> call, Response<List<answers>> response) {
+                answers_progress_bar.setVisibility(View.GONE);
                 if(response.isSuccessful()) {
                     try {
                         setAdapter();
