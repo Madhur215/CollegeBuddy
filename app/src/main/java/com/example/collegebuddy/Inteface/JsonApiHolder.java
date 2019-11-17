@@ -72,7 +72,7 @@ public interface JsonApiHolder {
     Call<ResponseBody> getUserAnswers(@Query("token") String token);
 
     @GET("Contact/QuestionTab")
-    Call<ResponseBody> getUserQuestions(@Query("token") String token);
+    Call<List<questionsResponse>> getUserQuestions(@Query("token") String token);
 
 
 

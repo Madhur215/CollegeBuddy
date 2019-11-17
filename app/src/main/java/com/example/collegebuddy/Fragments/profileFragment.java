@@ -1,5 +1,6 @@
 package com.example.collegebuddy.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +11,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.collegebuddy.Activities.MainActivity;
+import com.example.collegebuddy.Activities.UserQuestionsActivity;
 import com.example.collegebuddy.R;
 import com.example.collegebuddy.utils.pageAdapter;
 import com.google.android.material.tabs.TabItem;
@@ -39,43 +42,20 @@ public class profileFragment extends Fragment {
         TextView branch_text_view = getView().findViewById(R.id.branch_profile);
         TextView college_text_view = getView().findViewById(R.id.college_name_text_view_profile);
         ImageView user_image_view = getView().findViewById(R.id.user_image_profile);
-        // CHECK HERE
-        TabLayout profile_tab_layout = getView().findViewById(R.id.profile_tab_layout);
-        TabItem question_tab = getView().findViewById(R.id.question_tab);
-        TabItem answers_tab = getView().findViewById(R.id.answers_tab);
-        final ViewPager viewPager = getView().findViewById(R.id.tab_layout_view_pager);
-        pageAdapter pg = new pageAdapter(getFragmentManager(), profile_tab_layout.getTabCount());
-        viewPager.setAdapter(pg);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(profile_tab_layout));
+        CardView asked_question_card_view = getView().findViewById(R.id.asked_questions_card_view);
+
+        asked_question_card_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getContext() , UserQuestionsActivity.class);
+                startActivity(i);
+            }
+        });
 
         year_text_view.setText(MainActivity.pres.getYear());
         branch_text_view.setText(MainActivity.pres.getBranch());
         user_name_text_view.setText(MainActivity.pres.getUser_name());
         college_text_view.setText(MainActivity.pres.getCollege());
 
-
-        profile_tab_layout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(profile_tab_layout));
-
-
     }
-
-
-
 }
