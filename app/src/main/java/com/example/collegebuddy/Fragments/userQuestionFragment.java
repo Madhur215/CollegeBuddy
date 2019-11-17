@@ -115,7 +115,7 @@ public class userQuestionFragment extends Fragment {
     private void setAdapter() {
 
         try{
-            RecyclerView questionRecyclerView = getView().findViewById(R.id.questions_recycler_view);
+            RecyclerView questionRecyclerView = getView().findViewById(R.id.user_questions_recycler_view);
             questionRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             questionRecyclerView.setHasFixedSize(true);
             questionsList = new ArrayList<>();

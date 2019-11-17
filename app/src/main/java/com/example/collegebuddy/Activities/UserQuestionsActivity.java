@@ -19,6 +19,7 @@ public class UserQuestionsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_questions);
         Toolbar user_question_toolbar = findViewById(R.id.toolbar_user_question_activity);
         setSupportActionBar(user_question_toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         ImageView back_button = findViewById(R.id.user_question_back_button);
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override

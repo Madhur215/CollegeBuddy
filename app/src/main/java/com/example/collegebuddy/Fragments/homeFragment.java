@@ -216,7 +216,7 @@ public class homeFragment extends Fragment {
                     String p_key = clickedPdf.getPdf_key();
                     int p = Integer.parseInt(p_key);
 
-                    String url = "https://3831e0c4.ngrok.io/api/PDFController/ViewPDF/" + p + "?token=" + token;
+                    String url = "https://d9efaef9.ngrok.io/api/PDFController/ViewPDF/" + p + "?token=" + token;
                     String finalUrl = "http://drive.google.com/viewerng/viewer?embedded=true&url=" + url;
                     pdf_web_view_home.setVisibility(View.VISIBLE);
                     pdf_web_view_home.getSettings().setBuiltInZoomControls(true);

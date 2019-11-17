@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#EC3748</color>
     <color name="colorPrimaryDark">#EC3748</color>
-    <color name="colorAccent">#E8FDE4E4</color>
+    <color name="colorAccent">#EC3748</color>
     <color name="newLoginBackground">#BA324F</color>
     <color name="newEditText">#A8A5A5</color>
     <color name="button">#F1BF98</color>

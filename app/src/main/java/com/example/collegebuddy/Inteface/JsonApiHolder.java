@@ -1,6 +1,7 @@
 package com.example.collegebuddy.Inteface;
 
 import com.example.collegebuddy.models.answers;
+import com.example.collegebuddy.models.editDetails;
 import com.example.collegebuddy.models.members;
 import com.example.collegebuddy.models.profileResponse;
 import com.example.collegebuddy.models.questionsResponse;
@@ -68,13 +69,12 @@ public interface JsonApiHolder {
     @GET("PDFController/Library")
     Call<List<subjectPdfListResponse>> getLibrary(@Query("token") String token);
 
-    @GET("Contact/AnswerTab")
-    Call<ResponseBody> getUserAnswers(@Query("token") String token);
-
     @GET("Contact/QuestionTab")
     Call<List<questionsResponse>> getUserQuestions(@Query("token") String token);
 
-
+    @POST("Member/EditProfile")
+    Call<ResponseBody> editProfile(@Query("token") String token , @Body editDetails data ,
+                                   @Body String oldPassword);
 
 
 }

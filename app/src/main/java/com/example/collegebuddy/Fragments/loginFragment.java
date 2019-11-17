@@ -106,6 +106,7 @@ public class loginFragment extends Fragment {
                     sp.createLogin(token);
                     Log.d(String.valueOf(token), "onResponse: token");
                     Intent i = new Intent(getContext(), MainActivity.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(i);
                 }
                 else if(response.code() == 400){

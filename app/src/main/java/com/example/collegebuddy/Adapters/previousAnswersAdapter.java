@@ -16,7 +16,6 @@ import java.util.ArrayList;
 public class previousAnswersAdapter extends RecyclerView.Adapter<previousAnswersAdapter.answerHolder> {
 
     private ArrayList<answers> answersList;
-
     public previousAnswersAdapter(ArrayList<answers> data){
         answersList = data;
     }
@@ -36,8 +35,6 @@ public class previousAnswersAdapter extends RecyclerView.Adapter<previousAnswers
             holder.setAnswer_text_view(ans.getAnswer());
             holder.setAnsweredByName(ans.getAnswered_by_name());
             holder.setUpvotes_text_view(ans.getUpvotes());
-
-
 
     }
 
