@@ -45,10 +45,7 @@ public class signUpFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-//        jsonApiHolder = retrofitInstance.getRetrofitInstance().create(JsonApiHolder.class);
-//        sp_branch = getView().findViewById(R.id.select_branch_drop_down);
-//        sp_year = getView().findViewById(R.id.select_year_drop_down);
-//        sp_college = getView().findViewById(R.id.select_college_drop_down);
+
         full_name_edit_text = getView().findViewById(R.id.full_name_register_edit_text);
         password_edit_text = getView().findViewById(R.id.password_register_edit_text);
         mobile_number_edit_text = getView().findViewById(R.id.phone_number_Register_edit_text);
@@ -67,9 +64,6 @@ public class signUpFragment extends Fragment {
         next_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                branch = sp_branch.getSelectedItem().toString();
-//                year = sp_year.getSelectedItem().toString();
-//                college = sp_college.getSelectedItem().toString();
 
                 if(checkFullName() && checkMobileNumber() && checkPassword()) {
                     full_name = full_name_edit_text.getText().toString().trim();

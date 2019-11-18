@@ -50,6 +50,7 @@
     <string name="answer">Answer</string>
     <string name="welcome">Welcome,</string>
     <string name="view_subject">View Subject</string>
+    <string name="resend_otp">Resend OTP</string>
 
 
     <string-array name="branch_drop_down">

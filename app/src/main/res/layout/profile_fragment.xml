@@ -265,5 +265,15 @@
 
     </androidx.cardview.widget.CardView>
 
+    <ImageView
+        android:id="@+id/upload_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/user_name_profile"
+        app:layout_constraintEnd_toEndOf="@+id/user_image_profile"
+        app:layout_constraintStart_toEndOf="@+id/user_image_profile"
+        app:srcCompat="@drawable/upload_image" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

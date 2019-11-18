@@ -1,5 +1,7 @@
 package com.example.collegebuddy.models;
 
+import androidx.lifecycle.MutableLiveData;
+
 import com.google.gson.annotations.SerializedName;
 
 public class answers {

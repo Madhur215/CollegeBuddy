@@ -15,11 +15,15 @@ import com.example.collegebuddy.models.subjects;
 
 import java.util.List;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
@@ -73,8 +77,12 @@ public interface JsonApiHolder {
     Call<List<questionsResponse>> getUserQuestions(@Query("token") String token);
 
     @POST("Member/EditProfile")
-    Call<ResponseBody> editProfile(@Query("token") String token , @Body editDetails data ,
-                                   @Body String oldPassword);
+    Call<String> editProfile(@Query("token") String token , @Body editDetails data );
+
+    @Multipart
+    @POST("Contacts/ImageUpload")
+    Call<ResponseBody> uploadImage(@Part MultipartBody.Part file, @Part("name") RequestBody requestBody ,
+                                   @Query("token") String token);
 
 
 }

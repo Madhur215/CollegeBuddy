@@ -20,6 +20,7 @@ public class previousAnswersAdapter extends RecyclerView.Adapter<previousAnswers
         answersList = data;
     }
 
+
     @NonNull
     @Override
     public previousAnswersAdapter.answerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -74,7 +75,6 @@ public class previousAnswersAdapter extends RecyclerView.Adapter<previousAnswers
 
         void setUpvotes_text_view(String upvotes){
             date_text_view.setText(upvotes);
-
         }
 
         void setAnswer_text_view(String ans){
@@ -85,5 +85,7 @@ public class previousAnswersAdapter extends RecyclerView.Adapter<previousAnswers
             this.date_text_view = date_text_view;
         }
     }
+
+
 
 }

@@ -2,8 +2,10 @@ package com.example.collegebuddy.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -32,6 +34,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private String p;
     JsonApiHolder jsonApiHolder;
     private prefUtils pr;
+    private String toastMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +64,12 @@ public class EditProfileActivity extends AppCompatActivity {
                     String new_password = changed_password_edit_text.getText().toString().trim();
                     String y = changed_year_edit_text.getText().toString().trim();
                     String b = changed_branch_edit_text.getText().toString().trim();
-                    changedDetails = new editDetails(b , y , new_password);
+                    changedDetails = new editDetails(b , y , new_password , p);
+                    closeKeyboard();
                     editProfile();
+                }
+                else {
+                    Toast.makeText(EditProfileActivity.this, toastMessage, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -72,14 +79,16 @@ public class EditProfileActivity extends AppCompatActivity {
     private void editProfile() {
         HashMap<String , String> sendToken =  pr.getUserDetails();
         String token = sendToken.get(prefUtils.KEY_TOKEN);
-        Call<ResponseBody> call = jsonApiHolder.editProfile(token , changedDetails , p);
+        Call<String> call = jsonApiHolder.editProfile(token , changedDetails);
 
-        call.enqueue(new Callback<ResponseBody>() {
+        call.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<String> call, Response<String> response) {
                 if(response.isSuccessful()){
-                    Toast.makeText(EditProfileActivity.this, "Details Saved!",
-                            Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(EditProfileActivity.this, "Details Saved!",
+//                            Toast.LENGTH_SHORT).show();
+                    String message = response.body();
+                    Toast.makeText(EditProfileActivity.this, message, Toast.LENGTH_SHORT).show();
                     finish();
                 }
                 {
@@ -89,7 +98,7 @@ public class EditProfileActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<String> call, Throwable t) {
                 Toast.makeText(EditProfileActivity.this, "No response from the server!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -97,22 +106,50 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private boolean checkOldPassword() {
         String p = old_password_edit_text.getText().toString().trim();
-        return p.length() != 0;
+        if(p.length() == 0){
+            toastMessage = "Invalid Old Password!";
+            return false;
+        }
+        return true;
     }
 
     private boolean checkNewPassword(){
         String p = changed_password_edit_text.getText().toString().trim();
-        return p.length() != 0;
+        if(p.length() == 0){
+            toastMessage = "Invalid New Password!";
+            return false;
+        }
+        else if(p.length() < 6){
+            toastMessage = "New Password Should Have At Least 6 Characters!";
+        }
+        return true;
     }
 
     private boolean checkYear(){
         String y = changed_year_edit_text.getText().toString().trim();
-        return y.length() != 0;
+        if(y.length() == 0){
+            toastMessage = "Invalid Year!";
+            return false;
+        }
+        return true;
     }
 
     private boolean checkBranch(){
         String b = changed_branch_edit_text.getText().toString().trim();
-        return b.length() != 0;
+        if(b.length() == 0){
+            toastMessage = "Invalid Branch!";
+            return false;
+        }
+        return true;
+    }
+
+    private void closeKeyboard() {
+
+        View view = this.getCurrentFocus();
+        if(view != null){
+            InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken() , 0);
+        }
     }
 
 }

@@ -52,6 +52,7 @@ public class AnswerActivity extends AppCompatActivity {
     private ArrayList<answers> answersArrayList;
     ProgressBar answers_progress_bar;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +94,12 @@ public class AnswerActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+
+
+
+
     }
 
     private void closeKeyboard() {

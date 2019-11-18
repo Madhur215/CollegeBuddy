@@ -50,9 +50,22 @@
         android:id="@+id/verify_otp_button"
         android:layout_width="325dp"
         android:layout_height="60dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="52dp"
         android:background="@drawable/ask_button"
         android:text="@string/verify_phone"
+        android:textColor="#000000"
+        android:textSize="27sp"
+        android:typeface="monospace"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
+
+    <Button
+        android:id="@+id/resend_otp_button"
+        android:layout_width="325dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="52dp"
+        android:background="@drawable/ask_button"
+        android:text="@string/resend_otp"
         android:textColor="#000000"
         android:textSize="27sp"
         android:typeface="monospace"
@@ -63,11 +76,15 @@
         android:id="@+id/textView19"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="52dp"
         android:text="@string/welcome"
         android:textColor="#FFF"
         android:textSize="24sp"
-        tools:layout_editor_absoluteX="85dp"
-        tools:layout_editor_absoluteY="67dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.02"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/user_name_otp"
@@ -91,5 +108,25 @@
         app:layout_constraintEnd_toEndOf="@+id/user_name_otp"
         app:layout_constraintStart_toStartOf="@+id/textView19"
         app:layout_constraintTop_toBottomOf="@+id/textView19" />
+
+    <TextView
+        android:id="@+id/resend_otp_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Resend OTP in : "
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout2"
+        app:layout_constraintHorizontal_bias="0.36"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
+
+    <TextView
+        android:id="@+id/timer_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="TextView"
+        app:layout_constraintStart_toEndOf="@+id/resend_otp_text"
+        app:layout_constraintTop_toTopOf="@+id/resend_otp_text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

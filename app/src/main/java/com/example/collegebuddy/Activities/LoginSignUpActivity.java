@@ -14,8 +14,8 @@ public class LoginSignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_sign_up);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_login , new signUpFragment())
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_login ,
+                new signUpFragment())
                 .commit();
-
     }
 }
