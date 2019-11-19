@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -41,6 +42,7 @@ public class userQuestionFragment extends Fragment {
     private JsonApiHolder jsonApiHolder;
     private prefUtils pr;
     private ImageView progress_image;
+    private ProgressBar user_question_progress_bar;
 
     @Nullable
     @Override
@@ -51,6 +53,7 @@ public class userQuestionFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        user_question_progress_bar = getView().findViewById(R.id.user_question_progress_bar);
         jsonApiHolder = retrofitInstance.getRetrofitInstance().create(JsonApiHolder.class);
         pr = new prefUtils(getContext());
         getUserQuestions();
@@ -65,6 +68,7 @@ public class userQuestionFragment extends Fragment {
         call.enqueue(new Callback<List<questionsResponse>>() {
             @Override
             public void onResponse(Call<List<questionsResponse>> call, Response<List<questionsResponse>> response) {
+                user_question_progress_bar.setVisibility(View.INVISIBLE);
                 if(response.isSuccessful()){
                     try {
                         setAdapter();
@@ -100,13 +104,14 @@ public class userQuestionFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<questionsResponse>> call, Throwable t) {
-                    try{
-                        Toast.makeText(getContext(), "No response from the server!",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                    catch (NullPointerException e){
-                        e.printStackTrace();
-                    }
+                user_question_progress_bar.setVisibility(View.INVISIBLE);
+                try{
+                    Toast.makeText(getContext(), "No response from the server!",
+                            Toast.LENGTH_SHORT).show();
+                }
+                catch (NullPointerException e){
+                    e.printStackTrace();
+                }
             }
         });
 

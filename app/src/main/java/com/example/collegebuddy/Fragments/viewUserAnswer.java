@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +36,7 @@ public class viewUserAnswer extends Fragment {
     private JsonApiHolder jsonApiHolder;
     private prefUtils pr;
     private ArrayList<answers> answersArrayList;
+    private ProgressBar user_answer_progress_bar;
 
     @Nullable
     @Override
@@ -52,6 +54,8 @@ public class viewUserAnswer extends Fragment {
         asked_by_name.setText(userQuestionFragment.USER_ASKED_BY_NAME);
         date_text_view.setText(userQuestionFragment.USER_DATE);
         QID = userQuestionFragment.USER_QUESTION_ID;
+        user_answer_progress_bar = getView().findViewById(R.id.user_answer_progress_bar);
+
         jsonApiHolder = retrofitInstance.getRetrofitInstance().create(JsonApiHolder.class);
         pr = new prefUtils(getContext());
         getAnswers();
@@ -67,6 +71,8 @@ public class viewUserAnswer extends Fragment {
         call.enqueue(new Callback<List<answers>>() {
             @Override
             public void onResponse(Call<List<answers>> call, Response<List<answers>> response) {
+                    user_answer_progress_bar.setVisibility(View.INVISIBLE);
+
                     if(response.isSuccessful()){
                         try{
                             setAdapter();
@@ -99,7 +105,8 @@ public class viewUserAnswer extends Fragment {
 
             @Override
             public void onFailure(Call<List<answers>> call, Throwable t) {
-                 try{
+                user_answer_progress_bar.setVisibility(View.INVISIBLE);
+                try{
                      Toast.makeText(getContext(), "No response from the server!", Toast.LENGTH_SHORT).show();
                  }
                  catch (NullPointerException e){

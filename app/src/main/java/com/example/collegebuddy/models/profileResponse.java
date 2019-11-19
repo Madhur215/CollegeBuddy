@@ -6,26 +6,35 @@ public class profileResponse {
 
     @SerializedName("Name")
     private String user_name;
-
     @SerializedName("College")
     private String college;
     @SerializedName("Branch")
     private String branch;
     @SerializedName("Year")
     private String year;
-    private String joined_date;
+    @SerializedName("Image")
+    private String imageUri;
 
-    public profileResponse(String user_name, String college, String branch, String year) {
+
+    public profileResponse(String user_name, String college, String branch, String year , String imageUri) {
         this.user_name = user_name;
         this.college = college;
         this.branch = branch;
         this.year = year;
+        this.imageUri = imageUri;
     }
 
     public profileResponse(){
 
     }
 
+    public void setImageUri(String imageUri) {
+        this.imageUri = imageUri;
+    }
+
+    public String getImageUri() {
+        return imageUri;
+    }
 
     public String getUser_name() {
         return user_name;
@@ -59,7 +68,4 @@ public class profileResponse {
         this.year = year;
     }
 
-    public void setJoined_date(String joined_date) {
-        this.joined_date = joined_date;
-    }
 }

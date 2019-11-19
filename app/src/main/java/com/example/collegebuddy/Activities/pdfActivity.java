@@ -42,8 +42,6 @@ public class pdfActivity extends AppCompatActivity {
         pdf_key = i.getStringExtra(homeFragment.SUBJECT_KEY);
         Toolbar tb = findViewById(R.id.toolbar_pdf_activity);
         setSupportActionBar(tb);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_pdf ,
                 new pdfListFragment())

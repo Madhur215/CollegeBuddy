@@ -53,7 +53,7 @@
         android:layout_marginTop="52dp"
         android:background="@drawable/ask_button"
         android:text="@string/verify_phone"
-        android:textColor="#000000"
+        android:textColor="#FFF"
         android:textSize="27sp"
         android:typeface="monospace"
         app:layout_constraintStart_toStartOf="@+id/textInputLayout2"
@@ -66,7 +66,7 @@
         android:layout_marginTop="52dp"
         android:background="@drawable/ask_button"
         android:text="@string/resend_otp"
-        android:textColor="#000000"
+        android:textColor="#FFF"
         android:textSize="27sp"
         android:typeface="monospace"
         app:layout_constraintStart_toStartOf="@+id/textInputLayout2"
@@ -81,8 +81,6 @@
         android:text="@string/welcome"
         android:textColor="#FFF"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.02"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

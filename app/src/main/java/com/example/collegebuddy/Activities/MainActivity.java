@@ -21,6 +21,7 @@ import com.example.collegebuddy.R;
 import com.example.collegebuddy.models.profileResponse;
 import com.example.collegebuddy.utils.prefUtils;
 import com.example.collegebuddy.utils.retrofitInstance;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.HashMap;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        Fresco.initialize(this);
         setContentView(R.layout.activity_main);
         bottomNavigation = findViewById(R.id.bottom_navigation);
         Toolbar toolbar = findViewById(R.id.toolbar_main);
@@ -120,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void getProfile() {
+    public void getProfile() {
 
         HashMap<String , String> sendToken =  pr.getUserDetails();
         String token = sendToken.get(prefUtils.KEY_TOKEN);
@@ -140,12 +142,15 @@ public class MainActivity extends AppCompatActivity {
                         String branch = pr.getBranch();
                         String college = pr.getCollege();
                         String year = pr.getYear();
+                        String imageUri = pr.getImageUri();
 //                        pres = new profileResponse();
 
                         pres.setUser_name(username);
                         pres.setCollege(college);
                         pres.setYear(year);
                         pres.setBranch(branch);
+                        pres.setImageUri(imageUri);
+
 
 
                     }

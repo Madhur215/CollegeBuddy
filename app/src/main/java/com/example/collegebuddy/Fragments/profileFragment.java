@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ import com.example.collegebuddy.Inteface.JsonApiHolder;
 import com.example.collegebuddy.R;
 import com.example.collegebuddy.utils.prefUtils;
 import com.example.collegebuddy.utils.retrofitInstance;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -56,6 +58,8 @@ public class profileFragment extends Fragment {
     private int STORAGE_PERMISSION_CODE = 20;
     private JsonApiHolder jsonApiHolder;
     ImageView user_image_view;
+    private Uri selectedImage;
+    private ProgressBar user_image_progress_bar;
 
 
     @Nullable
@@ -77,6 +81,9 @@ public class profileFragment extends Fragment {
         CardView edit_profile_card_view = getView().findViewById(R.id.edit_profile_card_view);
         CardView logout_card_view = getView().findViewById(R.id.logout_card_view);
         pr = new prefUtils(getContext());
+        user_image_progress_bar = getView().findViewById(R.id.user_image_progress_bar);
+//        ImageView img = getView().findViewById(R.id.imageview_restaurant);
+        user_image_progress_bar.setVisibility(View.INVISIBLE);
         jsonApiHolder = retrofitInstance.getRetrofitInstance().create(JsonApiHolder.class);
         ImageView upload_image = getView().findViewById(R.id.upload_image);
         requestStoragePermission();
@@ -114,7 +121,11 @@ public class profileFragment extends Fragment {
         branch_text_view.setText(MainActivity.pres.getBranch());
         user_name_text_view.setText(MainActivity.pres.getUser_name());
         college_text_view.setText(MainActivity.pres.getCollege());
-
+        if(MainActivity.pres.getImageUri() != null) {
+            String imgUrl = "https://85d52d03.ngrok.io" + MainActivity.pres.getImageUri();
+            Picasso.with(getContext()).load(imgUrl).into(user_image_view);
+//            img.setImageURI(Uri.parse(imgUrl));
+        }
     }
 
     private void logout() {
@@ -150,8 +161,8 @@ public class profileFragment extends Fragment {
     public void onActivityResult(int requestCode,int resultCode,Intent data){
 
         if (resultCode == Activity.RESULT_OK) {
-            Uri selectedImage = data.getData();
-            user_image_view.setImageURI(selectedImage);
+            selectedImage = data.getData();
+//            user_image_view.setImageURI(selectedImage);
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
             Cursor cursor = getContext().getContentResolver().query(selectedImage,
@@ -162,7 +173,7 @@ public class profileFragment extends Fragment {
             String path = cursor.getString(columnIndex);
             Log.d(path, "onActivityResult: IMAGE PATH");
             cursor.close();
-
+            user_image_progress_bar.setVisibility(View.VISIBLE);
             uploadToServer(path);
 
         }
@@ -183,8 +194,10 @@ public class profileFragment extends Fragment {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                user_image_progress_bar.setVisibility(View.INVISIBLE);
                 if(response.isSuccessful()){
                     Toast.makeText(getContext(), "Image Uploaded Successfully!", Toast.LENGTH_SHORT).show();
+                    user_image_view.setImageURI(selectedImage);
 
                 }
                 else{
@@ -194,6 +207,7 @@ public class profileFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                user_image_progress_bar.setVisibility(View.INVISIBLE);
                 Toast.makeText(getContext(), "No response from the server!", Toast.LENGTH_SHORT).show();
             }
         });

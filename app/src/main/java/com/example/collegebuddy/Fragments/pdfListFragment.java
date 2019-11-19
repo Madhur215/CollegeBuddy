@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -49,6 +50,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.view.View.generateViewId;
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class pdfListFragment extends Fragment {
@@ -79,6 +81,13 @@ public class pdfListFragment extends Fragment {
         token = sendToken.get(prefUtils.KEY_TOKEN);
         pdf_progress_bar = getView().findViewById(R.id.pdf_progress_bar);
         pdf_progress_bar.setVisibility(View.VISIBLE);
+        ImageView back_button = getView().findViewById(R.id.pdf_list_back_button);
+        back_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
         RecyclerView pdf_recycler_view = getView().findViewById(R.id.subject_pdf_recycler_view);
         getPdfs();
     }
@@ -236,7 +245,7 @@ public class pdfListFragment extends Fragment {
 
                 new AlertDialog.Builder(getContext())
                         .setTitle("Permission needed")
-                        .setMessage("Allow to download pdf!")
+                        .setMessage("Storage permission is required for download")
                         .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -265,8 +274,8 @@ public class pdfListFragment extends Fragment {
     private boolean writeResponseBodyToDisk(ResponseBody body) {
         try {
 
-            File futureStudioIconFile = new File(Environment.getDataDirectory()
-                    + File.separator + "Future Studio Icon.png");
+            File file = new File(Environment.getDataDirectory()
+                    + File.separator);
 
             InputStream inputStream = null;
             OutputStream outputStream = null;
@@ -278,7 +287,7 @@ public class pdfListFragment extends Fragment {
                 long fileSizeDownloaded = 0;
 
                 inputStream = body.byteStream();
-                outputStream = new FileOutputStream(futureStudioIconFile);
+                outputStream = new FileOutputStream(file);
 
                 while (true) {
                     int read = inputStream.read(fileReader);

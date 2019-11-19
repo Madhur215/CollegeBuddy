@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:paddingBottom="55dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -58,38 +58,6 @@
         app:layout_constraintStart_toEndOf="@+id/textView9"
         app:layout_constraintTop_toTopOf="@+id/textView9" />
 
-<!--    <com.google.android.material.tabs.TabLayout-->
-<!--        android:id="@+id/profile_tab_layout"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="46dp"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/college_name_text_view_profile"-->
-<!--        app:tabIndicatorColor="@color/colorPrimary">-->
-
-<!--        <com.google.android.material.tabs.TabItem-->
-<!--            android:id="@+id/question_tab"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="@string/question" />-->
-
-<!--        <com.google.android.material.tabs.TabItem-->
-<!--            android:id="@+id/answers_tab"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="@string/answers" />-->
-
-<!--    </com.google.android.material.tabs.TabLayout>-->
-
-<!--    <androidx.viewpager.widget.ViewPager-->
-<!--        android:id="@+id/tab_layout_view_pager"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/profile_tab_layout" />-->
-
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/college_img_view_profile"
         android:layout_width="25dp"
@@ -117,6 +85,20 @@
         app:layout_constraintStart_toEndOf="@+id/college_name_text_view_profile"
         app:layout_constraintTop_toTopOf="@+id/college_name_text_view_profile"
         android:src="#FFF" />
+
+<!--    <com.facebook.drawee.view.SimpleDraweeView-->
+<!--        android:id="@+id/imageview_restaurant"-->
+<!--        android:layout_width="139dp"-->
+<!--        android:layout_height="119dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        fresco:roundBottomLeft="true"-->
+<!--        fresco:roundBottomRight="true"-->
+<!--        fresco:roundTopLeft="true"-->
+<!--        fresco:roundTopRight="true"-->
+<!--        fresco:roundedCornerRadius="8dp"-->
+<!--        tools:ignore="MissingConstraints" />-->
 
 
     <androidx.cardview.widget.CardView
@@ -274,6 +256,16 @@
         app:layout_constraintEnd_toEndOf="@+id/user_image_profile"
         app:layout_constraintStart_toEndOf="@+id/user_image_profile"
         app:srcCompat="@drawable/upload_image" />
+
+    <ProgressBar
+        android:id="@+id/user_image_progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/user_image_profile"
+        app:layout_constraintEnd_toEndOf="@+id/user_image_profile"
+        app:layout_constraintStart_toStartOf="@+id/user_image_profile"
+        app:layout_constraintTop_toTopOf="@+id/user_image_profile" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

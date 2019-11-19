@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +32,7 @@ import com.example.collegebuddy.models.subjectPdfListResponse;
 import com.example.collegebuddy.models.subjects;
 import com.example.collegebuddy.utils.prefUtils;
 import com.example.collegebuddy.utils.retrofitInstance;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -76,6 +78,12 @@ public class homeFragment extends Fragment {
         token = sendToken.get(prefUtils.KEY_TOKEN);
         getSubjects();
         getLibrary();
+        ImageView user_image = getView().findViewById(R.id.user_image_home);
+        if(MainActivity.pres.getImageUri() != null) {
+            String imgUrl = "https://85d52d03.ngrok.io" + MainActivity.pres.getImageUri();
+            Picasso.with(getContext()).load(imgUrl).into(user_image);
+//            img.setImageURI(Uri.parse(imgUrl));
+        }
         TextView year_text_view = getView().findViewById(R.id.year_text_view_home);
         TextView branch_text_view = getView().findViewById(R.id.branch_text_view_home);
         year_text_view.setText(MainActivity.pres.getYear());

@@ -113,7 +113,7 @@ public class loginFragment extends Fragment {
                     Toast.makeText(getContext(), "Verify Account First!", Toast.LENGTH_SHORT).show();
                 }
                 else if(response.code() == 404){
-                    Toast.makeText(getContext(), "Wrong username or password!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Wrong phone number or password!", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     Toast.makeText(getContext(), "An Error Occurred!", Toast.LENGTH_SHORT).show();
