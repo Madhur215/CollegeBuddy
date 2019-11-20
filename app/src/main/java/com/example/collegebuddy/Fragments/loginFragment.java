@@ -106,8 +106,9 @@ public class loginFragment extends Fragment {
                     sp.createLogin(token);
                     Log.d(String.valueOf(token), "onResponse: token");
                     Intent i = new Intent(getContext(), MainActivity.class);
-                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(i);
+                    getActivity().finish();
                 }
                 else if(response.code() == 400){
                     Toast.makeText(getContext(), "Verify Account First!", Toast.LENGTH_SHORT).show();

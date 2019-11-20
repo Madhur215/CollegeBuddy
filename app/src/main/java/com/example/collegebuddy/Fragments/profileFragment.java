@@ -82,7 +82,6 @@ public class profileFragment extends Fragment {
         CardView logout_card_view = getView().findViewById(R.id.logout_card_view);
         pr = new prefUtils(getContext());
         user_image_progress_bar = getView().findViewById(R.id.user_image_progress_bar);
-//        ImageView img = getView().findViewById(R.id.imageview_restaurant);
         user_image_progress_bar.setVisibility(View.INVISIBLE);
         jsonApiHolder = retrofitInstance.getRetrofitInstance().create(JsonApiHolder.class);
         ImageView upload_image = getView().findViewById(R.id.upload_image);
@@ -122,7 +121,7 @@ public class profileFragment extends Fragment {
         user_name_text_view.setText(MainActivity.pres.getUser_name());
         college_text_view.setText(MainActivity.pres.getCollege());
         if(MainActivity.pres.getImageUri() != null) {
-            String imgUrl = "https://85d52d03.ngrok.io" + MainActivity.pres.getImageUri();
+            String imgUrl = "https://51a7e9bd.ngrok.io" + MainActivity.pres.getImageUri();
             Picasso.with(getContext()).load(imgUrl).into(user_image_view);
 //            img.setImageURI(Uri.parse(imgUrl));
         }
@@ -135,6 +134,7 @@ public class profileFragment extends Fragment {
                 {
                     public void onClick(DialogInterface dialog, int id) {
                         pr.logoutUser();
+                        getActivity().finish();
                         dialog.dismiss();
                     }
                 })

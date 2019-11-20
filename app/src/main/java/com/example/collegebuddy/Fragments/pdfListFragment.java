@@ -92,7 +92,6 @@ public class pdfListFragment extends Fragment {
         getPdfs();
     }
 
-
     private void getPdfs() {
 
 
@@ -186,20 +185,22 @@ public class pdfListFragment extends Fragment {
 
     private void addPDF(int p) {
 
-        Call<ResponseBody> call = jsonApiHolder.addToLibrary(p , token);
-        call.enqueue(new Callback<ResponseBody>() {
+        Call<String> call = jsonApiHolder.addToLibrary(p , token);
+        call.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<String> call, Response<String> response) {
                 if(response.isSuccessful()){
-                    Toast.makeText(getContext(), "Added to Library", Toast.LENGTH_SHORT).show();
+                    String message = response.body();
+                    Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Toast.makeText(getContext(), "An Error Occurred!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "An Error Occurred!" +
+                            "", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<String> call, Throwable t) {
                 Toast.makeText(getContext(), "No response from the server!", Toast.LENGTH_SHORT).show();
             }
         });

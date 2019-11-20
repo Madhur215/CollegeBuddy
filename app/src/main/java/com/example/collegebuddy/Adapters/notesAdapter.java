@@ -27,6 +27,7 @@ public class notesAdapter extends RecyclerView.Adapter<notesAdapter.notesHolder>
 
     public interface OnNotesClickListener{
         void onNotesClick(int position);
+        void deleteNotes(int position);
     }
 
     public void setOnNotesClickListener(OnNotesClickListener listener){
@@ -66,6 +67,7 @@ public class notesAdapter extends RecyclerView.Adapter<notesAdapter.notesHolder>
         TextView note_name_text_view;
         TextView note_user_name_text_view;
         TextView number_of_pages_text_view;
+        ImageView delete_pdf_image;
 //        ImageView download_pdf_image_view;
 
 
@@ -75,6 +77,7 @@ public class notesAdapter extends RecyclerView.Adapter<notesAdapter.notesHolder>
             note_name_text_view = itemView.findViewById(R.id.note_name_text_view_home);
             note_user_name_text_view = itemView.findViewById(R.id.notes_user_name_text_view);
             number_of_pages_text_view = itemView.findViewById(R.id.number_of_pages_text_view);
+            delete_pdf_image = itemView.findViewById(R.id.delete_pdf_icon);
 //            download_pdf_image_view = itemView.findViewById(R.id.download_pdf_image_view);
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +86,16 @@ public class notesAdapter extends RecyclerView.Adapter<notesAdapter.notesHolder>
                     int position = getAdapterPosition();
                     if(position != RecyclerView.NO_POSITION){
                         listener.onNotesClick(position);
+                    }
+                }
+            });
+
+            delete_pdf_image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if(position != RecyclerView.NO_POSITION){
+                        listener.deleteNotes(position);
                     }
                 }
             });

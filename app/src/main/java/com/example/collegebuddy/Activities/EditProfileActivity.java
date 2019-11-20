@@ -9,6 +9,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.collegebuddy.Inteface.JsonApiHolder;
@@ -27,14 +28,14 @@ import retrofit2.Response;
 public class EditProfileActivity extends AppCompatActivity {
 
     private editDetails changedDetails;
-    EditText changed_branch_edit_text;
-    EditText changed_year_edit_text;
     EditText changed_password_edit_text;
     EditText old_password_edit_text;
     private String p;
     JsonApiHolder jsonApiHolder;
     private prefUtils pr;
     private String toastMessage;
+    Spinner branch_spinner;
+    Spinner year_spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +44,12 @@ public class EditProfileActivity extends AppCompatActivity {
 
         jsonApiHolder = retrofitInstance.getRetrofitInstance().create(JsonApiHolder.class);
         pr = new prefUtils(this);
-        changed_branch_edit_text = findViewById(R.id.branch_change_edit_text);
-        changed_year_edit_text = findViewById(R.id.year_change_edit_text);
+
         changed_password_edit_text = findViewById(R.id.new_password_edit_text);
         old_password_edit_text = findViewById(R.id.old_password_edit_text);
         Button save_details_button = findViewById(R.id.save_details_button);
+        branch_spinner = findViewById(R.id.select_branch_drop_down_edit_profile);
+        year_spinner = findViewById(R.id.select_year_drop_down_edit_profile);
         ImageView edit_profile_back_button = findViewById(R.id.edit_profile_back_button);
         edit_profile_back_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,11 +61,11 @@ public class EditProfileActivity extends AppCompatActivity {
         save_details_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(checkOldPassword() && checkNewPassword() && checkYear() && checkBranch()){
+                if(checkOldPassword() && checkNewPassword()){
                     p = old_password_edit_text.getText().toString().trim();
                     String new_password = changed_password_edit_text.getText().toString().trim();
-                    String y = changed_year_edit_text.getText().toString().trim();
-                    String b = changed_branch_edit_text.getText().toString().trim();
+                    String b = branch_spinner.getSelectedItem().toString();
+                    String y = year_spinner.getSelectedItem().toString();
                     changedDetails = new editDetails(b , y , new_password , p);
                     closeKeyboard();
                     editProfile();
@@ -85,8 +87,7 @@ public class EditProfileActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if(response.isSuccessful()){
-//                    Toast.makeText(EditProfileActivity.this, "Details Saved!",
-//                            Toast.LENGTH_SHORT).show();
+
                     String message = response.body();
                     Toast.makeText(EditProfileActivity.this, message, Toast.LENGTH_SHORT).show();
                     finish();
@@ -125,23 +126,23 @@ public class EditProfileActivity extends AppCompatActivity {
         return true;
     }
 
-    private boolean checkYear(){
-        String y = changed_year_edit_text.getText().toString().trim();
-        if(y.length() == 0){
-            toastMessage = "Invalid Year!";
-            return false;
-        }
-        return true;
-    }
-
-    private boolean checkBranch(){
-        String b = changed_branch_edit_text.getText().toString().trim();
-        if(b.length() == 0){
-            toastMessage = "Invalid Branch!";
-            return false;
-        }
-        return true;
-    }
+//    private boolean checkYear(){
+//        String y = changed_year_edit_text.getText().toString().trim();
+//        if(y.length() == 0){
+//            toastMessage = "Invalid Year!";
+//            return false;
+//        }
+//        return true;
+//    }
+//
+//    private boolean checkBranch(){
+//        String b = changed_branch_edit_text.getText().toString().trim();
+//        if(b.length() == 0){
+//            toastMessage = "Invalid Branch!";
+//            return false;
+//        }
+//        return true;
+//    }
 
     private void closeKeyboard() {
 

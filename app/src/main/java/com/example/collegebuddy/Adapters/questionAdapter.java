@@ -1,15 +1,19 @@
 package com.example.collegebuddy.Adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.collegebuddy.Activities.MainActivity;
 import com.example.collegebuddy.R;
 import com.example.collegebuddy.models.questions;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -17,9 +21,11 @@ public class questionAdapter extends RecyclerView.Adapter<questionAdapter.questi
 
     private ArrayList<questions> mData;
     private OnQuestionClickListener mListener;
+    private Context context;
 
-    public questionAdapter(ArrayList<questions> data){
+    public questionAdapter(ArrayList<questions> data , Context context){
         mData = data;
+        this.context = context;
     }
 
     public interface OnQuestionClickListener {
@@ -45,6 +51,8 @@ public class questionAdapter extends RecyclerView.Adapter<questionAdapter.questi
         holder.setQuestion(ques.getQuestion());
         holder.setAsked_by_name(ques.getName());
         holder.setDate_text_view(ques.getDate());
+        holder.setAsked_by_image(ques.getImage());
+
 
     }
 
@@ -53,18 +61,20 @@ public class questionAdapter extends RecyclerView.Adapter<questionAdapter.questi
         return mData.size();
     }
 
-    public class questionHolder extends RecyclerView.ViewHolder{
+    public class questionHolder extends RecyclerView.ViewHolder {
 
         TextView question_text_view;
         TextView asked_by_name;
         TextView date_text_view;
+        ImageView asked_by_image;
 
-        public questionHolder(@NonNull View itemView , final OnQuestionClickListener listener) {
+        public questionHolder(@NonNull View itemView, final OnQuestionClickListener listener) {
             super(itemView);
 
             question_text_view = itemView.findViewById(R.id.asked_question_task_view);
             asked_by_name = itemView.findViewById(R.id.asked_by_name_text_view);
             date_text_view = itemView.findViewById(R.id.asked_on_date_question_layout);
+            asked_by_image = itemView.findViewById(R.id.asked_by_user_image_question_layout);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -78,20 +88,26 @@ public class questionAdapter extends RecyclerView.Adapter<questionAdapter.questi
                 }
             });
 
-
-
         }
 
-        void setQuestion(String ques){
+        void setQuestion(String ques) {
             question_text_view.setText(ques);
         }
 
-        void setAsked_by_name(String name){
+        void setAsked_by_name(String name) {
             asked_by_name.setText(name);
         }
 
-        void setDate_text_view(String date){
+        void setDate_text_view(String date) {
             date_text_view.setText(date);
         }
+
+        void setAsked_by_image(String image){
+            if(image != null) {
+                String imgUrl = "https://51a7e9bd.ngrok.io" + image;
+                Picasso.with(context).load(imgUrl).into(asked_by_image);
+//            img.setImageURI(Uri.parse(imgUrl));
+            }
+    }
     }
 }

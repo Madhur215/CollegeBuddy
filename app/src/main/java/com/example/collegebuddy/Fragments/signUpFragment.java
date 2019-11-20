@@ -69,7 +69,13 @@ public class signUpFragment extends Fragment {
                     full_name = full_name_edit_text.getText().toString().trim();
                     password = password_edit_text.getText().toString().trim();
                     mobile_number = mobile_number_edit_text.getText().toString().trim();
-                    signUpDetails();
+                    if(mobile_number.length() == 13) {
+                        signUpDetails();
+                    }
+                    else if(mobile_number.length() == 10){
+                        mobile_number = "+91" + mobile_number;
+                        signUpDetails();
+                    }
                 }
                 else{
                     Toast.makeText(getContext(), toastMessage, Toast.LENGTH_SHORT).show();

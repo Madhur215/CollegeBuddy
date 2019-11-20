@@ -26,6 +26,7 @@ import com.example.collegebuddy.models.answers;
 import com.example.collegebuddy.utils.prefUtils;
 import com.example.collegebuddy.Adapters.previousAnswersAdapter;
 import com.example.collegebuddy.utils.retrofitInstance;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,6 +45,7 @@ public class AnswerActivity extends AppCompatActivity {
     String asked_by_name;
     TextView question_text_view;
     TextView asked_by_name_text_view;
+    ImageView asked_by_image;
     Button post_answer_button;
     private JsonApiHolder jsonApiHolder;
     private String answer_anonymously;
@@ -66,8 +68,10 @@ public class AnswerActivity extends AppCompatActivity {
         post_answer_button = findViewById(R.id.post_answer_button);
         question_text_view = findViewById(R.id.question_text_view_write_answer);
         asked_by_name_text_view = findViewById(R.id.asked_by_name_write_answer);
+        asked_by_image = findViewById(R.id.asked_by_user_image_write_answer);
         question_text_view.setText(question);
         asked_by_name_text_view.setText(asked_by_name);
+        setImage(i.getStringExtra(questionFragment.IMAGE_URI));
         answer_edit_text = findViewById(R.id.write_answer_edit_text);
         Toolbar answer_toolbar = findViewById(R.id.toolbar_answer_activity);
         answers_progress_bar = findViewById(R.id.previous_answers_progress_bar);
@@ -100,6 +104,14 @@ public class AnswerActivity extends AppCompatActivity {
 
 
 
+    }
+
+    private void setImage(String image_uri) {
+        if(image_uri != null) {
+            String imgUrl = "https://51a7e9bd.ngrok.io" + image_uri;
+            Picasso.with(this).load(imgUrl).into(asked_by_image);
+//            img.setImageURI(Uri.parse(imgUrl));
+        }
     }
 
     private void closeKeyboard() {

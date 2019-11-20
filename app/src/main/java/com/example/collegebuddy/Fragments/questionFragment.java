@@ -40,6 +40,7 @@ public class questionFragment extends Fragment {
     public final static String QUESTION_ID ="qid";
     public final static String QUESTION = "question";
     public final static String ASKED_BY_NAME = "name";
+    public final static String IMAGE_URI = "image";
 
     private ArrayList<questions> questionsArrayList;
     private JsonApiHolder jsonApiHolder;
@@ -109,8 +110,9 @@ public class questionFragment extends Fragment {
                             String qId = question.getQuestion_id();
                             String name = question.getAsked_by_name();
                             String date = question.getAsked_on_date();
+                            String image = question.getImage();
                             com.example.collegebuddy.models.questions ques = new questions(q, qId,
-                                    name, date);
+                                    name, date , image );
 
                             questionsArrayList.add(ques);
                         }
@@ -152,7 +154,7 @@ public class questionFragment extends Fragment {
             questionRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             questionRecyclerView.setHasFixedSize(true);
             questionsArrayList = new ArrayList<>();
-            questionAdapter mAdapter = new questionAdapter(questionsArrayList);
+            questionAdapter mAdapter = new questionAdapter(questionsArrayList , getContext());
             questionRecyclerView.setAdapter(mAdapter);
 
             mAdapter.setOnQuestionClickListener(new questionAdapter.OnQuestionClickListener() {
@@ -163,6 +165,7 @@ public class questionFragment extends Fragment {
                     i.putExtra(QUESTION_ID, clickedQuestion.getQid());
                     i.putExtra(QUESTION, clickedQuestion.getQuestion());
                     i.putExtra(ASKED_BY_NAME, clickedQuestion.getName());
+                    i.putExtra(IMAGE_URI , clickedQuestion.getImage());
                     startActivity(i);
                 }
             });

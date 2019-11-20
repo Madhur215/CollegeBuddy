@@ -1,5 +1,6 @@
 package com.example.collegebuddy.Fragments;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,6 +56,7 @@ public class homeFragment extends Fragment {
     private String token;
     private ArrayList<subjectPdfListResponse> notesArrayList;
     private WebView pdf_web_view_home;
+    notesAdapter mAdapter;
 
 
     @Nullable
@@ -80,7 +83,7 @@ public class homeFragment extends Fragment {
         getLibrary();
         ImageView user_image = getView().findViewById(R.id.user_image_home);
         if(MainActivity.pres.getImageUri() != null) {
-            String imgUrl = "https://85d52d03.ngrok.io" + MainActivity.pres.getImageUri();
+            String imgUrl = "https://51a7e9bd.ngrok.io" + MainActivity.pres.getImageUri();
             Picasso.with(getContext()).load(imgUrl).into(user_image);
 //            img.setImageURI(Uri.parse(imgUrl));
         }
@@ -215,7 +218,7 @@ public class homeFragment extends Fragment {
             questionRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             questionRecyclerView.setHasFixedSize(true);
             notesArrayList = new ArrayList<>();
-            notesAdapter mAdapter = new notesAdapter(notesArrayList);
+            mAdapter = new notesAdapter(notesArrayList);
             questionRecyclerView.setAdapter(mAdapter);
             mAdapter.setOnNotesClickListener(new notesAdapter.OnNotesClickListener() {
                 @Override
@@ -232,6 +235,12 @@ public class homeFragment extends Fragment {
                     pdf_web_view_home.loadUrl(finalUrl);
                     pdf_web_view_home.setVisibility(View.INVISIBLE);
                 }
+
+                @Override
+                public void deleteNotes(int position) {
+                    subjectPdfListResponse clickedPdf = notesArrayList.get(position);
+                    deleteFromLibraryDialog(clickedPdf.getPdf_key());
+                }
             });
         }
         catch (NullPointerException e){
@@ -239,5 +248,62 @@ public class homeFragment extends Fragment {
         }
     }
 
+    private void deleteFromLibraryDialog(final String pdf_key) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage("Do you want to delete it from your library?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int id) {
+                        deletePdf(pdf_key);
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        builder.create().show();
+    }
+
+    private void deletePdf(String pdf_key) {
+        Log.d(pdf_key, "deletePdf: KEY");
+        Call<ResponseBody> call = jsonApiHolder.deleteFromLibrary(pdf_key , token);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                if(response.isSuccessful()) {
+                    try{
+                        Toast.makeText(getContext(), "Deleted from library!", Toast.LENGTH_SHORT).show();
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    try {
+                        Toast.makeText(getContext(), "An Error Occurred!", Toast.LENGTH_SHORT).show();
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                try{
+                    Toast.makeText(getContext(), "No response from the server!", Toast.LENGTH_SHORT).show();
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+    }
 
 }

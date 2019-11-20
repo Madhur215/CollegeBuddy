@@ -68,7 +68,7 @@ public interface JsonApiHolder {
     Call<ResponseBody> downloadPdf(@Url String url);
 
     @POST("PDFController/AddToLibrary/{PKEY}")
-    Call<ResponseBody> addToLibrary(@Path("PKEY") int key , @Query("token") String token);
+    Call<String> addToLibrary(@Path("PKEY") int key , @Query("token") String token);
 
     @GET("PDFController/Library")
     Call<List<subjectPdfListResponse>> getLibrary(@Query("token") String token);
@@ -86,6 +86,9 @@ public interface JsonApiHolder {
 
     @POST("Member/ResendOtp/{ID}")
     Call<ResponseBody> resendOTP(@Path("ID") String ID);
+
+    @POST("PDFController/DeleteLibrary/{PKEY}")
+    Call<ResponseBody> deleteFromLibrary(@Path("PKEY") String PKEY , @Query("token") String token);
 
 
 }

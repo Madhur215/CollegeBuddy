@@ -8,13 +8,26 @@ public class questions {
     private String qid;
     private String name;
     private String date;
+    private String image;
 
+
+    public questions(String question, String qid, String name , String date , String image) {
+        this.question = question;
+        this.qid = qid;
+        this.name = name;
+        this.date = date;
+        this.image = image;
+    }
 
     public questions(String question, String qid, String name , String date) {
         this.question = question;
         this.qid = qid;
         this.name = name;
         this.date = date;
+    }
+
+    public String getImage() {
+        return image;
     }
 
     public String getDate() {
