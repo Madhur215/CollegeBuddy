@@ -22,13 +22,16 @@
 
     <TextView
         android:id="@+id/question_text_view_write_answer"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:text="TextView"
         android:textColor="#000"
         android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_answer_activity" />
 
@@ -67,7 +70,7 @@
         android:layout_marginTop="14dp"
         android:layout_marginRight="8dp"
         android:background="@drawable/edit_text"
-        android:hint="@string/write_answer"
+        android:hint="Write Answer"
         android:paddingLeft="6dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -97,7 +100,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/answers_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

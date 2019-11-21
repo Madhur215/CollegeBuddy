@@ -7,6 +7,11 @@
     android:paddingBottom="55dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/no_internet_image"/>
+
 
 <de.hdodenhof.circleimageview.CircleImageView
     android:id="@+id/user_image_home"

@@ -104,7 +104,7 @@ public class questionAdapter extends RecyclerView.Adapter<questionAdapter.questi
 
         void setAsked_by_image(String image){
             if(image != null) {
-                String imgUrl = "https://51a7e9bd.ngrok.io" + image;
+                String imgUrl = "https://1c30ef70.ngrok.io" + image;
                 Picasso.with(context).load(imgUrl).into(asked_by_image);
 //            img.setImageURI(Uri.parse(imgUrl));
             }

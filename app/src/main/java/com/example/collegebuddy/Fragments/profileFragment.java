@@ -121,7 +121,7 @@ public class profileFragment extends Fragment {
         user_name_text_view.setText(MainActivity.pres.getUser_name());
         college_text_view.setText(MainActivity.pres.getCollege());
         if(MainActivity.pres.getImageUri() != null) {
-            String imgUrl = "https://51a7e9bd.ngrok.io" + MainActivity.pres.getImageUri();
+            String imgUrl = "https://1c30ef70.ngrok.io" + MainActivity.pres.getImageUri();
             Picasso.with(getContext()).load(imgUrl).into(user_image_view);
 //            img.setImageURI(Uri.parse(imgUrl));
         }

@@ -108,7 +108,7 @@ public class AnswerActivity extends AppCompatActivity {
 
     private void setImage(String image_uri) {
         if(image_uri != null) {
-            String imgUrl = "https://51a7e9bd.ngrok.io" + image_uri;
+            String imgUrl = "https://1c30ef70.ngrok.io" + image_uri;
             Picasso.with(this).load(imgUrl).into(asked_by_image);
 //            img.setImageURI(Uri.parse(imgUrl));
         }

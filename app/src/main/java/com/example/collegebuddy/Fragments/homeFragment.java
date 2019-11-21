@@ -1,7 +1,11 @@
 package com.example.collegebuddy.Fragments;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.Image;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -57,6 +61,7 @@ public class homeFragment extends Fragment {
     private ArrayList<subjectPdfListResponse> notesArrayList;
     private WebView pdf_web_view_home;
     notesAdapter mAdapter;
+    ImageView no_internet_image;
 
 
     @Nullable
@@ -70,33 +75,42 @@ public class homeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        gridView = getView().findViewById(R.id.subjects_grid_view);
-        // THIS
-        pr = new prefUtils(getContext());
-        subjects_progress_bar = getView().findViewById(R.id.subjects_progress_bar);
-        subjects_progress_bar.setVisibility(View.VISIBLE);
-        jsonApiHolder = retrofitInstance.getRetrofitInstance().create(JsonApiHolder.class);
-        pdf_web_view_home = getView().findViewById(R.id.pdf_web_view_home);
-        HashMap<String , String> sendToken =  pr.getUserDetails();
-        token = sendToken.get(prefUtils.KEY_TOKEN);
-        getSubjects();
-        getLibrary();
-        ImageView user_image = getView().findViewById(R.id.user_image_home);
-        if(MainActivity.pres.getImageUri() != null) {
-            String imgUrl = "https://51a7e9bd.ngrok.io" + MainActivity.pres.getImageUri();
-            Picasso.with(getContext()).load(imgUrl).into(user_image);
+//        if(haveNetwork()) {
+
+            gridView = view.findViewById(R.id.subjects_grid_view);
+            // THIS
+            pr = new prefUtils(getContext());
+            subjects_progress_bar = view.findViewById(R.id.subjects_progress_bar);
+            subjects_progress_bar.setVisibility(View.VISIBLE);
+            jsonApiHolder = retrofitInstance.getRetrofitInstance().create(JsonApiHolder.class);
+            pdf_web_view_home = view.findViewById(R.id.pdf_web_view_home);
+            HashMap<String, String> sendToken = pr.getUserDetails();
+            token = sendToken.get(prefUtils.KEY_TOKEN);
+            no_internet_image = view.findViewById(R.id.no_internet_image);
+            getSubjects();
+            getLibrary();
+            ImageView user_image = view.findViewById(R.id.user_image_home);
+            if (MainActivity.pres.getImageUri() != null) {
+                String imgUrl = "https://1c30ef70.ngrok.io" + MainActivity.pres.getImageUri();
+                Picasso.with(getContext()).load(imgUrl).into(user_image);
 //            img.setImageURI(Uri.parse(imgUrl));
-        }
-        TextView year_text_view = getView().findViewById(R.id.year_text_view_home);
-        TextView branch_text_view = getView().findViewById(R.id.branch_text_view_home);
-        year_text_view.setText(MainActivity.pres.getYear());
-        branch_text_view.setText(MainActivity.pres.getBranch());
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                subjectDetails(position);
             }
-        });
+            TextView year_text_view = view.findViewById(R.id.year_text_view_home);
+            TextView branch_text_view = view.findViewById(R.id.branch_text_view_home);
+            year_text_view.setText(MainActivity.pres.getYear());
+            branch_text_view.setText(MainActivity.pres.getBranch());
+            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    subjectDetails(position);
+                }
+            });
+//        }
+
+//        else if(!haveNetwork()){
+//            no_internet_image.setImageResource(R.drawable.no_internet);
+//            no_internet_image.setElevation(2);
+//        }
     }
 
     private void getLibrary() {
@@ -227,7 +241,7 @@ public class homeFragment extends Fragment {
                     String p_key = clickedPdf.getPdf_key();
                     int p = Integer.parseInt(p_key);
 
-                    String url = "https://d9efaef9.ngrok.io/api/PDFController/ViewPDF/" + p + "?token=" + token;
+                    String url = "https://1c30ef70.ngrok.io/api/PDFController/ViewPDF/" + p + "?token=" + token;
                     String finalUrl = "http://drive.google.com/viewerng/viewer?embedded=true&url=" + url;
                     pdf_web_view_home.setVisibility(View.VISIBLE);
                     pdf_web_view_home.getSettings().setBuiltInZoomControls(true);
@@ -277,6 +291,7 @@ public class homeFragment extends Fragment {
                 if(response.isSuccessful()) {
                     try{
                         Toast.makeText(getContext(), "Deleted from library!", Toast.LENGTH_SHORT).show();
+                        mAdapter.notifyDataSetChanged();
                     }
                     catch (Exception e){
                         e.printStackTrace();
@@ -303,6 +318,24 @@ public class homeFragment extends Fragment {
             }
         });
 
+
+    }
+
+    private boolean haveNetwork() {
+        boolean have_WIFI = false;
+        boolean have_MobileData = false;
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity()
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo[] networkInfos = connectivityManager.getAllNetworkInfo();
+
+        for (NetworkInfo info : networkInfos) {
+            if (info.getTypeName().equalsIgnoreCase("WIFI"))
+                if (info.isConnected()) have_WIFI = true;
+            if (info.getTypeName().equalsIgnoreCase("MOBILE"))
+                if (info.isConnected()) have_MobileData = true;
+
+        }
+        return have_WIFI || have_MobileData;
 
     }
 

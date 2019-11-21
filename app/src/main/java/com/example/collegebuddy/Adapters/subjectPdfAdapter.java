@@ -26,7 +26,7 @@ public class subjectPdfAdapter extends RecyclerView.Adapter<subjectPdfAdapter.pd
 
     public interface OnPdfClickListener{
         void onPdfClick(int position);
-   //     void downloadPdf(int position);
+        void downloadPdf(int position);
         void addToLibrary(int position);
     }
 
@@ -77,15 +77,15 @@ public class subjectPdfAdapter extends RecyclerView.Adapter<subjectPdfAdapter.pd
                 }
             });
 
-//            download_pdf_image.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    int p = getAdapterPosition();
-//                    if(p != RecyclerView.NO_POSITION){
-//                        listener.downloadPdf(p);
-//                    }
-//                }
-//            });
+            download_pdf_image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int p = getAdapterPosition();
+                    if(p != RecyclerView.NO_POSITION){
+                        listener.downloadPdf(p);
+                    }
+                }
+            });
 
             add_to_library_image.setOnClickListener(new View.OnClickListener() {
                 @Override

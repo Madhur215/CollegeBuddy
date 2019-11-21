@@ -149,7 +149,7 @@ public class pdfListFragment extends Fragment {
                     String p_key = clickedPdf.getPdf_key();
                     p = Integer.parseInt(p_key);
 
-                    String url = "https://d9efaef9.ngrok.io/api/PDFController/ViewPDF/" + p + "?token=" + token;
+                    String url = "https://1c30ef70.ngrok.io/api/PDFController/ViewPDF/" + p + "?token=" + token;
                     String finalUrl = "http://drive.google.com/viewerng/viewer?embedded=true&url=" + url;
                     pdf_webview.setVisibility(View.VISIBLE);
                     pdf_webview.getSettings().setBuiltInZoomControls(true);
@@ -158,15 +158,15 @@ public class pdfListFragment extends Fragment {
                     pdf_webview.setVisibility(View.INVISIBLE);
                 }
 
-//                @Override
-//                public void downloadPdf(int position) {
-//                    subjectPdfListResponse clickedPdf = pdfArrayList.get(position);
-//                    String p_key = clickedPdf.getPdf_key();
-//                    int p = Integer.parseInt(p_key);
-//
-//                    download(p);
-//
-//                }
+                @Override
+                public void downloadPdf(int position) {
+                    subjectPdfListResponse clickedPdf = pdfArrayList.get(position);
+                    String p_key = clickedPdf.getPdf_key();
+                    int p = Integer.parseInt(p_key);
+
+                    download(p);
+
+                }
 
                 @Override
                 public void addToLibrary(int position) {
@@ -212,31 +212,16 @@ public class pdfListFragment extends Fragment {
         if(ContextCompat.checkSelfPermission(getContext() , Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
                 PackageManager.PERMISSION_GRANTED){
             Toast.makeText(getContext() , "granted" , Toast.LENGTH_SHORT).show();
+            String mimeType = "application/pdf";
+            downloadManager = (DownloadManager)getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
+            String url = "https://1c30ef70.ngrok.io/api/PDFController/GetPDF/" + p_key + "?token=" + token;
+            Uri uri = Uri.parse(url);
+            DownloadManager.Request request = new DownloadManager.Request(uri);
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+            request.setMimeType(mimeType);
+            downloadManager.enqueue(request);
 
-//            downloadManager = (DownloadManager)getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
-            String url = "https://ddb9a4cf.ngrok.io/api/PDFController/GetPDF/" + p_key + "?token=" + token;
-//            Uri uri = Uri.parse(url);
-//            DownloadManager.Request request = new DownloadManager.Request(uri);
-//            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-//            Long reference = downloadManager.enqueue(request);
 
-            Call<ResponseBody> call = jsonApiHolder.downloadPdf(url);
-            call.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    if (response.isSuccessful()){
-
-                    }
-                    else{
-                        Toast.makeText(getContext(), "An Error Occurred!", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    Toast.makeText(getContext(), "No response from the server!", Toast.LENGTH_SHORT).show();
-                }
-            });
 
 
         }
@@ -271,58 +256,6 @@ public class pdfListFragment extends Fragment {
 
 
     }
-
-    private boolean writeResponseBodyToDisk(ResponseBody body) {
-        try {
-
-            File file = new File(Environment.getDataDirectory()
-                    + File.separator);
-
-            InputStream inputStream = null;
-            OutputStream outputStream = null;
-
-            try {
-                byte[] fileReader = new byte[4096];
-
-                long fileSize = body.contentLength();
-                long fileSizeDownloaded = 0;
-
-                inputStream = body.byteStream();
-                outputStream = new FileOutputStream(file);
-
-                while (true) {
-                    int read = inputStream.read(fileReader);
-
-                    if (read == -1) {
-                        break;
-                    }
-
-                    outputStream.write(fileReader, 0, read);
-
-                    fileSizeDownloaded += read;
-
-                    Log.d(TAG, "file download: " + fileSizeDownloaded + " of " + fileSize);
-                }
-
-                outputStream.flush();
-
-                return true;
-            } catch (IOException e) {
-                return false;
-            } finally {
-                if (inputStream != null) {
-                    inputStream.close();
-                }
-
-                if (outputStream != null) {
-                    outputStream.close();
-                }
-            }
-        } catch (IOException e) {
-            return false;
-        }
-    }
-
 
 
 }

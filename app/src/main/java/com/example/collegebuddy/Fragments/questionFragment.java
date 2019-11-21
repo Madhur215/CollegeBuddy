@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collegebuddy.Activities.AnswerActivity;
+import com.example.collegebuddy.Activities.MainActivity;
 import com.example.collegebuddy.Activities.askQuestionActivity;
 import com.example.collegebuddy.Inteface.JsonApiHolder;
 import com.example.collegebuddy.R;
@@ -25,6 +27,8 @@ import com.example.collegebuddy.utils.prefUtils;
 import com.example.collegebuddy.Adapters.questionAdapter;
 import com.example.collegebuddy.utils.retrofitInstance;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,6 +65,8 @@ public class questionFragment extends Fragment {
         FloatingActionButton ask_question = getView().findViewById(R.id.ask_question_floating_button);
         jsonApiHolder = retrofitInstance.getRetrofitInstance().create(JsonApiHolder.class);
         pr = new prefUtils(getContext());
+        TextView college_name_question_fragment = view.findViewById(R.id.college_name_question_fragment);
+        college_name_question_fragment.setText(MainActivity.pres.getCollege());
         progress_image = getView().findViewById(R.id.progressBar);
         progress_image.setImageResource(R.drawable.loader);
         progress_image.setVisibility(View.VISIBLE);

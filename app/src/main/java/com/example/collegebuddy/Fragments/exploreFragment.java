@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.collegebuddy.Activities.MainActivity;
 import com.example.collegebuddy.Inteface.JsonApiHolder;
 import com.example.collegebuddy.R;
 import com.example.collegebuddy.models.members;
@@ -34,6 +36,7 @@ public class exploreFragment extends Fragment {
     private JsonApiHolder jsonApiHolder;
     private prefUtils pr;
     private ProgressBar members_progress_bar;
+    private TextView college_name_explore_fragment;
 
     @Nullable
     @Override
@@ -46,6 +49,8 @@ public class exploreFragment extends Fragment {
         jsonApiHolder = retrofitInstance.getRetrofitInstance().create(JsonApiHolder.class);
         pr = new prefUtils(getContext());
         members_progress_bar = getView().findViewById(R.id.members_progress_bar);
+        college_name_explore_fragment = view.findViewById(R.id.college_name_explore_fragment);
+        college_name_explore_fragment.setText(MainActivity.pres.getCollege());
         members_progress_bar.setVisibility(View.VISIBLE);
         getMembers();
     }
