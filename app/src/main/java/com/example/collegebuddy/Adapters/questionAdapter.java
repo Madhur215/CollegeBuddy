@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.collegebuddy.Activities.MainActivity;
 import com.example.collegebuddy.R;
 import com.example.collegebuddy.models.questions;
+import com.example.collegebuddy.utils.retrofitInstance;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -104,7 +105,7 @@ public class questionAdapter extends RecyclerView.Adapter<questionAdapter.questi
 
         void setAsked_by_image(String image){
             if(image != null) {
-                String imgUrl = "https://1c30ef70.ngrok.io" + image;
+                String imgUrl = retrofitInstance.URL + image;
                 Picasso.with(context).load(imgUrl).into(asked_by_image);
 //            img.setImageURI(Uri.parse(imgUrl));
             }

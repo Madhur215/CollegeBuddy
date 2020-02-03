@@ -1,5 +1,6 @@
 package com.example.collegebuddy.Adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,17 +9,25 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.collegebuddy.Local.Entity.ExploreEntity;
 import com.example.collegebuddy.R;
 import com.example.collegebuddy.models.members;
+import com.example.collegebuddy.utils.retrofitInstance;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class membersListAdapter extends RecyclerView.Adapter<membersListAdapter.memberHolder> {
 
-    private ArrayList<members> membersArrayList;
+//    private ArrayList<members> membersArrayList;
+    private List<ExploreEntity> membersList;
+    private Context context;
+    private retrofitInstance instance = new retrofitInstance();
 
-    public membersListAdapter(ArrayList<members> membersList) {
-        membersArrayList = membersList;
+
+    public membersListAdapter(List<ExploreEntity> membersList , Context context) {
+        this.membersList = membersList;
+        this.context = context;
     }
 
     @NonNull
@@ -31,7 +40,8 @@ public class membersListAdapter extends RecyclerView.Adapter<membersListAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull membersListAdapter.memberHolder holder, int position) {
-            members student = membersArrayList.get(position);
+
+            ExploreEntity student = membersList.get(position);
 
             holder.setMember_name_text_view(student.getMember_name());
             holder.setMember_branch_text_view(student.getMember_branch());
@@ -41,7 +51,10 @@ public class membersListAdapter extends RecyclerView.Adapter<membersListAdapter.
 
     @Override
     public int getItemCount() {
-        return membersArrayList.size();
+        if(membersList!=null) {
+            return membersList.size();
+        }
+        return 0;
     }
 
     public class memberHolder extends RecyclerView.ViewHolder{

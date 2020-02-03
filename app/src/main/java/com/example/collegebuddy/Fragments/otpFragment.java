@@ -29,10 +29,10 @@ public class otpFragment extends Fragment {
     private JsonApiHolder jsonApiHolder;
     private EditText otp_edit_text;
     private TextView timer_text_view;
-    private TextView resend_otp_text;
     private CountDownTimer countDownTimer;
     private long timeLeft = 120000;
     private boolean timerRunning = false;
+    private TextView resend_otp_text;
     Button verify_phone_button;
     Button resend_otp_button;
 

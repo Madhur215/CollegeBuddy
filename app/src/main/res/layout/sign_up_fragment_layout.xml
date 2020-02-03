@@ -38,7 +38,7 @@
         app:srcCompat="@drawable/login_bg" />
 
     <TextView
-        android:id="@+id/sign_up_back"
+        android:id="@+id/login_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -172,24 +172,5 @@
         app:layout_constraintStart_toEndOf="@+id/img22"
         app:layout_constraintTop_toTopOf="@+id/img22"
         app:srcCompat="@drawable/facebook_icon" />
-
-    <TextView
-        android:id="@+id/tv11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="@string/already_registered"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv44" />
-
-    <TextView
-        android:id="@+id/login_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="@string/sign_in"
-        android:textColor="@color/colorPrimary"
-        app:layout_constraintEnd_toEndOf="@+id/tv11"
-        app:layout_constraintTop_toBottomOf="@+id/tv11" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

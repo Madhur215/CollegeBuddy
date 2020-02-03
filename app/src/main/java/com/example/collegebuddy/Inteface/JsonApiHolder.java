@@ -84,6 +84,11 @@ public interface JsonApiHolder {
     Call<ResponseBody> uploadImage(@Part MultipartBody.Part file, @Part("name") RequestBody requestBody ,
                                    @Query("token") String token);
 
+//    @Multipart
+//    @POST("feed/post")
+//    Call<ResponseBody> uploadImage(@Part MultipartBody.Part file, @Part("name") RequestBody requestBody);
+
+
     @POST("Member/ResendOtp/{ID}")
     Call<ResponseBody> resendOTP(@Path("ID") String ID);
 

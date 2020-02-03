@@ -1,5 +1,9 @@
 package com.example.collegebuddy.Fragments;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,10 +58,15 @@ public class userQuestionFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        user_question_progress_bar = getView().findViewById(R.id.user_question_progress_bar);
-        jsonApiHolder = retrofitInstance.getRetrofitInstance().create(JsonApiHolder.class);
-        pr = new prefUtils(getContext());
-        getUserQuestions();
+
+        if (!isConnected(getActivity())) {
+            buildDialog(getActivity()).show();
+        } else {
+            user_question_progress_bar = getView().findViewById(R.id.user_question_progress_bar);
+            jsonApiHolder = retrofitInstance.getRetrofitInstance().create(JsonApiHolder.class);
+            pr = new prefUtils(getContext());
+            getUserQuestions();
+        }
     }
 
     private void getUserQuestions() {
@@ -145,5 +155,37 @@ public class userQuestionFragment extends Fragment {
         catch (NullPointerException e){
             e.printStackTrace();
         }
+    }
+
+    private boolean isConnected(Context context){
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netinfo = cm.getActiveNetworkInfo();
+
+        if (netinfo != null && netinfo.isConnectedOrConnecting()) {
+            android.net.NetworkInfo wifi = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            android.net.NetworkInfo mobile = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+            return (mobile != null && mobile.isConnectedOrConnecting()) || (wifi != null && wifi.isConnectedOrConnecting());
+        } else
+            return false;
+    }
+
+    private AlertDialog.Builder buildDialog(Context c) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(c);
+        builder.setTitle("No Internet Connection");
+        builder.setMessage("You need to have Mobile Data or wifi to access this. Press ok to Dismiss.");
+
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                android.os.Process.killProcess(android.os.Process.myPid());
+                System.exit(1);
+                dialog.cancel();
+            }
+        });
+
+        return builder;
     }
 }

@@ -39,6 +39,7 @@ public class loginFragment extends Fragment {
     private JsonApiHolder jsonApiHolder;
     public static String token;
     prefUtils sp;
+    private String message;
 
 
 
@@ -72,6 +73,7 @@ public class loginFragment extends Fragment {
             public void onClick(View v) {
 
                 if(!validatePhone() | !validatePassword()){
+                    Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 mobile_number = mobile_number_edit_text.getText().toString().trim();
@@ -135,10 +137,12 @@ public class loginFragment extends Fragment {
 
         if(phone_number.isEmpty()){
             phone_edit_text.setError("Field can't be empty!");
+            message = "Field can't be empty!";
             return false;
         }
         else if(phone_number.length() < 10){
             phone_edit_text.setError("Invalid Phone Number");
+            message = "Invalid Phone Number";
             return false;
         }
         else{

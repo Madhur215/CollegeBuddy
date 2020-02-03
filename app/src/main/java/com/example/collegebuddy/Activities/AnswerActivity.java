@@ -1,12 +1,16 @@
 package com.example.collegebuddy.Activities;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -57,58 +61,63 @@ public class AnswerActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_answer);
-        pr = new prefUtils(this);
-        Intent i = getIntent();
-        question_id = i.getStringExtra(questionFragment.QUESTION_ID);
-        question = i.getStringExtra(questionFragment.QUESTION);
-        asked_by_name = i.getStringExtra(questionFragment.ASKED_BY_NAME);
-        jsonApiHolder = retrofitInstance.getRetrofitInstance().create(JsonApiHolder.class);
-        post_answer_button = findViewById(R.id.post_answer_button);
-        question_text_view = findViewById(R.id.question_text_view_write_answer);
-        asked_by_name_text_view = findViewById(R.id.asked_by_name_write_answer);
-        asked_by_image = findViewById(R.id.asked_by_user_image_write_answer);
-        question_text_view.setText(question);
-        asked_by_name_text_view.setText(asked_by_name);
-        setImage(i.getStringExtra(questionFragment.IMAGE_URI));
-        answer_edit_text = findViewById(R.id.write_answer_edit_text);
-        Toolbar answer_toolbar = findViewById(R.id.toolbar_answer_activity);
-        answers_progress_bar = findViewById(R.id.previous_answers_progress_bar);
-        setSupportActionBar(answer_toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        answers_progress_bar.setVisibility(View.VISIBLE);
-        getAnswers();
-        ImageView back_image_view = findViewById(R.id.answer_activity_back_image);
-        back_image_view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
-        post_answer_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(checkAnswer()) {
-                    closeKeyboard();
-                    String answer = answer_edit_text.getText().toString().trim();
-                    postAnswer(answer);
+        if(!isConnected(this)){
+            buildDialog(this).show();
+        }
+        else {
+            pr = new prefUtils(this);
+            Intent i = getIntent();
+            question_id = i.getStringExtra(questionFragment.QUESTION_ID);
+            question = i.getStringExtra(questionFragment.QUESTION);
+            asked_by_name = i.getStringExtra(questionFragment.ASKED_BY_NAME);
+            jsonApiHolder = retrofitInstance.getRetrofitInstance().create(JsonApiHolder.class);
+            post_answer_button = findViewById(R.id.post_answer_button);
+            question_text_view = findViewById(R.id.question_text_view_write_answer);
+            asked_by_name_text_view = findViewById(R.id.asked_by_name_write_answer);
+            asked_by_image = findViewById(R.id.asked_by_user_image_write_answer);
+            question_text_view.setText(question);
+            asked_by_name_text_view.setText(asked_by_name);
+            setImage(i.getStringExtra(questionFragment.IMAGE_URI));
+            answer_edit_text = findViewById(R.id.write_answer_edit_text);
+            Toolbar answer_toolbar = findViewById(R.id.toolbar_answer_activity);
+            answers_progress_bar = findViewById(R.id.previous_answers_progress_bar);
+            setSupportActionBar(answer_toolbar);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            answers_progress_bar.setVisibility(View.VISIBLE);
+            getAnswers();
+            ImageView back_image_view = findViewById(R.id.answer_activity_back_image);
+            back_image_view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
                 }
-            }
-        });
+            });
+
+            post_answer_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if (checkAnswer()) {
+                        closeKeyboard();
+                        String answer = answer_edit_text.getText().toString().trim();
+                        postAnswer(answer);
+                    }
+                }
+            });
 
 
-
-
+        }
 
 
     }
 
     private void setImage(String image_uri) {
         if(image_uri != null) {
-            String imgUrl = "https://1c30ef70.ngrok.io" + image_uri;
+            String imgUrl = retrofitInstance.URL + image_uri;
             Picasso.with(this).load(imgUrl).into(asked_by_image);
 //            img.setImageURI(Uri.parse(imgUrl));
         }
@@ -221,5 +230,37 @@ public class AnswerActivity extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    private boolean isConnected(Context context){
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netinfo = cm.getActiveNetworkInfo();
+
+        if (netinfo != null && netinfo.isConnectedOrConnecting()) {
+            android.net.NetworkInfo wifi = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            android.net.NetworkInfo mobile = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+            return (mobile != null && mobile.isConnectedOrConnecting()) || (wifi != null && wifi.isConnectedOrConnecting());
+        } else
+            return false;
+    }
+
+    private AlertDialog.Builder buildDialog(Context c) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(c);
+        builder.setTitle("No Internet Connection");
+        builder.setMessage("You need to have Mobile Data or wifi to access this. Press ok to Dismiss.");
+
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                android.os.Process.killProcess(android.os.Process.myPid());
+                System.exit(1);
+                dialog.cancel();
+            }
+        });
+
+        return builder;
     }
 }

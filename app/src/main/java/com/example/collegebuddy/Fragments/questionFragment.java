@@ -1,6 +1,10 @@
 package com.example.collegebuddy.Fragments;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -62,23 +67,30 @@ public class questionFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        FloatingActionButton ask_question = getView().findViewById(R.id.ask_question_floating_button);
-        jsonApiHolder = retrofitInstance.getRetrofitInstance().create(JsonApiHolder.class);
-        pr = new prefUtils(getContext());
-        TextView college_name_question_fragment = view.findViewById(R.id.college_name_question_fragment);
-        college_name_question_fragment.setText(MainActivity.pres.getCollege());
-        progress_image = getView().findViewById(R.id.progressBar);
-        progress_image.setImageResource(R.drawable.loader);
-        progress_image.setVisibility(View.VISIBLE);
-        getData();
+        if(!isConnected(getActivity())){
+            buildDialog(getActivity()).show();
+        }
 
-        ask_question.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getContext() , askQuestionActivity.class);
-                startActivity(i);
-            }
-        });
+        else {
+
+            FloatingActionButton ask_question = getView().findViewById(R.id.ask_question_floating_button);
+            jsonApiHolder = retrofitInstance.getRetrofitInstance().create(JsonApiHolder.class);
+            pr = new prefUtils(getContext());
+            TextView college_name_question_fragment = view.findViewById(R.id.college_name_question_fragment);
+            college_name_question_fragment.setText(MainActivity.pres.getCollege());
+            progress_image = getView().findViewById(R.id.progressBar);
+            progress_image.setImageResource(R.drawable.loader);
+            progress_image.setVisibility(View.VISIBLE);
+            getData();
+
+            ask_question.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(getContext(), askQuestionActivity.class);
+                    startActivity(i);
+                }
+            });
+        }
 
     }
 
@@ -180,5 +192,37 @@ public class questionFragment extends Fragment {
             Log.d(String.valueOf(e), "setAdapter: ADAPTER GONE");
         }
 
+    }
+
+    private boolean isConnected(Context context){
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netinfo = cm.getActiveNetworkInfo();
+
+        if (netinfo != null && netinfo.isConnectedOrConnecting()) {
+            android.net.NetworkInfo wifi = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            android.net.NetworkInfo mobile = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+            return (mobile != null && mobile.isConnectedOrConnecting()) || (wifi != null && wifi.isConnectedOrConnecting());
+        } else
+            return false;
+    }
+
+    private AlertDialog.Builder buildDialog(Context c) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(c);
+        builder.setTitle("No Internet Connection");
+        builder.setMessage("You need to have Mobile Data or wifi to access this. Press ok to Dismiss.");
+
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                android.os.Process.killProcess(android.os.Process.myPid());
+                System.exit(1);
+                dialog.cancel();
+            }
+        });
+
+        return builder;
     }
 }

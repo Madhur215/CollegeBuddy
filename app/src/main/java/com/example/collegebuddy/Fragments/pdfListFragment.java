@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
@@ -28,6 +29,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.collegebuddy.Activities.MainActivity;
 import com.example.collegebuddy.Activities.pdfActivity;
 import com.example.collegebuddy.Adapters.subjectPdfAdapter;
 import com.example.collegebuddy.Inteface.JsonApiHolder;
@@ -86,11 +88,14 @@ public class pdfListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 getActivity().finish();
+                Intent i = new Intent(getContext() , MainActivity.class);
+                startActivity(i);
             }
         });
         RecyclerView pdf_recycler_view = getView().findViewById(R.id.subject_pdf_recycler_view);
         getPdfs();
     }
+
 
     private void getPdfs() {
 
@@ -149,7 +154,7 @@ public class pdfListFragment extends Fragment {
                     String p_key = clickedPdf.getPdf_key();
                     p = Integer.parseInt(p_key);
 
-                    String url = "https://1c30ef70.ngrok.io/api/PDFController/ViewPDF/" + p + "?token=" + token;
+                    String url = retrofitInstance.URL + "/api/PDFController/ViewPDF/" + p + "?token=" + token;
                     String finalUrl = "http://drive.google.com/viewerng/viewer?embedded=true&url=" + url;
                     pdf_webview.setVisibility(View.VISIBLE);
                     pdf_webview.getSettings().setBuiltInZoomControls(true);
@@ -214,7 +219,7 @@ public class pdfListFragment extends Fragment {
             Toast.makeText(getContext() , "granted" , Toast.LENGTH_SHORT).show();
             String mimeType = "application/pdf";
             downloadManager = (DownloadManager)getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
-            String url = "https://1c30ef70.ngrok.io/api/PDFController/GetPDF/" + p_key + "?token=" + token;
+            String url = retrofitInstance.URL + "/api/PDFController/GetPDF/" + p_key + "?token=" + token;
             Uri uri = Uri.parse(url);
             DownloadManager.Request request = new DownloadManager.Request(uri);
             request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);

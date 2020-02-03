@@ -6,7 +6,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class retrofitInstance {
 
     private static Retrofit retrofit;
-    private static final String BASE_URL = "https://1c30ef70.ngrok.io/api/";
+    private static final String BASE_URL = "https://9923297b.ngrok.io/api/";
+    public  static String URL = "https://9923297b.ngrok.io";
+
+    public String getURL() {
+        return URL;
+    }
 
     public static Retrofit getRetrofitInstance() {
         if (retrofit == null) {

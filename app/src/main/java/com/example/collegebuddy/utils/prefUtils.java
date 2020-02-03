@@ -44,6 +44,9 @@ public class prefUtils {
         return user;
     }
 
+    public String getToken() {
+        return sp.getString(KEY_TOKEN, null);
+    }
 
     public void logoutUser(){
 

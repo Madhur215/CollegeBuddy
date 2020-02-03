@@ -2,12 +2,15 @@ package com.example.collegebuddy.Fragments;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -72,58 +75,65 @@ public class profileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        TextView user_name_text_view = getView().findViewById(R.id.user_name_profile);
-        TextView year_text_view = getView().findViewById(R.id.year_profile);
-        TextView branch_text_view = getView().findViewById(R.id.branch_profile);
-        TextView college_text_view = getView().findViewById(R.id.college_name_text_view_profile);
-        user_image_view = getView().findViewById(R.id.user_image_profile);
-        CardView asked_question_card_view = getView().findViewById(R.id.asked_questions_card_view);
-        CardView edit_profile_card_view = getView().findViewById(R.id.edit_profile_card_view);
-        CardView logout_card_view = getView().findViewById(R.id.logout_card_view);
-        pr = new prefUtils(getContext());
-        user_image_progress_bar = getView().findViewById(R.id.user_image_progress_bar);
-        user_image_progress_bar.setVisibility(View.INVISIBLE);
-        jsonApiHolder = retrofitInstance.getRetrofitInstance().create(JsonApiHolder.class);
-        ImageView upload_image = getView().findViewById(R.id.upload_image);
-        requestStoragePermission();
-        upload_image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pickFromGallery();
-            }
-        });
+        if(!isConnected(getActivity())){
+            buildDialog(getActivity()).show();
+        }
+        else {
 
-        logout_card_view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logout();
-            }
-        });
+            TextView user_name_text_view = getView().findViewById(R.id.user_name_profile);
+            TextView year_text_view = getView().findViewById(R.id.year_profile);
+            TextView branch_text_view = getView().findViewById(R.id.branch_profile);
+            TextView college_text_view = getView().findViewById(R.id.college_name_text_view_profile);
+            user_image_view = getView().findViewById(R.id.user_image_profile);
+            CardView asked_question_card_view = getView().findViewById(R.id.asked_questions_card_view);
+            CardView edit_profile_card_view = getView().findViewById(R.id.edit_profile_card_view);
+            CardView logout_card_view = getView().findViewById(R.id.logout_card_view);
+            pr = new prefUtils(getContext());
+            user_image_progress_bar = getView().findViewById(R.id.user_image_progress_bar);
+            user_image_progress_bar.setVisibility(View.INVISIBLE);
+            jsonApiHolder = retrofitInstance.getRetrofitInstance().create(JsonApiHolder.class);
+            ImageView upload_image = getView().findViewById(R.id.upload_image);
 
-        edit_profile_card_view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getContext() , EditProfileActivity.class);
-                startActivity(i);
-            }
-        });
+            upload_image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    requestStoragePermission();
+//                    pickFromGallery();
+                }
+            });
 
-        asked_question_card_view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getContext() , UserQuestionsActivity.class);
-                startActivity(i);
-            }
-        });
+            logout_card_view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    logout();
+                }
+            });
 
-        year_text_view.setText(MainActivity.pres.getYear());
-        branch_text_view.setText(MainActivity.pres.getBranch());
-        user_name_text_view.setText(MainActivity.pres.getUser_name());
-        college_text_view.setText(MainActivity.pres.getCollege());
-        if(MainActivity.pres.getImageUri() != null) {
-            String imgUrl = "https://1c30ef70.ngrok.io" + MainActivity.pres.getImageUri();
-            Picasso.with(getContext()).load(imgUrl).into(user_image_view);
+            edit_profile_card_view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(getContext(), EditProfileActivity.class);
+                    startActivity(i);
+                }
+            });
+
+            asked_question_card_view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(getContext(), UserQuestionsActivity.class);
+                    startActivity(i);
+                }
+            });
+
+            year_text_view.setText(MainActivity.pres.getYear());
+            branch_text_view.setText(MainActivity.pres.getBranch());
+            user_name_text_view.setText(MainActivity.pres.getUser_name());
+            college_text_view.setText(MainActivity.pres.getCollege());
+            if (MainActivity.pres.getImageUri() != null) {
+                String imgUrl = retrofitInstance.URL + MainActivity.pres.getImageUri();
+                Picasso.with(getContext()).load(imgUrl).into(user_image_view);
 //            img.setImageURI(Uri.parse(imgUrl));
+            }
         }
     }
 
@@ -146,6 +156,18 @@ public class profileFragment extends Fragment {
        builder.create().show();
 
 
+    }
+
+    private void requestStoragePermission() {
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) ==
+                PackageManager.PERMISSION_GRANTED) {
+            pickFromGallery();
+        }
+        if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
+
+        }
+
+        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
     }
 
     private void pickFromGallery(){
@@ -213,19 +235,9 @@ public class profileFragment extends Fragment {
         });
     }
 
-    private void requestStoragePermission() {
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
-            return;
-
-        if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
-
-        }
-
-        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
-    }
-
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
 
 
         if (requestCode == STORAGE_PERMISSION_CODE) {
@@ -238,6 +250,38 @@ public class profileFragment extends Fragment {
                 Toast.makeText(getContext(), "Oops you just denied the permission", Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    private boolean isConnected(Context context){
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netinfo = cm.getActiveNetworkInfo();
+
+        if (netinfo != null && netinfo.isConnectedOrConnecting()) {
+            android.net.NetworkInfo wifi = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            android.net.NetworkInfo mobile = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+            return (mobile != null && mobile.isConnectedOrConnecting()) || (wifi != null && wifi.isConnectedOrConnecting());
+        } else
+            return false;
+    }
+
+    private AlertDialog.Builder buildDialog(Context c) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(c);
+        builder.setTitle("No Internet Connection");
+        builder.setMessage("You need to have Mobile Data or wifi to access this. Press ok to Dismiss.");
+
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                android.os.Process.killProcess(android.os.Process.myPid());
+                System.exit(1);
+                dialog.cancel();
+            }
+        });
+
+        return builder;
     }
 
 }

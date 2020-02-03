@@ -64,6 +64,7 @@ public class homeFragment extends Fragment {
     ImageView no_internet_image;
 
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -75,42 +76,40 @@ public class homeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-//        if(haveNetwork()) {
 
-            gridView = view.findViewById(R.id.subjects_grid_view);
-            // THIS
-            pr = new prefUtils(getContext());
-            subjects_progress_bar = view.findViewById(R.id.subjects_progress_bar);
-            subjects_progress_bar.setVisibility(View.VISIBLE);
-            jsonApiHolder = retrofitInstance.getRetrofitInstance().create(JsonApiHolder.class);
-            pdf_web_view_home = view.findViewById(R.id.pdf_web_view_home);
-            HashMap<String, String> sendToken = pr.getUserDetails();
-            token = sendToken.get(prefUtils.KEY_TOKEN);
-            no_internet_image = view.findViewById(R.id.no_internet_image);
-            getSubjects();
-            getLibrary();
-            ImageView user_image = view.findViewById(R.id.user_image_home);
-            if (MainActivity.pres.getImageUri() != null) {
-                String imgUrl = "https://1c30ef70.ngrok.io" + MainActivity.pres.getImageUri();
-                Picasso.with(getContext()).load(imgUrl).into(user_image);
+          if(!isConnected(getActivity())){ buildDialog(getActivity()).show();}
+          else {
+              gridView = view.findViewById(R.id.subjects_grid_view);
+              // THIS
+              pr = new prefUtils(getContext());
+              subjects_progress_bar = view.findViewById(R.id.subjects_progress_bar);
+              subjects_progress_bar.setVisibility(View.VISIBLE);
+              jsonApiHolder = retrofitInstance.getRetrofitInstance().create(JsonApiHolder.class);
+              pdf_web_view_home = view.findViewById(R.id.pdf_web_view_home);
+              HashMap<String, String> sendToken = pr.getUserDetails();
+              token = sendToken.get(prefUtils.KEY_TOKEN);
+              no_internet_image = view.findViewById(R.id.no_internet_image);
+              getSubjects();
+              getLibrary();
+              ImageView user_image = view.findViewById(R.id.user_image_home);
+              if (MainActivity.pres.getImageUri() != null) {
+                  String imgUrl = "https://efc72352.ngrok.io" + MainActivity.pres.getImageUri();
+                  Picasso.with(getContext()).load(imgUrl).into(user_image);
 //            img.setImageURI(Uri.parse(imgUrl));
-            }
-            TextView year_text_view = view.findViewById(R.id.year_text_view_home);
-            TextView branch_text_view = view.findViewById(R.id.branch_text_view_home);
-            year_text_view.setText(MainActivity.pres.getYear());
-            branch_text_view.setText(MainActivity.pres.getBranch());
-            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    subjectDetails(position);
-                }
-            });
-//        }
+              }
+              TextView year_text_view = view.findViewById(R.id.year_text_view_home);
+              TextView branch_text_view = view.findViewById(R.id.branch_text_view_home);
+              year_text_view.setText(MainActivity.pres.getYear());
+              branch_text_view.setText(MainActivity.pres.getBranch());
+              gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                  @Override
+                  public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                      subjectDetails(position);
+                  }
+              });
 
-//        else if(!haveNetwork()){
-//            no_internet_image.setImageResource(R.drawable.no_internet);
-//            no_internet_image.setElevation(2);
-//        }
+          }
+
     }
 
     private void getLibrary() {
@@ -241,7 +240,7 @@ public class homeFragment extends Fragment {
                     String p_key = clickedPdf.getPdf_key();
                     int p = Integer.parseInt(p_key);
 
-                    String url = "https://1c30ef70.ngrok.io/api/PDFController/ViewPDF/" + p + "?token=" + token;
+                    String url = retrofitInstance.URL + "/api/PDFController/ViewPDF/" + p + "?token=" + token;
                     String finalUrl = "http://drive.google.com/viewerng/viewer?embedded=true&url=" + url;
                     pdf_web_view_home.setVisibility(View.VISIBLE);
                     pdf_web_view_home.getSettings().setBuiltInZoomControls(true);
@@ -291,7 +290,8 @@ public class homeFragment extends Fragment {
                 if(response.isSuccessful()) {
                     try{
                         Toast.makeText(getContext(), "Deleted from library!", Toast.LENGTH_SHORT).show();
-                        mAdapter.notifyDataSetChanged();
+//                        mAdapter.notifyDataSetChanged();
+                        getLibrary();
                     }
                     catch (Exception e){
                         e.printStackTrace();
@@ -321,22 +321,36 @@ public class homeFragment extends Fragment {
 
     }
 
-    private boolean haveNetwork() {
-        boolean have_WIFI = false;
-        boolean have_MobileData = false;
-        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity()
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo[] networkInfos = connectivityManager.getAllNetworkInfo();
+    private boolean isConnected(Context context){
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netinfo = cm.getActiveNetworkInfo();
 
-        for (NetworkInfo info : networkInfos) {
-            if (info.getTypeName().equalsIgnoreCase("WIFI"))
-                if (info.isConnected()) have_WIFI = true;
-            if (info.getTypeName().equalsIgnoreCase("MOBILE"))
-                if (info.isConnected()) have_MobileData = true;
+        if (netinfo != null && netinfo.isConnectedOrConnecting()) {
+            android.net.NetworkInfo wifi = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            android.net.NetworkInfo mobile = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
-        }
-        return have_WIFI || have_MobileData;
+            return (mobile != null && mobile.isConnectedOrConnecting()) || (wifi != null && wifi.isConnectedOrConnecting());
+        } else
+            return false;
+    }
 
+    private AlertDialog.Builder buildDialog(Context c) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(c);
+        builder.setTitle("No Internet Connection");
+        builder.setMessage("You need to have Mobile Data or wifi to access this. Press ok to Dismiss.");
+
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                android.os.Process.killProcess(android.os.Process.myPid());
+                System.exit(1);
+                dialog.cancel();
+            }
+        });
+
+        return builder;
     }
 
 }
